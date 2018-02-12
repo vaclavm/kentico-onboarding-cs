@@ -1,2 +1,8 @@
 language: csharp
 solution: ToDoList/ToDoList.sln
+before_install:
+    - sudo apt-get install nunit-console
+before_script:
+    - nuget restore ToDoList/ToDoList.sln
+after_script:
+    - nunit-console ToDoList/ToDoList.API.Tests/bin/Release/ToDoList.dll
