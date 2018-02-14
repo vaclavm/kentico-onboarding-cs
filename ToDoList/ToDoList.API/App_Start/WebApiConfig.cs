@@ -17,5 +17,10 @@ namespace ToDoList.API
                 defaults: new { id = RouteParameter.Optional }
             );
         }
+
+        public static void Configuration(HttpConfiguration configuration)
+        {
+            configuration.AddApiVersioning();
+        }
     }
 }
