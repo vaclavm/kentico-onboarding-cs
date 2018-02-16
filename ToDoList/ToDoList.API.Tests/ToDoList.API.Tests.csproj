@@ -70,6 +70,10 @@
       <Project>{CFFC7437-BF3E-4BE7-A5CB-00EC5C111073}</Project>
       <Name>ToDoList.API</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ToDoList.Contracts\ToDoList.Contracts.csproj">
+      <Project>{C99CA0DF-EF95-4C87-AC05-235CB1010A8B}</Project>
+      <Name>ToDoList.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-using ToDoList.API.Models;
+using ToDoList.Contracts.Models;
 
 namespace ToDoList.API.Tests.Comparers
 {
@@ -8,8 +8,8 @@ namespace ToDoList.API.Tests.Comparers
     {
         public int Compare(object x, object y)
         {
-            var expected = (ToDoModel) x;
-            var actual = (ToDoModel) y;
+            var expected = (ToDo) x;
+            var actual = (ToDo) y;
             
             if (expected == null || actual == null) 
             {

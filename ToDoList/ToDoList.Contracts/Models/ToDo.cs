@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ToDoList.API.Models
+namespace ToDoList.Contracts.Models
 {
-    public class ToDoModel
+    public class ToDo
     {
         public Guid Id { get; set; }
         public string Text { get; set; }

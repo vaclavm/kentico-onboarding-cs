@@ -8,7 +8,7 @@ using System.Web.Http.Results;
 using NUnit.Framework;
 
 using ToDoList.API.Controllers;
-using ToDoList.API.Models;
+using ToDoList.Contracts.Models;
 using ToDoList.API.Tests.Comparers;
 
 namespace ToDoList.API.Tests.Controllers
@@ -17,7 +17,7 @@ namespace ToDoList.API.Tests.Controllers
     public class ToDosControllerTests
     {
         private ToDosController _controller;
-        private List<ToDoModel> _toDoList;
+        private List<ToDo> _toDoList;
 
         [SetUp]
         public void SetUp()
@@ -28,11 +28,11 @@ namespace ToDoList.API.Tests.Controllers
                 Configuration = new HttpConfiguration()
             };
 
-            _toDoList = new List<ToDoModel>
+            _toDoList = new List<ToDo>
             {
-                new ToDoModel {Id = Guid.Parse("790e8b03-aaea-46dd-9d9b-c33f3ff04090"), Text = "Dummy To Do 1"},
-                new ToDoModel {Id = Guid.Parse("954eccc5-2047-4dda-bcb0-e1d8d176959d"), Text = "Dummy To Do 2"},
-                new ToDoModel {Id = Guid.Parse("1d710f5d-4bbe-4654-906e-6c708e2bc410"), Text = "Dummy To Do 3"}
+                new ToDo {Id = Guid.Parse("790e8b03-aaea-46dd-9d9b-c33f3ff04090"), Text = "Dummy To Do 1"},
+                new ToDo {Id = Guid.Parse("954eccc5-2047-4dda-bcb0-e1d8d176959d"), Text = "Dummy To Do 2"},
+                new ToDo {Id = Guid.Parse("1d710f5d-4bbe-4654-906e-6c708e2bc410"), Text = "Dummy To Do 3"}
             };
         }
 
@@ -41,7 +41,7 @@ namespace ToDoList.API.Tests.Controllers
         {
             // Act
             var response = _controller.GetToDosAsync().Result;
-            var result = response as OkNegotiatedContentResult<List<ToDoModel>>;
+            var result = response as OkNegotiatedContentResult<List<ToDo>>;
 
             // Assert
             Assert.That(result, Is.Not.Null, $"Expecting status code OK, but was {response.GetType().Name}");
@@ -55,8 +55,8 @@ namespace ToDoList.API.Tests.Controllers
             int itemIndex = 0;
 
             // Act
-            var response = _controller.GetToDoAsync(_toDoList[itemIndex].Id).Result;
-            var result = response as OkNegotiatedContentResult<ToDoModel>;
+            var response = _controller.GetToDoAsync(_toDoList[itemIndex].Id);
+            var result = response.Result as OkNegotiatedContentResult<ToDo>;
 
             // Assert
             Assert.That(result, Is.Not.Null, $"Expecting status code OK, but was {response.GetType().Name}");
@@ -71,7 +71,7 @@ namespace ToDoList.API.Tests.Controllers
 
             // Act
             var response = _controller.AddToDoAsync(_toDoList[itemIndex]).Result;
-            var result = response as CreatedNegotiatedContentResult<ToDoModel>;
+            var result = response as CreatedNegotiatedContentResult<ToDo>;
 
             // Assert
             Assert.That(result, Is.Not.Null, $"Expecting status code Created, but was {response.GetType().Name}");

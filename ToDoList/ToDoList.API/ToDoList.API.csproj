@@ -92,7 +92,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ToDoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +105,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ToDoList.Contracts\ToDoList.Contracts.csproj">
+      <Project>{C99CA0DF-EF95-4C87-AC05-235CB1010A8B}</Project>
+      <Name>ToDoList.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToDoList.Repository\ToDoList.Repository.csproj">
+      <Project>{E3CF4AD1-6BCA-41D6-8F84-F5EF56D20F75}</Project>
+      <Name>ToDoList.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
