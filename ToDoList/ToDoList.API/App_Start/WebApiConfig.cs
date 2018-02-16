@@ -1,4 +1,9 @@
 ﻿using System.Web.Http;
+using ToDoList.API.DI;
+using ToDoList.Contracts.Repositories;
+using ToDoList.Repository;
+using Unity;
+using Unity.Lifetime;
 
 namespace ToDoList.API
 {
@@ -7,6 +12,9 @@ namespace ToDoList.API
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            var container = new UnityContainer();
+            container.RegisterType<IToDoRepository, ToDoRepository>(new HierarchicalLifetimeManager());
+            config.DependencyResolver = new UnityResolver(container);
 
             // Web API routes
             config.MapHttpAttributeRoutes();

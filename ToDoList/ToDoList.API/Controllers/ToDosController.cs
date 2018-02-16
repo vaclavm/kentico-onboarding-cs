@@ -6,7 +6,6 @@ using Microsoft.Web.Http;
 
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
-using ToDoList.Repository;
 
 namespace ToDoList.API.Controllers
 {
@@ -14,8 +13,13 @@ namespace ToDoList.API.Controllers
     [RoutePrefix("api/v{version:apiVersion}/todos")]
     public class ToDosController : ApiController
     {
-        private readonly IToDoRepository _toDoRepository = new ToDoRepository();
+        private readonly IToDoRepository _toDoRepository;
         private const string RouteId = "{id}";
+
+        public ToDosController(IToDoRepository toDoRepository)
+        {
+            _toDoRepository = toDoRepository;
+        }
 
         [HttpGet]
         public async Task<IHttpActionResult> GetToDosAsync()

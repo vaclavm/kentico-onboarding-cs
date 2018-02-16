@@ -4,25 +4,29 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
-
+using NSubstitute;
 using NUnit.Framework;
 
 using ToDoList.API.Controllers;
 using ToDoList.Contracts.Models;
 using ToDoList.API.Tests.Comparers;
+using ToDoList.Contracts.Repositories;
 
 namespace ToDoList.API.Tests.Controllers
 {
     [TestFixture]
     public class ToDosControllerTests
     {
+        private IToDoRepository _toDoRepositorySubstitute;
         private ToDosController _controller;
         private List<ToDo> _toDoList;
 
         [SetUp]
         public void SetUp()
         {
-            _controller = new ToDosController
+            _toDoRepositorySubstitute = Substitute.For<IToDoRepository>();
+
+            _controller = new ToDosController(_toDoRepositorySubstitute)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -39,13 +43,16 @@ namespace ToDoList.API.Tests.Controllers
         [Test]
         public void GetToDosAsync_AllToDosReturned()
         {
+            // Arrange
+            _toDoRepositorySubstitute.GetToDosAsync().Returns(_toDoList);
+
             // Act
             var response = _controller.GetToDosAsync().Result;
             var result = response as OkNegotiatedContentResult<List<ToDo>>;
 
             // Assert
             Assert.That(result, Is.Not.Null, $"Expecting status code OK, but was {response.GetType().Name}");
-            Assert.That(result.Content, Is.EqualTo(_toDoList).Using(new ToDoComparer()), "Todos are not equal");
+            Assert.That(result.Content, Is.EqualTo(_toDoList), "Todos are not equal");
         }
 
         [Test]
@@ -53,6 +60,7 @@ namespace ToDoList.API.Tests.Controllers
         {
             // Arrange
             int itemIndex = 0;
+            _toDoRepositorySubstitute.GetToDoAsync(_toDoList[itemIndex].Id).Returns(_toDoList[itemIndex]);
 
             // Act
             var response = _controller.GetToDoAsync(_toDoList[itemIndex].Id);
@@ -68,6 +76,7 @@ namespace ToDoList.API.Tests.Controllers
         {
             // Arrange
             int itemIndex = 2;
+            _toDoRepositorySubstitute.AddToDoAsync(_toDoList[itemIndex]).Returns(_toDoList[itemIndex]);
 
             // Act
             var response = _controller.AddToDoAsync(_toDoList[itemIndex]).Result;
@@ -83,7 +92,8 @@ namespace ToDoList.API.Tests.Controllers
         public void ChangeToDoAsync_IsChanged_NoContentReturned()
         {
             // Arrange
-            int itemIndex = 0;
+            int itemIndex = 2;
+            _toDoRepositorySubstitute.ChangeToDoAsync(_toDoList[itemIndex]);
 
             // Act
             var response = _controller.ChangeToDoAsync(_toDoList[itemIndex].Id, _toDoList[itemIndex]).Result;
@@ -98,7 +108,8 @@ namespace ToDoList.API.Tests.Controllers
         public void DeleteToDoAsync_IsDeleted_NoContentReturned()
         {
             // Arrange
-            int itemIndex = 0;
+            int itemIndex = 1;
+            _toDoRepositorySubstitute.DeleteToDoAsync(_toDoList[itemIndex].Id);
 
             // Act
             var response = _controller.DeleteToDoAsync(_toDoList[itemIndex].Id).Result;
