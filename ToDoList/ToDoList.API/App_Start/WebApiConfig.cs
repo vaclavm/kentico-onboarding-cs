@@ -1,11 +1,10 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Routing;
 using Microsoft.Web.Http.Routing;
-using ToDoList.API.DI;
-using ToDoList.Contracts.Repositories;
-using ToDoList.Repository;
 using Unity;
-using Unity.Lifetime;
+
+using ToDoList.API.DI;
+
 
 namespace ToDoList.API
 {
@@ -13,11 +12,10 @@ namespace ToDoList.API
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-            var container = new UnityContainer();
-            container.RegisterType<IToDoRepository, ToDoRepository>(new HierarchicalLifetimeManager());
-            config.DependencyResolver = new UnityResolver(container);
+            // Web API DI
+            config.DependencyResolver = CreateUnityResolver(); 
 
+            // Web API versioning
             var constraintResolver = new DefaultInlineConstraintResolver
             {
                 ConstraintMap =
@@ -39,6 +37,19 @@ namespace ToDoList.API
         public static void Configuration(HttpConfiguration configuration)
         {
             configuration.AddApiVersioning();
+        }
+
+        private static UnityResolver CreateUnityResolver()
+        {
+            var container = new UnityContainer();
+
+            var repositoryDiRegister = new Repository.DependencyRegister();
+            repositoryDiRegister.Register(container);
+
+            var servicesDiRegister = new DependencyRegister();
+            servicesDiRegister.Register(container);
+
+            return new UnityResolver(container); 
         }
     }
 }

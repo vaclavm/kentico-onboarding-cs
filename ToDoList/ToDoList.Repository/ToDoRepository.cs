@@ -7,7 +7,7 @@ using ToDoList.Contracts.Repositories;
 
 namespace ToDoList.Repository
 {
-    public class ToDoRepository : IToDoRepository
+    internal class ToDoRepository : IToDoRepository
     {
         private readonly List<ToDo> _toDoList = new List<ToDo>
         {

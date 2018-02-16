@@ -11,6 +11,7 @@ using ToDoList.API.Controllers;
 using ToDoList.Contracts.Models;
 using ToDoList.API.Tests.Comparers;
 using ToDoList.Contracts.Repositories;
+using ToDoList.Contracts.Services;
 
 namespace ToDoList.API.Tests.Controllers
 {
@@ -18,6 +19,7 @@ namespace ToDoList.API.Tests.Controllers
     public class ToDosControllerTests
     {
         private IToDoRepository _toDoRepositorySubstitute;
+        private IUrlLocationService _urlLocationServiceSubstitute;
         private ToDosController _controller;
         private List<ToDo> _toDoList;
 
@@ -25,8 +27,9 @@ namespace ToDoList.API.Tests.Controllers
         public void SetUp()
         {
             _toDoRepositorySubstitute = Substitute.For<IToDoRepository>();
+            _urlLocationServiceSubstitute = Substitute.For<IUrlLocationService>();
 
-            _controller = new ToDosController(_toDoRepositorySubstitute)
+            _controller = new ToDosController(_toDoRepositorySubstitute, _urlLocationServiceSubstitute)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()

@@ -6,6 +6,7 @@ using Microsoft.Web.Http;
 
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
+using ToDoList.Contracts.Services;
 
 namespace ToDoList.API.Controllers
 {
@@ -14,11 +15,13 @@ namespace ToDoList.API.Controllers
     public class ToDosController : ApiController
     {
         private readonly IToDoRepository _toDoRepository;
+        private readonly IUrlLocationService _locationService;
         private const string RouteId = "{id}";
 
-        public ToDosController(IToDoRepository toDoRepository)
+        public ToDosController(IToDoRepository toDoRepository, IUrlLocationService locationService)
         {
             _toDoRepository = toDoRepository;
+            _locationService = locationService;
         }
 
         [HttpGet]
@@ -39,9 +42,10 @@ namespace ToDoList.API.Controllers
         [Route("")]
         public async Task<IHttpActionResult> AddToDoAsync([FromBody]ToDo toDoItem)
         {
-            int updadeId = 2;
-            var newItemUri = $"{Request.RequestUri}/{updadeId}";
-            return Created(newItemUri, await _toDoRepository.AddToDoAsync(toDoItem));
+            var createdToDo = await _toDoRepository.AddToDoAsync(toDoItem);
+            var toDoLocationUrl = _locationService.GetAfterPostLocation(createdToDo.Id);
+
+            return Created(toDoLocationUrl, createdToDo);
         }
 
         [HttpPut]
