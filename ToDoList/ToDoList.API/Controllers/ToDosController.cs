@@ -22,6 +22,7 @@ namespace ToDoList.API.Controllers
         }
 
         [HttpGet]
+        [Route("")]
         public async Task<IHttpActionResult> GetToDosAsync()
         {
             return Ok(await _toDoRepository.GetToDosAsync());
@@ -35,6 +36,7 @@ namespace ToDoList.API.Controllers
         }
 
         [HttpPost]
+        [Route("")]
         public async Task<IHttpActionResult> AddToDoAsync([FromBody]ToDo toDoItem)
         {
             int updadeId = 2;
