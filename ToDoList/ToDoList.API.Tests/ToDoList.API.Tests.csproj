@@ -63,6 +63,7 @@
     <Compile Include="Controllers\ToDosControllerTests.cs" />
     <Compile Include="DummyTestForTravis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\ControllerActionExtensions.cs" />
     <Compile Include="Utilities\EqualConstraintExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

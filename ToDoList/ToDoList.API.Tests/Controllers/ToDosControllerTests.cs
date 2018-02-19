@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -46,12 +45,11 @@ namespace ToDoList.API.Tests.Controllers
         public async Task GetToDosAsync_AllToDosReturned()
         {
             // Act
-            var response = await _controller.GetToDosAsync();
-            var controllerAction = await response.ExecuteAsync(CancellationToken.None);
-            controllerAction.TryGetContentValue(out List<ToDoModel> result);
+            var response = await _controller.ExecuteAction(controller => controller.GetToDosAsync());
+            response.TryGetContentValue(out List<ToDoModel> result);
 
             // Assert
-            Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Expecting status code OK, but was {controllerAction.StatusCode}");
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Expecting status code OK, but was {response.StatusCode}");
             Assert.That(result, Is.EqualTo(_toDoList).UsingToDoComparer(), "Todos are not equal");
         }
 
@@ -62,12 +60,11 @@ namespace ToDoList.API.Tests.Controllers
             int itemIndex = 0;
 
             // Act
-            var response = await _controller.GetToDoAsync(_toDoList[itemIndex].Id);
-            var controllerAction = await response.ExecuteAsync(CancellationToken.None);
-            controllerAction.TryGetContentValue(out ToDoModel result);
+            var response = await _controller.ExecuteAction(controller => controller.GetToDoAsync(_toDoList[itemIndex].Id));
+            response.TryGetContentValue(out ToDoModel result);
 
             // Assert
-            Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Expecting status code OK, but was {controllerAction.StatusCode}");
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Expecting status code OK, but was {response.StatusCode}");
             Assert.That(result, Is.EqualTo(_toDoList[itemIndex]).UsingToDoComparer(), $"{result} is not equal to expected {_toDoList[itemIndex]}");
         }
 
@@ -78,13 +75,12 @@ namespace ToDoList.API.Tests.Controllers
             int itemIndex = 2;
 
             // Act
-            var response = await _controller.PostToDoAsync(_toDoList[itemIndex]);
-            var controllerAction = await response.ExecuteAsync(CancellationToken.None);
-            controllerAction.TryGetContentValue(out ToDoModel result);
+            var response = await _controller.ExecuteAction(controller => controller.PostToDoAsync(_toDoList[itemIndex]));
+            response.TryGetContentValue(out ToDoModel result);
 
             // Assert
-            Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.Created), $"Expecting status code Created, but was {controllerAction.StatusCode}");
-            Assert.That(controllerAction.Headers.Location.ToString(), Is.EqualTo($"{_controller.Request.RequestUri}/{_toDoList[itemIndex].Id}"), $"Location of new todo is not as expected, was {controllerAction.Headers.Location}");
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created), $"Expecting status code Created, but was {response.StatusCode}");
+            Assert.That(response.Headers.Location.ToString(), Is.EqualTo($"{_controller.Request.RequestUri}/{_toDoList[itemIndex].Id}"), $"Location of new todo is not as expected, was {response.Headers.Location}");
             Assert.That(result, Is.EqualTo(_toDoList[itemIndex]).UsingToDoComparer(), $"{result} is not equal to expected {_toDoList[itemIndex]}");
         }
 
@@ -95,11 +91,10 @@ namespace ToDoList.API.Tests.Controllers
             int itemIndex = 0;
 
             // Act
-            var response = await _controller.PutToDoAsync(_toDoList[itemIndex].Id, _toDoList[itemIndex]);
-            var controllerAction = await response.ExecuteAsync(CancellationToken.None);
+            var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(_toDoList[itemIndex].Id, _toDoList[itemIndex]));
 
             // Assert
-            Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {controllerAction.StatusCode}");
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {response.StatusCode}");
         }
 
         [Test]
@@ -109,11 +104,10 @@ namespace ToDoList.API.Tests.Controllers
             int itemIndex = 0;
 
             // Act
-            var response = await _controller.DeleteToDoAsync(_toDoList[itemIndex].Id);
-            var controllerAction = await response.ExecuteAsync(CancellationToken.None);
+            var response = await _controller.ExecuteAction(controller => controller.DeleteToDoAsync(_toDoList[itemIndex].Id));
 
             // Assert
-            Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {controllerAction.StatusCode}");
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {response.StatusCode}");
         }
     }
 }
