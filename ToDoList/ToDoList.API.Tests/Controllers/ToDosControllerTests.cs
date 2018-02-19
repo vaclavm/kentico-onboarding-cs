@@ -64,29 +64,29 @@ namespace ToDoList.API.Tests.Controllers
         }
 
         [Test]
-        public void AddToDoAsync_IsAdded_NewToDoReturned()
+        public void PostToDoAsync_IsAdded_NewToDoWithEqualRouteReturned()
         {
             // Arrange
             int itemIndex = 2;
 
             // Act
-            var response = _controller.AddToDoAsync(_toDoList[itemIndex]).Result;
-            var result = response as CreatedNegotiatedContentResult<ToDoModel>;
+            var response = _controller.PostToDoAsync(_toDoList[itemIndex]).Result;
+            var result = response as CreatedAtRouteNegotiatedContentResult<ToDoModel>;
 
             // Assert
             Assert.That(result, Is.Not.Null, $"Expecting status code Created, but was {response.GetType().Name}");
-            Assert.That(result.Location.ToString(), Is.EqualTo($"/{itemIndex}"), $"Location of new todo is not as expected, was {result.Location}");
+            Assert.That(result.RouteName, Is.EqualTo("GetToDo"), $"Location of new todo is not as expected, was {result.RouteName}");
             Assert.That(result.Content, Is.EqualTo(_toDoList[itemIndex]).Using(new ToDoComparer()), $"{result.Content} is not equal to expected {_toDoList[itemIndex]}");
         }
 
         [Test]
-        public void ChangeToDoAsync_IsChanged_NoContentReturned()
+        public void PutToDoAsync_IsChanged_NoContentReturned()
         {
             // Arrange
             int itemIndex = 0;
 
             // Act
-            var response = _controller.ChangeToDoAsync(_toDoList[itemIndex].Id, _toDoList[itemIndex]).Result;
+            var response = _controller.PutToDoAsync(_toDoList[itemIndex].Id, _toDoList[itemIndex]).Result;
             var result = response as StatusCodeResult;
 
             // Assert
