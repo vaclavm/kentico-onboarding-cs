@@ -14,11 +14,19 @@ namespace ToDoList.API
     {
         public void Register(UnityContainer container)
         {
-            var injectionParams = new InjectionFactory(InjectHttpRequest);
-            container.RegisterType<IUrlLocationService, ToDoUrlLocationHelper>(new HierarchicalLifetimeManager(), injectionParams);
+            container.RegisterType<IUrlLocationService>(new HierarchicalLifetimeManager(), new InjectionFactory(InjectHelper));
+
+            /*
+            container.RegisterType<IUrlLocationService, ToDoUrlLocationHelper>();
+            container.RegisterType<HttpRequestMessage>(new InjectionFactory(InjectHttpRequest));
+            
+            private static HttpRequestMessage InjectHttpRequest(IUnityContainer container) =>
+            (HttpRequestMessage)HttpContext.Current.Items["MS_HttpRequestMessage"];
+            */
         }
 
-        private static HttpRequestMessage InjectHttpRequest(IUnityContainer container) =>
-            (HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"];
+        private static IUrlLocationService InjectHelper(IUnityContainer container) =>
+            new ToDoUrlLocationHelper((HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"]);
+
     }
 }
