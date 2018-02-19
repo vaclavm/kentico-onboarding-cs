@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Results;
 
 using NUnit.Framework;
 
@@ -22,10 +23,15 @@ namespace ToDoList.API.Tests.Controllers
         [SetUp]
         public void SetUp()
         {
+            var httpConfiguration = new HttpConfiguration();
+            httpConfiguration.Routes.MapHttpRoute("GetToDo", "api/v1/todos/{id}", new {id = RouteParameter.Optional});
+
+            var httpRequestMessage = new HttpRequestMessage {RequestUri = new Uri("http://localhost:51200/api/v1/todos")};
+
             _controller = new ToDosController
             {
-                Request = new HttpRequestMessage(),
-                Configuration = new HttpConfiguration()
+                Request = httpRequestMessage,
+                Configuration = httpConfiguration
             };
 
             _toDoList = new List<ToDoModel>
@@ -37,76 +43,77 @@ namespace ToDoList.API.Tests.Controllers
         }
 
         [Test]
-        public void GetToDosAsync_AllToDosReturned()
+        public async Task GetToDosAsync_AllToDosReturned()
         {
             // Act
-            var response = _controller.GetToDosAsync().Result;
-            var result = response as OkNegotiatedContentResult<List<ToDoModel>>;
+            var response = await _controller.GetToDosAsync();
+            var controllerAction = await response.ExecuteAsync(CancellationToken.None);
+            controllerAction.TryGetContentValue(out List<ToDoModel> result);
 
             // Assert
-            Assert.That(result, Is.Not.Null, $"Expecting status code OK, but was {response.GetType().Name}");
-            Assert.That(result.Content, Is.EqualTo(_toDoList).Using(new ToDoComparer()), "Todos are not equal");
+            Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Expecting status code OK, but was {controllerAction.StatusCode}");
+            Assert.That(result, Is.EqualTo(_toDoList).Using(new ToDoComparer()), "Todos are not equal");
         }
 
         [Test]
-        public void GetToDoAsync_CorrectToDoReturned()
+        public async Task GetToDoAsync_CorrectToDoReturned()
         {
             // Arrange
             int itemIndex = 0;
 
             // Act
-            var response = _controller.GetToDoAsync(_toDoList[itemIndex].Id).Result;
-            var result = response as OkNegotiatedContentResult<ToDoModel>;
+            var response = await _controller.GetToDoAsync(_toDoList[itemIndex].Id);
+            var controllerAction = await response.ExecuteAsync(CancellationToken.None);
+            controllerAction.TryGetContentValue(out ToDoModel result);
 
             // Assert
-            Assert.That(result, Is.Not.Null, $"Expecting status code OK, but was {response.GetType().Name}");
-            Assert.That(result.Content, Is.EqualTo(_toDoList[itemIndex]).Using(new ToDoComparer()), $"{result.Content} is not equal to expected {_toDoList[itemIndex]}");
+            Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Expecting status code OK, but was {controllerAction.StatusCode}");
+            Assert.That(result, Is.EqualTo(_toDoList[itemIndex]).Using(new ToDoComparer()), $"{result} is not equal to expected {_toDoList[itemIndex]}");
         }
 
         [Test]
-        public void PostToDoAsync_IsAdded_NewToDoWithEqualRouteReturned()
+        public async Task PostToDoAsync_IsAdded_NewToDoWithEqualRouteReturned()
         {
             // Arrange
             int itemIndex = 2;
 
             // Act
-            var response = _controller.PostToDoAsync(_toDoList[itemIndex]).Result;
-            var result = response as CreatedAtRouteNegotiatedContentResult<ToDoModel>;
+            var response = await _controller.PostToDoAsync(_toDoList[itemIndex]);
+            var controllerAction = await response.ExecuteAsync(CancellationToken.None);
+            controllerAction.TryGetContentValue(out ToDoModel result);
 
             // Assert
-            Assert.That(result, Is.Not.Null, $"Expecting status code Created, but was {response.GetType().Name}");
-            Assert.That(result.RouteName, Is.EqualTo("GetToDo"), $"Location of new todo is not as expected, was {result.RouteName}");
-            Assert.That(result.Content, Is.EqualTo(_toDoList[itemIndex]).Using(new ToDoComparer()), $"{result.Content} is not equal to expected {_toDoList[itemIndex]}");
+            Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.Created), $"Expecting status code Created, but was {controllerAction.StatusCode}");
+            Assert.That(controllerAction.Headers.Location.ToString(), Is.EqualTo($"{_controller.Request.RequestUri}/{_toDoList[itemIndex].Id}"), $"Location of new todo is not as expected, was {controllerAction.Headers.Location}");
+            Assert.That(result, Is.EqualTo(_toDoList[itemIndex]).Using(new ToDoComparer()), $"{result} is not equal to expected {_toDoList[itemIndex]}");
         }
 
         [Test]
-        public void PutToDoAsync_IsChanged_NoContentReturned()
+        public async Task PutToDoAsync_IsChanged_NoContentReturned()
         {
             // Arrange
             int itemIndex = 0;
 
             // Act
-            var response = _controller.PutToDoAsync(_toDoList[itemIndex].Id, _toDoList[itemIndex]).Result;
-            var result = response as StatusCodeResult;
+            var response = await _controller.PutToDoAsync(_toDoList[itemIndex].Id, _toDoList[itemIndex]);
+            var controllerAction = await response.ExecuteAsync(CancellationToken.None);
 
             // Assert
-            Assert.That(result, Is.Not.Null, $"Expecting response of type StatusCodeResult, but was {response.GetType().Name}");
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {result.StatusCode}");
+            Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {controllerAction.StatusCode}");
         }
 
         [Test]
-        public void DeleteToDoAsync_IsDeleted_NoContentReturned()
+        public async Task DeleteToDoAsync_IsDeleted_NoContentReturned()
         {
             // Arrange
             int itemIndex = 0;
 
             // Act
-            var response = _controller.DeleteToDoAsync(_toDoList[itemIndex].Id).Result;
-            var result = response as StatusCodeResult;
+            var response = await _controller.DeleteToDoAsync(_toDoList[itemIndex].Id);
+            var controllerAction = await response.ExecuteAsync(CancellationToken.None);
 
             // Assert
-            Assert.That(result, Is.Not.Null, $"Expecting response of type StatusCodeResult, but was {response.GetType().Name}");
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {result.StatusCode}");
+            Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {controllerAction.StatusCode}");
         }
     }
 }

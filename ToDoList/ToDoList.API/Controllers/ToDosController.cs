@@ -27,8 +27,9 @@ namespace ToDoList.API.Controllers
         public async Task<IHttpActionResult> GetToDoAsync(Guid id)
             => await Task.FromResult(Ok(ToDoList[0]));
 
+        [Route("")]
         public async Task<IHttpActionResult> PostToDoAsync([FromBody]ToDoModel toDoItem)
-            => await Task.FromResult(CreatedAtRoute("GetToDo", new { id = 2 }, ToDoList[2]));
+            => await Task.FromResult(CreatedAtRoute("GetToDo", new { id = ToDoList[2].Id }, ToDoList[2]));
 
         [Route("{id}")]
         public async Task<IHttpActionResult> PutToDoAsync(Guid id, [FromBody]ToDoModel toDoItem)
