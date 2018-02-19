@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 using ToDoList.API.Controllers;
 using ToDoList.API.Models;
-using ToDoList.API.Tests.Comparers;
+using ToDoList.API.Tests.Utilities;
 
 namespace ToDoList.API.Tests.Controllers
 {
@@ -52,7 +52,7 @@ namespace ToDoList.API.Tests.Controllers
 
             // Assert
             Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Expecting status code OK, but was {controllerAction.StatusCode}");
-            Assert.That(result, Is.EqualTo(_toDoList).Using(new ToDoComparer()), "Todos are not equal");
+            Assert.That(result, Is.EqualTo(_toDoList).UsingToDoComparer(), "Todos are not equal");
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace ToDoList.API.Tests.Controllers
 
             // Assert
             Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Expecting status code OK, but was {controllerAction.StatusCode}");
-            Assert.That(result, Is.EqualTo(_toDoList[itemIndex]).Using(new ToDoComparer()), $"{result} is not equal to expected {_toDoList[itemIndex]}");
+            Assert.That(result, Is.EqualTo(_toDoList[itemIndex]).UsingToDoComparer(), $"{result} is not equal to expected {_toDoList[itemIndex]}");
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace ToDoList.API.Tests.Controllers
             // Assert
             Assert.That(controllerAction.StatusCode, Is.EqualTo(HttpStatusCode.Created), $"Expecting status code Created, but was {controllerAction.StatusCode}");
             Assert.That(controllerAction.Headers.Location.ToString(), Is.EqualTo($"{_controller.Request.RequestUri}/{_toDoList[itemIndex].Id}"), $"Location of new todo is not as expected, was {controllerAction.Headers.Location}");
-            Assert.That(result, Is.EqualTo(_toDoList[itemIndex]).Using(new ToDoComparer()), $"{result} is not equal to expected {_toDoList[itemIndex]}");
+            Assert.That(result, Is.EqualTo(_toDoList[itemIndex]).UsingToDoComparer(), $"{result} is not equal to expected {_toDoList[itemIndex]}");
         }
 
         [Test]
