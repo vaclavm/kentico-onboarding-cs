@@ -6,8 +6,9 @@ namespace ToDoList.API
     {
         protected void Application_Start()
         {
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-            GlobalConfiguration.Configure(DependencyConfig.Register);
+            GlobalConfiguration.Configure(RouteConfig.Register);
+            GlobalConfiguration.Configure(DependencyInjectionConfig.Register);
+            GlobalConfiguration.Configure(JsonConfig.Register);
         }
     }
 }

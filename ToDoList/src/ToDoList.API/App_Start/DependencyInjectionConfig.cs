@@ -5,7 +5,7 @@ using ToDoList.API.DI;
 
 namespace ToDoList.API
 {
-    public static class DependencyConfig
+    internal static class DependencyInjectionConfig
     {
         public static void Register(HttpConfiguration config)
         {

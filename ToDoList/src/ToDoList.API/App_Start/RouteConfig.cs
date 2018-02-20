@@ -5,11 +5,17 @@ using Microsoft.Web.Http.Routing;
 
 namespace ToDoList.API
 {
-    public static class WebApiConfig
+    internal static class RouteConfig
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API versioning
+            // Route configuration with ApiVersioning
+            config.MapHttpAttributeRoutes(CreateConstrainResolver());
+            config.AddApiVersioning();
+        }
+
+        private static DefaultInlineConstraintResolver CreateConstrainResolver()
+        {
             var constraintResolver = new DefaultInlineConstraintResolver
             {
                 ConstraintMap =
@@ -17,9 +23,8 @@ namespace ToDoList.API
                     ["apiVersion"] = typeof(ApiVersionRouteConstraint)
                 }
             };
-            
-            config.MapHttpAttributeRoutes(constraintResolver);
-            config.AddApiVersioning();
+
+            return constraintResolver;
         }
     }
 }
