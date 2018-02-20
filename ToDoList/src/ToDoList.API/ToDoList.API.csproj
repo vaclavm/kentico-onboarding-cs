@@ -70,27 +70,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Unity.Abstractions, Version=3.2.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.6.0\lib\net45\Unity.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Configuration, Version=5.1.3.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.6.0\lib\net45\Unity.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Container, Version=5.6.0.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.6.0\lib\net45\Unity.Container.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Interception, Version=5.4.0.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.6.0\lib\net45\Unity.Interception.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Interception.Configuration, Version=5.1.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.6.0\lib\net45\Unity.Interception.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RegistrationByConvention, Version=2.1.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.6.0\lib\net45\Unity.RegistrationByConvention.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ServiceLocation, Version=2.1.0.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.6.0\lib\net45\Unity.ServiceLocation.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -116,11 +95,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ToDosController.cs" />
     <Compile Include="DependencyRegistry.cs" />
-    <Compile Include="DI\UnityResolver.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ToDoUrlLocationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +115,17 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ToDoList.API.Services\ToDoList.API.Services.csproj">
+      <Project>{06e56c1d-ec53-4fea-9ffc-8c22434cc96c}</Project>
+      <Name>ToDoList.API.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToDoList.Contracts\ToDoList.Contracts.csproj">
       <Project>{C99CA0DF-EF95-4C87-AC05-235CB1010A8B}</Project>
       <Name>ToDoList.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToDoList.DependencyInjectionWrapper\ToDoList.DependencyInjection.csproj">
+      <Project>{E2AD6A67-7FF8-4464-94BE-5978132140B5}</Project>
+      <Name>ToDoList.DependencyInjection</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToDoList.Repository\ToDoList.Repository.csproj">
       <Project>{E3CF4AD1-6BCA-41D6-8F84-F5EF56D20F75}</Project>

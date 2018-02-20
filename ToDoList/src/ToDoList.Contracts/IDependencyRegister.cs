@@ -1,9 +1,9 @@
-﻿using Unity;
+﻿using ToDoList.DependencyInjection;
 
 namespace ToDoList.Contracts
 {
     public interface IDependencyRegister
     {
-        void Register(UnityContainer container);
+        void Register(Wrapper wrapper);
     }
 }

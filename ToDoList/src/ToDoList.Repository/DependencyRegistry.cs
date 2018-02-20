@@ -1,14 +1,12 @@
-﻿using Unity;
-using Unity.Lifetime;
-
-using ToDoList.Contracts;
+﻿using ToDoList.Contracts;
 using ToDoList.Contracts.Repositories;
+using ToDoList.DependencyInjection;
 
 namespace ToDoList.Repository
 {
     public class DependencyRegister : IDependencyRegister
     {
-        public void Register(UnityContainer container)
-            => container.RegisterType<IToDoRepository, ToDoRepository>(new HierarchicalLifetimeManager());
+        public void Register(Wrapper wrapper)
+            => wrapper.RegisterType<IToDoRepository, ToDoRepository>(LifetimeManager.Hierarchical);
     }
 }

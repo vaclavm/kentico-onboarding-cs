@@ -1,7 +1,6 @@
 ﻿using System.Web.Http;
-using Unity;
 
-using ToDoList.API.DI;
+using ToDoList.DependencyInjection;
 
 namespace ToDoList.API
 {
@@ -9,15 +8,15 @@ namespace ToDoList.API
     {
         public static void Register(HttpConfiguration config)
         {
-            var container = new UnityContainer();
+            var diWrapper = new Wrapper();
 
             var repositoryDiRegister = new Repository.DependencyRegister();
-            repositoryDiRegister.Register(container);
+            repositoryDiRegister.Register(diWrapper);
 
             var servicesDiRegister = new DependencyRegister();
-            servicesDiRegister.Register(container);
+            servicesDiRegister.Register(diWrapper);
 
-            config.DependencyResolver = new UnityResolver(container);
+            config.DependencyResolver = diWrapper.CreateDependencyResolver();
         }
     }
 }

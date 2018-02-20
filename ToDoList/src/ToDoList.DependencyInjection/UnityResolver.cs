@@ -5,7 +5,7 @@ using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Exceptions;
 
-namespace ToDoList.API.DI
+namespace ToDoList.DependencyInjection
 {
     public class UnityResolver : IDependencyResolver
     {

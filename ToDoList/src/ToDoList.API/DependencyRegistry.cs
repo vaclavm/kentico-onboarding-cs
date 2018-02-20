@@ -1,24 +1,24 @@
 ﻿using System.Net.Http;
 using System.Web;
-using Unity;
-using Unity.Injection;
 
 using ToDoList.Contracts;
 using ToDoList.Contracts.Services;
-using ToDoList.API.Helpers;
+using ToDoList.API.Services;
+using ToDoList.DependencyInjection;
 
 namespace ToDoList.API
 {
     public class DependencyRegister : IDependencyRegister
     {
-        public void Register(UnityContainer container)
+        public void Register(Wrapper wrapper)
         {
-            container.RegisterType<HttpRequestMessage>(new InjectionFactory(InjectHttpRequest));
-            container.RegisterType<IUrlLocationService, ToDoUrlLocationHelper>();
+            wrapper.RegisterType(InjectHttpRequest);
+            wrapper.RegisterType<IUrlLocationService, ToDoUrlLocationService>(LifetimeManager.Hierarchical);
         }
 
-        private static HttpRequestMessage InjectHttpRequest(IUnityContainer container) =>
-            (HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"];
-
+        private static HttpRequestMessage InjectHttpRequest()
+        {
+            return (HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"];
+        }
     }
 }

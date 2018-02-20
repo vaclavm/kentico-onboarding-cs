@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E3CF4AD1-6BCA-41D6-8F84-F5EF56D20F75}</ProjectGuid>
+    <ProjectGuid>{E2AD6A67-7FF8-4464-94BE-5978132140B5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ToDoList.Repository</RootNamespace>
-    <AssemblyName>ToDoList.Repository</AssemblyName>
+    <RootNamespace>ToDoList.DependencyInjection</RootNamespace>
+    <AssemblyName>ToDoList.DependencyInjection</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,35 +30,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.6.0\lib\net45\CommonServiceLocator.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Unity.Abstractions">
+      <HintPath>..\packages\Unity.5.6.0\lib\net45\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container">
+      <HintPath>..\packages\Unity.5.6.0\lib\net45\Unity.Container.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DependencyRegistry.cs" />
-    <Compile Include="ToDoRepository.cs" />
+    <Compile Include="Wrapper.cs" />
+    <Compile Include="LifetimeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ToDoList.Contracts\ToDoList.Contracts.csproj">
-      <Project>{C99CA0DF-EF95-4C87-AC05-235CB1010A8B}</Project>
-      <Name>ToDoList.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ToDoList.DependencyInjectionWrapper\ToDoList.DependencyInjection.csproj">
-      <Project>{e2ad6a67-7ff8-4464-94be-5978132140b5}</Project>
-      <Name>ToDoList.DependencyInjection</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="UnityResolver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
