@@ -26,18 +26,13 @@ namespace ToDoList.API.Tests.Controllers
         [SetUp]
         public void SetUp()
         {
-            var httpConfiguration = new HttpConfiguration();
-            httpConfiguration.Routes.MapHttpRoute("GetToDo", "api/v1/todos/{id}", new {id = RouteParameter.Optional});
-
-            var httpRequestMessage = new HttpRequestMessage {RequestUri = new Uri("http://localhost:51200/api/v1/todos")};
-
             _toDoRepositorySubstitute = Substitute.For<IToDoRepository>();
             _urlLocationServiceSubstitute = Substitute.For<IUrlLocationService>();
 
             _controller = new ToDosController(_toDoRepositorySubstitute, _urlLocationServiceSubstitute)
             {
-                Request = httpRequestMessage,
-                Configuration = httpConfiguration
+                Request = new HttpRequestMessage(),
+                Configuration = new HttpConfiguration()
             };
 
             _toDoList = new List<ToDo>
@@ -84,7 +79,10 @@ namespace ToDoList.API.Tests.Controllers
         {
             // Arrange
             int itemIndex = 2;
+            var itemGuid = _toDoList[itemIndex].Id;
+
             _toDoRepositorySubstitute.AddToDoAsync(_toDoList[itemIndex]).Returns(_toDoList[itemIndex]);
+            _urlLocationServiceSubstitute.GetAfterPostLocation(itemGuid).Returns($"todos/{itemGuid}");
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.PostToDoAsync(_toDoList[itemIndex]));
@@ -92,7 +90,7 @@ namespace ToDoList.API.Tests.Controllers
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created), $"Expecting status code Created, but was {response.StatusCode}");
-            Assert.That(response.Headers.Location.ToString(), Is.EqualTo($"{_controller.Request.RequestUri}/{_toDoList[itemIndex].Id}"), $"Location of new todo is not as expected, was {response.Headers.Location}");
+            Assert.That(response.Headers.Location.ToString(), Is.EqualTo($"todos/{itemGuid}"), $"Location of new todo is not as expected, was {response.Headers.Location}");
             Assert.That(result, Is.EqualTo(_toDoList[itemIndex]).UsingToDoComparer(), $"{result} is not equal to expected {_toDoList[itemIndex]}");
         }
 
