@@ -1,7 +1,6 @@
 ﻿using System.Net.Http;
 using System.Web;
 using Unity;
-using Unity.Lifetime;
 using Unity.Injection;
 
 using ToDoList.Contracts;
@@ -14,11 +13,12 @@ namespace ToDoList.API
     {
         public void Register(UnityContainer container)
         {
-            container.RegisterType<IUrlLocationService>(new HierarchicalLifetimeManager(), new InjectionFactory(InjectHelper));
+            container.RegisterType<HttpRequestMessage>(new InjectionFactory(InjectHttpRequest));
+            container.RegisterType<IUrlLocationService, ToDoUrlLocationHelper>();
         }
 
-        private static IUrlLocationService InjectHelper(IUnityContainer container) =>
-            new ToDoUrlLocationHelper((HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"]);
+        private static HttpRequestMessage InjectHttpRequest(IUnityContainer container) =>
+            (HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"];
 
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Net.Http;
 using System.Web.Http.Routing;
+
 using ToDoList.Contracts.Services;
 
 namespace ToDoList.API.Helpers
@@ -9,9 +9,9 @@ namespace ToDoList.API.Helpers
     {
         private readonly UrlHelper _urlHelper;
 
-        public ToDoUrlLocationHelper(HttpRequestMessage requestMessage)
+        public ToDoUrlLocationHelper(UrlHelper urlHelper)
         {
-            _urlHelper = new UrlHelper(requestMessage);
+            _urlHelper = urlHelper;
         }
 
         public string GetAfterPostLocation(Guid id) 
