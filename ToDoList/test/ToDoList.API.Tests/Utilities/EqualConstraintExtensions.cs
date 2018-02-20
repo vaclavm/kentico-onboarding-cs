@@ -13,6 +13,8 @@ namespace ToDoList.API.Tests.Utilities
 
         private class ToDoComparer : IEqualityComparer<ToDo>
         {
+            private ToDoComparer() { }
+
             public static Lazy<ToDoComparer> Instance 
                 => new Lazy<ToDoComparer>(() => new ToDoComparer());
 
