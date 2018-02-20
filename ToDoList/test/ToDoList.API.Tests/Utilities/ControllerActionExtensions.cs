@@ -8,10 +8,10 @@ namespace ToDoList.API.Tests.Utilities
 {
     internal static class ControllerActionExtensions
     {
-        public static async Task<HttpResponseMessage> ExecuteAction<T>(this T controller, Func<T, Task<IHttpActionResult>> action) 
+        public static async Task<HttpResponseMessage> ExecuteAction<T>(this T controller, Func<T, Task<IHttpActionResult>> controllerAction) 
             where T : ApiController
         {
-            var response = await action(controller);
+            var response = await controllerAction(controller);
             return await response.ExecuteAsync(CancellationToken.None);
         }
     }
