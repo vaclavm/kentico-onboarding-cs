@@ -15,14 +15,6 @@ namespace ToDoList.API
         public void Register(UnityContainer container)
         {
             container.RegisterType<IUrlLocationService>(new HierarchicalLifetimeManager(), new InjectionFactory(InjectHelper));
-
-            /*
-            container.RegisterType<IUrlLocationService, ToDoUrlLocationHelper>();
-            container.RegisterType<HttpRequestMessage>(new InjectionFactory(InjectHttpRequest));
-            
-            private static HttpRequestMessage InjectHttpRequest(IUnityContainer container) =>
-            (HttpRequestMessage)HttpContext.Current.Items["MS_HttpRequestMessage"];
-            */
         }
 
         private static IUrlLocationService InjectHelper(IUnityContainer container) =>

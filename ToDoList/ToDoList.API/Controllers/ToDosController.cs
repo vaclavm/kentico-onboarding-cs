@@ -25,18 +25,14 @@ namespace ToDoList.API.Controllers
         
         [Route("")]
         public async Task<IHttpActionResult> GetToDosAsync()
-        {
-            return Ok(await _toDoRepository.GetToDosAsync());
-        }
+            => Ok(await _toDoRepository.GetToDosAsync());
 
         [Route("{id}", Name = "GetToDo")]
         public async Task<IHttpActionResult> GetToDoAsync(Guid id)
-        {
-            return Ok(await _toDoRepository.GetToDoAsync(id));
-        }
-        
+            => Ok(await _toDoRepository.GetToDoAsync(id));
+
         [Route("")]
-        public async Task<IHttpActionResult> AddToDoAsync([FromBody]ToDo toDoItem)
+        public async Task<IHttpActionResult> PostToDoAsync([FromBody]ToDo toDoItem)
         {
             var createdToDo = await _toDoRepository.AddToDoAsync(toDoItem);
             var toDoLocationUrl = _locationService.GetAfterPostLocation(createdToDo.Id);
@@ -45,7 +41,7 @@ namespace ToDoList.API.Controllers
         }
         
         [Route("{id}")]
-        public async Task<IHttpActionResult> ChangeToDoAsync(Guid id, [FromBody]ToDo toDoItem)
+        public async Task<IHttpActionResult> PutToDoAsync(Guid id, [FromBody]ToDo toDoItem)
         {
             await _toDoRepository.ChangeToDoAsync(toDoItem);
             return StatusCode(HttpStatusCode.NoContent);

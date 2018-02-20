@@ -16,29 +16,19 @@ namespace ToDoList.Repository
             new ToDo {Id = Guid.Parse("1d710f5d-4bbe-4654-906e-6c708e2bc410"), Text = "Dummy To Do 3"}
         };
 
-        public async Task<List<ToDo>> GetToDosAsync()
-        {
-            return await Task.FromResult(_toDoList);
-        }
+        public async Task<List<ToDo>> GetToDosAsync() 
+            => await Task.FromResult(_toDoList);
 
         public async Task<ToDo> GetToDoAsync(Guid id)
-        {
-            return await Task.FromResult(_toDoList[0]);
-        }
+            => await Task.FromResult(_toDoList[0]);
 
-        public async Task<ToDo> AddToDoAsync(ToDo toDoValue)
-        {
-            return await Task.FromResult(_toDoList[2]);
-        }
+        public async Task<ToDo> AddToDoAsync(ToDo toDoValue) 
+            => await Task.FromResult(_toDoList[2]);
 
-        public async Task ChangeToDoAsync(ToDo toDoItem)
-        {
-            await Task.CompletedTask;
-        }
+        public async Task ChangeToDoAsync(ToDo toDoItem) 
+            => await Task.CompletedTask;
 
-        public async Task DeleteToDoAsync(Guid id)
-        {
-            await Task.CompletedTask;
-        }
+        public async Task DeleteToDoAsync(Guid id) 
+            => await Task.CompletedTask;
     }
 }
