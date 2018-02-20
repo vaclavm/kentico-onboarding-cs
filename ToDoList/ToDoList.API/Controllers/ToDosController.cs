@@ -16,29 +16,25 @@ namespace ToDoList.API.Controllers
     {
         private readonly IToDoRepository _toDoRepository;
         private readonly IUrlLocationService _locationService;
-        private const string RouteId = "{id}";
 
         public ToDosController(IToDoRepository toDoRepository, IUrlLocationService locationService)
         {
             _toDoRepository = toDoRepository;
             _locationService = locationService;
         }
-
-        [HttpGet]
+        
         [Route("")]
         public async Task<IHttpActionResult> GetToDosAsync()
         {
             return Ok(await _toDoRepository.GetToDosAsync());
         }
 
-        [HttpGet]
-        [Route(RouteId)]
+        [Route("{id}", Name = "GetToDo")]
         public async Task<IHttpActionResult> GetToDoAsync(Guid id)
         {
             return Ok(await _toDoRepository.GetToDoAsync(id));
         }
-
-        [HttpPost]
+        
         [Route("")]
         public async Task<IHttpActionResult> AddToDoAsync([FromBody]ToDo toDoItem)
         {
@@ -47,17 +43,15 @@ namespace ToDoList.API.Controllers
 
             return Created(toDoLocationUrl, createdToDo);
         }
-
-        [HttpPut]
-        [Route(RouteId)]
+        
+        [Route("{id}")]
         public async Task<IHttpActionResult> ChangeToDoAsync(Guid id, [FromBody]ToDo toDoItem)
         {
             await _toDoRepository.ChangeToDoAsync(toDoItem);
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        [HttpDelete]
-        [Route(RouteId)]
+        [Route("{id}")]
         public async Task<IHttpActionResult> DeleteToDoAsync(Guid id)
         {
             await _toDoRepository.DeleteToDoAsync(id);

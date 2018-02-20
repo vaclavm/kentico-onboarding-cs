@@ -26,12 +26,6 @@ namespace ToDoList.API
 
             // Web API routes
             config.MapHttpAttributeRoutes(constraintResolver);
-
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
         }
 
         public static void Configuration(HttpConfiguration configuration)
