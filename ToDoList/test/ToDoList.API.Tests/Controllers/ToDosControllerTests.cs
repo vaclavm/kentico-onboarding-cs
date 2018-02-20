@@ -47,11 +47,11 @@ namespace ToDoList.API.Tests.Controllers
         public async Task GetToDosAsync_AllToDosReturned()
         {
             // Arrange
-            _toDoRepositorySubstitute.GetToDosAsync().Returns(_toDoList.ToList());
+            _toDoRepositorySubstitute.GetToDosAsync().Returns(_toDoList);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.GetToDosAsync());
-            response.TryGetContentValue(out List<ToDo> result);
+            response.TryGetContentValue(out IEnumerable<ToDo> result);
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Expecting status code OK, but was {response.StatusCode}");

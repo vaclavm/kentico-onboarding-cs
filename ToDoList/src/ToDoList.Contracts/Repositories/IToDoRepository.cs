@@ -8,7 +8,7 @@ namespace ToDoList.Contracts.Repositories
 {
     public interface IToDoRepository
     {
-        Task<List<ToDo>> GetToDosAsync();
+        Task<IEnumerable<ToDo>> GetToDosAsync();
 
         Task<ToDo> GetToDoAsync(Guid id);
 

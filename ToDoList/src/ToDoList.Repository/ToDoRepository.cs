@@ -16,7 +16,7 @@ namespace ToDoList.Repository
             new ToDo {Id = Guid.Parse("1d710f5d-4bbe-4654-906e-6c708e2bc410"), Text = "Dummy To Do 3"}
         };
 
-        public async Task<List<ToDo>> GetToDosAsync() 
+        public async Task<IEnumerable<ToDo>> GetToDosAsync() 
             => await Task.FromResult(_toDoList);
 
         public async Task<ToDo> GetToDoAsync(Guid id)
