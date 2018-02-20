@@ -12,6 +12,7 @@ namespace ToDoList.API.Controllers
 {
     [ApiVersion("1.0")]
     [RoutePrefix("api/v{version:apiVersion}/todos")]
+    [Route("")]
     public class ToDosController : ApiController
     {
         private readonly IToDoRepository _toDoRepository;
@@ -23,15 +24,13 @@ namespace ToDoList.API.Controllers
             _locationService = locationService;
         }
         
-        [Route("")]
         public async Task<IHttpActionResult> GetToDosAsync()
             => Ok(await _toDoRepository.GetToDosAsync());
 
         [Route("{id}", Name = "GetToDo")]
         public async Task<IHttpActionResult> GetToDoAsync(Guid id)
             => Ok(await _toDoRepository.GetToDoAsync(id));
-
-        [Route("")]
+        
         public async Task<IHttpActionResult> PostToDoAsync([FromBody]ToDo toDoItem)
         {
             var createdToDo = await _toDoRepository.AddToDoAsync(toDoItem);

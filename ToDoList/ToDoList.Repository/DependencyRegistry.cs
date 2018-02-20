@@ -9,8 +9,6 @@ namespace ToDoList.Repository
     public class DependencyRegister : IDependencyRegister
     {
         public void Register(UnityContainer container)
-        {
-            container.RegisterType<IToDoRepository, ToDoRepository>(new HierarchicalLifetimeManager());
-        }
+            => container.RegisterType<IToDoRepository, ToDoRepository>(new HierarchicalLifetimeManager());
     }
 }
