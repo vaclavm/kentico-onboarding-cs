@@ -18,23 +18,27 @@ namespace ToDoList.API.Controllers
         private readonly IToDoRepository _toDoRepository;
         private readonly IUrlLocationService _locationService;
 
+        private const string _getToDoRoute = "GetToDo";
+
         public ToDosController(IToDoRepository toDoRepository, IUrlLocationService locationService)
         {
             _toDoRepository = toDoRepository;
             _locationService = locationService;
+
+            _locationService.ResourceGetRoute = _getToDoRoute;
         }
         
         public async Task<IHttpActionResult> GetToDosAsync()
             => Ok(await _toDoRepository.GetToDosAsync());
 
-        [Route("{id}", Name = "GetToDo")]
+        [Route("{id}", Name = _getToDoRoute)]
         public async Task<IHttpActionResult> GetToDoAsync(Guid id)
             => Ok(await _toDoRepository.GetToDoAsync(id));
         
         public async Task<IHttpActionResult> PostToDoAsync([FromBody]ToDo toDoItem)
         {
             var createdToDo = await _toDoRepository.AddToDoAsync(toDoItem);
-            var toDoLocationUrl = _locationService.GetAfterPostLocation(createdToDo.Id);
+            var toDoLocationUrl = _locationService.GetNewResourceLocation(createdToDo.Id);
 
             return Created(toDoLocationUrl, createdToDo);
         }

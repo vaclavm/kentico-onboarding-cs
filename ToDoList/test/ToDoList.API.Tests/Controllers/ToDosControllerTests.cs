@@ -83,7 +83,7 @@ namespace ToDoList.API.Tests.Controllers
             var expectedToDo = _toDoList.ElementAt(itemIndex);
 
             _toDoRepositorySubstitute.AddToDoAsync(expectedToDo).Returns(expectedToDo);
-            _urlLocationServiceSubstitute.GetAfterPostLocation(expectedToDo.Id).Returns($"todos/{expectedToDo.Id}");
+            _urlLocationServiceSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns($"todos/{expectedToDo.Id}");
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.PostToDoAsync(expectedToDo));

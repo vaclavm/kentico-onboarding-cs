@@ -14,6 +14,9 @@ namespace ToDoList.DependencyInjection
         public IDependencyResolver CreateDependencyResolver() 
             => new UnityResolver(_container);
 
+        public void RegisterType<T>(Func<T> injectionFunction)
+            => _container.RegisterType<T>(new InjectionFactory(_ => injectionFunction()));
+
         public void RegisterType<TFrom, TTo>(LifetimeManager managerType)
             where TTo: TFrom
         {
@@ -27,11 +30,6 @@ namespace ToDoList.DependencyInjection
                     break;
             }
             
-        }
-
-        public void RegisterType<T>(Func<T> injectionFunction)
-        {
-            _container.RegisterType<T>(new InjectionFactory(_ => injectionFunction()));
         }
     }
 }

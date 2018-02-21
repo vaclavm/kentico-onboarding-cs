@@ -123,7 +123,7 @@
       <Project>{C99CA0DF-EF95-4C87-AC05-235CB1010A8B}</Project>
       <Name>ToDoList.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ToDoList.DependencyInjectionWrapper\ToDoList.DependencyInjection.csproj">
+    <ProjectReference Include="..\ToDoList.DependencyInjection\ToDoList.DependencyInjection.csproj">
       <Project>{E2AD6A67-7FF8-4464-94BE-5978132140B5}</Project>
       <Name>ToDoList.DependencyInjection</Name>
     </ProjectReference>

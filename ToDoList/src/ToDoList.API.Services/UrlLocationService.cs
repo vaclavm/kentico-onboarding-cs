@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Web.Http.Routing;
 
@@ -8,20 +7,20 @@ using ToDoList.Contracts.Services;
 [assembly: InternalsVisibleTo("ToDoList.API")]
 namespace ToDoList.API.Services
 {
-    internal class ToDoUrlLocationService : IUrlLocationService
+    internal class UrlLocationService : IUrlLocationService
     {
         private readonly UrlHelper _urlHelper;
 
-        public IEnumerable Routes { get; set; }
+        public string ResourceGetRoute { get; set; }
 
-        public ToDoUrlLocationService(UrlHelper urlHelper)
+        public UrlLocationService(UrlHelper urlHelper)
         {
             _urlHelper = urlHelper;
         }
 
-        public string GetAfterPostLocation(Guid id)
+        public string GetNewResourceLocation(Guid id)
         {
-            return _urlHelper.Route("GetToDo", new {id});
+            return _urlHelper.Route(ResourceGetRoute, new {id});
         }
     }
 }
