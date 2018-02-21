@@ -99,6 +99,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helpers\RoutesHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

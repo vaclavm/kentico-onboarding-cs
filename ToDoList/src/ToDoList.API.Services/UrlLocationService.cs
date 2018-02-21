@@ -10,17 +10,17 @@ namespace ToDoList.API.Services
     internal class UrlLocationService : IUrlLocationService
     {
         private readonly UrlHelper _urlHelper;
+        private readonly IRoutesService _routesService;
 
-        public string ResourceGetRoute { get; set; }
-
-        public UrlLocationService(UrlHelper urlHelper)
+        public UrlLocationService(UrlHelper urlHelper, IRoutesService routesService)
         {
             _urlHelper = urlHelper;
+            _routesService = routesService;
         }
 
         public string GetNewResourceLocation(Guid id)
         {
-            return _urlHelper.Route(ResourceGetRoute, new {id});
+            return _urlHelper.Route(_routesService.ToDoRouteForGet, new {id});
         }
     }
 }

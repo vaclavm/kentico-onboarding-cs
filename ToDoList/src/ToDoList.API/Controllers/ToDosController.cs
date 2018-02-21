@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Web.Http;
-
+using ToDoList.API.Helpers;
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
@@ -18,20 +18,16 @@ namespace ToDoList.API.Controllers
         private readonly IToDoRepository _toDoRepository;
         private readonly IUrlLocationService _locationService;
 
-        private const string _getToDoRoute = "GetToDo";
-
         public ToDosController(IToDoRepository toDoRepository, IUrlLocationService locationService)
         {
             _toDoRepository = toDoRepository;
             _locationService = locationService;
-
-            _locationService.ResourceGetRoute = _getToDoRoute;
         }
         
         public async Task<IHttpActionResult> GetToDosAsync()
             => Ok(await _toDoRepository.GetToDosAsync());
 
-        [Route("{id}", Name = _getToDoRoute)]
+        [Route("{id}", Name = RoutesHelper.GetToDoRoute)]
         public async Task<IHttpActionResult> GetToDoAsync(Guid id)
             => Ok(await _toDoRepository.GetToDoAsync(id));
         
