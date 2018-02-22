@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-
+using ToDoList.API.DependencyInjection;
 using ToDoList.Contracts;
 using ToDoList.DependencyInjection;
 
@@ -14,7 +14,7 @@ namespace ToDoList.API
             Register<Repository.DependencyRegister>(diWrapper);
             Register<DependencyRegister>(diWrapper);
 
-            config.DependencyResolver = diWrapper.CreateDependencyResolver();
+            config.DependencyResolver = new DependencyResolver(diWrapper.GetContainer());
         }
 
         private static void Register<TRegister>(Wrapper wrapper)

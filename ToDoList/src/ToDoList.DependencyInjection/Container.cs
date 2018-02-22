@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Http.Dependencies;
-
 using Unity;
 using Unity.Exceptions;
 
 namespace ToDoList.DependencyInjection
 {
-    public class UnityResolverX : IDependencyResolver
+    internal class Container : IContainer
     {
         protected IUnityContainer container;
 
-        public UnityResolverX(IUnityContainer container)
+        public Container(IUnityContainer container)
         {
             if (container == null)
             {
@@ -20,7 +18,7 @@ namespace ToDoList.DependencyInjection
             this.container = container;
         }
 
-        public object GetService(Type serviceType)
+        public object Resolve(Type serviceType)
         {
             try
             {
@@ -32,7 +30,7 @@ namespace ToDoList.DependencyInjection
             }
         }
 
-        public IEnumerable<object> GetServices(Type serviceType)
+        public IEnumerable<object> ResolveAll(Type serviceType)
         {
             try
             {
@@ -44,12 +42,16 @@ namespace ToDoList.DependencyInjection
             }
         }
 
-        public IDependencyScope BeginScope()
+        public T CreateChildContainer<T>()
+            where T : new()
         {
             var child = container.CreateChildContainer();
-            return new UnityResolverX(child);
+            return (T)Activator.CreateInstance(typeof(T), child);
         }
 
-        public void Dispose() => container.Dispose();
+        public void Dispose()
+        {
+            container?.Dispose();
+        }
     }
 }

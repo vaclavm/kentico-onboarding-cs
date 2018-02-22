@@ -49,6 +49,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Container.cs" />
+    <Compile Include="IContainer.cs" />
     <Compile Include="Wrapper.cs" />
     <Compile Include="LifetimeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

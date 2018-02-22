@@ -12,7 +12,12 @@ namespace ToDoList.DependencyInjection
         private readonly UnityContainer _container = new UnityContainer();
 
         public IDependencyResolver CreateDependencyResolver() 
-            => new UnityResolver(_container);
+            => new DependencyResolver();
+
+        public object GetContainer()
+        {
+            return _container;
+        }
 
         public void RegisterType<T>(Func<T> injectionFunction)
             => _container.RegisterType<T>(new InjectionFactory(_ => injectionFunction()));
