@@ -6,7 +6,7 @@ namespace ToDoList.Repository
 {
     public class DependencyRegister : IDependencyRegister
     {
-        public void Register(Wrapper wrapper)
-            => wrapper.RegisterType<IToDoRepository, ToDoRepository>(LifetimeManager.Hierarchical);
+        public void Register(Container container)
+            => container.RegisterType<IToDoRepository, ToDoRepository>(LifetimeManager.Hierarchical);
     }
 }

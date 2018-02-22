@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E2AD6A67-7FF8-4464-94BE-5978132140B5}</ProjectGuid>
+    <ProjectGuid>{78F73542-C41F-457C-8DC1-E4E121E40B6C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ToDoList.DependencyInjection</RootNamespace>
-    <AssemblyName>ToDoList.DependencyInjection</AssemblyName>
+    <RootNamespace>ToDoList.API.DependencyInjection</RootNamespace>
+    <AssemblyName>ToDoList.API.DependencyInjection</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,6 +32,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,14 +44,29 @@
     <Reference Include="Unity.Abstractions">
       <HintPath>..\packages\Unity.5.6.0\lib\net45\Unity.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Container">
-      <HintPath>..\packages\Unity.5.6.0\lib\net45\Unity.Container.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Container.cs" />
-    <Compile Include="LifetimeManager.cs" />
+    <Compile Include="DependencyBootstraper.cs" />
+    <Compile Include="DependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ToDoList.API.Services\ToDoList.API.Services.csproj">
+      <Project>{06e56c1d-ec53-4fea-9ffc-8c22434cc96c}</Project>
+      <Name>ToDoList.API.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToDoList.Contracts\ToDoList.Contracts.csproj">
+      <Project>{C99CA0DF-EF95-4C87-AC05-235CB1010A8B}</Project>
+      <Name>ToDoList.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToDoList.DependencyInjection\ToDoList.DependencyInjection.csproj">
+      <Project>{E2AD6A67-7FF8-4464-94BE-5978132140B5}</Project>
+      <Name>ToDoList.DependencyInjection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToDoList.Repository\ToDoList.Repository.csproj">
+      <Project>{e3cf4ad1-6bca-41d6-8f84-f5ef56d20f75}</Project>
+      <Name>ToDoList.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

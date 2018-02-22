@@ -3,6 +3,7 @@
     public enum LifetimeManager
     {
         Hierarchical,
-        Transient
+        Transient,
+        Singleton
     }
 }

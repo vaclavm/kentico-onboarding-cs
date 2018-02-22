@@ -94,8 +94,6 @@
     <Compile Include="App_Start\JsonConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ToDosController.cs" />
-    <Compile Include="DependencyInjection\DependencyRegister.cs" />
-    <Compile Include="DependencyInjection\DependencyResolver.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -115,6 +113,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\ToDoList.API.DependencyInjection\ToDoList.API.DependencyInjection.csproj">
+      <Project>{78F73542-C41F-457C-8DC1-E4E121E40B6C}</Project>
+      <Name>ToDoList.API.DependencyInjection</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToDoList.API.Services\ToDoList.API.Services.csproj">
       <Project>{06e56c1d-ec53-4fea-9ffc-8c22434cc96c}</Project>
       <Name>ToDoList.API.Services</Name>

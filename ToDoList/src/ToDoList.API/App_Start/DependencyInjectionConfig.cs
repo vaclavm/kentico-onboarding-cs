@@ -1,7 +1,8 @@
 ﻿using System.Web.Http;
+
 using ToDoList.API.DependencyInjection;
-using ToDoList.Contracts;
-using ToDoList.DependencyInjection;
+using ToDoList.API.Helpers;
+using ToDoList.Contracts.Services;
 
 namespace ToDoList.API
 {
@@ -9,19 +10,11 @@ namespace ToDoList.API
     {
         public static void Register(HttpConfiguration config)
         {
-            var diWrapper = new Wrapper();
+            var diBootstrap = new DependencyBootstraper();
+            diBootstrap.RegisterDependencies();
+            diBootstrap.RegisterApiSingleton<IRoutesService, RoutesHelper>();
 
-            Register<Repository.DependencyRegister>(diWrapper);
-            Register<DependencyRegister>(diWrapper);
-
-            config.DependencyResolver = new DependencyResolver(diWrapper.GetContainer());
-        }
-
-        private static void Register<TRegister>(Wrapper wrapper)
-            where TRegister : IDependencyRegister, new()
-        {
-            var register = new TRegister();
-            register.Register(wrapper);
+            config.DependencyResolver = diBootstrap.CreateResolver();
         }
     }
 }

@@ -1,21 +1,18 @@
 ﻿using System.Net.Http;
 using System.Web;
 
-using ToDoList.API.Helpers;
 using ToDoList.Contracts;
 using ToDoList.Contracts.Services;
-using ToDoList.API.Services;
 using ToDoList.DependencyInjection;
 
-namespace ToDoList.API
+namespace ToDoList.API.Services
 {
     public class DependencyRegister : IDependencyRegister
     {
-        public void Register(Wrapper wrapper)
+        public void Register(Container container)
         {
-            wrapper.RegisterType(InjectHttpRequest);
-            wrapper.RegisterType<IUrlLocationService, UrlLocationService>(LifetimeManager.Hierarchical);
-            wrapper.RegisterType<IRoutesService, RoutesHelper>(LifetimeManager.Hierarchical);
+            container.RegisterType(InjectHttpRequest);
+            container.RegisterType<IUrlLocationService, UrlLocationService>(LifetimeManager.Hierarchical);
         }
 
         private static HttpRequestMessage InjectHttpRequest()

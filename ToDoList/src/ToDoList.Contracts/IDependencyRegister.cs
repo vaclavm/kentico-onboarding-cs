@@ -4,6 +4,6 @@ namespace ToDoList.Contracts
 {
     public interface IDependencyRegister
     {
-        void Register(Wrapper wrapper);
+        void Register(Container container);
     }
 }

@@ -1,57 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
+
 using Unity;
-using Unity.Exceptions;
+using Unity.Injection;
+using Unity.Lifetime;
 
 namespace ToDoList.DependencyInjection
 {
-    internal class Container : IContainer
+    public class Container
     {
-        protected IUnityContainer container;
+        private readonly UnityContainer _container = new UnityContainer();
 
-        public Container(IUnityContainer container)
+        public IUnityContainer GetContainer()
         {
-            if (container == null)
-            {
-                throw new ArgumentNullException(nameof(container));
-            }
-            this.container = container;
+            return _container;
         }
 
-        public object Resolve(Type serviceType)
-        {
-            try
-            {
-                return container.Resolve(serviceType);
-            }
-            catch (ResolutionFailedException)
-            {
-                return null;
-            }
-        }
+        public void RegisterType<T>(Func<T> injectionFunction)
+            => _container.RegisterType<T>(new InjectionFactory(_ => injectionFunction()));
 
-        public IEnumerable<object> ResolveAll(Type serviceType)
+        public void RegisterType<TFrom, TTo>(LifetimeManager managerType)
+            where TTo: TFrom
         {
-            try
+            switch (managerType)
             {
-                return container.ResolveAll(serviceType);
+                case LifetimeManager.Transient:
+                    _container.RegisterType<TFrom, TTo>(new TransientLifetimeManager());
+                    break;
+                case LifetimeManager.Hierarchical:
+                    _container.RegisterType<TFrom, TTo>(new HierarchicalLifetimeManager());
+                    break;
+                default:
+                    _container.RegisterType<TFrom, TTo>();
+                    break;
             }
-            catch (ResolutionFailedException)
-            {
-                return new List<object>();
-            }
-        }
-
-        public T CreateChildContainer<T>()
-            where T : new()
-        {
-            var child = container.CreateChildContainer();
-            return (T)Activator.CreateInstance(typeof(T), child);
-        }
-
-        public void Dispose()
-        {
-            container?.Dispose();
+            
         }
     }
 }

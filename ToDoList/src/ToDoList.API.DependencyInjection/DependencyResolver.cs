@@ -1,30 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
-
 using Unity;
 using Unity.Exceptions;
 
-namespace ToDoList.DependencyInjection
+namespace ToDoList.API.DependencyInjection
 {
-    public class UnityResolverX : IDependencyResolver
+    public class DependencyResolver : IDependencyResolver
     {
-        protected IUnityContainer container;
-
-        public UnityResolverX(IUnityContainer container)
+        protected IUnityContainer _unityContainer;
+        
+        public DependencyResolver(IUnityContainer container)
         {
             if (container == null)
             {
                 throw new ArgumentNullException(nameof(container));
             }
-            this.container = container;
+            _unityContainer = container;
         }
 
         public object GetService(Type serviceType)
         {
             try
             {
-                return container.Resolve(serviceType);
+                return _unityContainer.Resolve(serviceType);
             }
             catch (ResolutionFailedException)
             {
@@ -36,7 +35,7 @@ namespace ToDoList.DependencyInjection
         {
             try
             {
-                return container.ResolveAll(serviceType);
+                return _unityContainer.ResolveAll(serviceType);
             }
             catch (ResolutionFailedException)
             {
@@ -46,10 +45,10 @@ namespace ToDoList.DependencyInjection
 
         public IDependencyScope BeginScope()
         {
-            var child = container.CreateChildContainer();
-            return new UnityResolverX(child);
+            var child = _unityContainer.CreateChildContainer();
+            return new DependencyResolver(child);
         }
 
-        public void Dispose() => container.Dispose();
+        public void Dispose() => _unityContainer.Dispose();
     }
 }
