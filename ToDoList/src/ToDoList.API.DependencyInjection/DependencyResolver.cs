@@ -6,9 +6,11 @@ using Unity.Exceptions;
 
 namespace ToDoList.API.DependencyInjection
 {
-    public class DependencyResolver : IDependencyResolver
+    internal sealed class DependencyResolver : IDependencyResolver
     {
-        protected IUnityContainer _unityContainer;
+        private bool _disposed;
+
+        private readonly IUnityContainer _unityContainer;
         
         public DependencyResolver(IUnityContainer container)
         {
@@ -49,6 +51,15 @@ namespace ToDoList.API.DependencyInjection
             return new DependencyResolver(child);
         }
 
-        public void Dispose() => _unityContainer.Dispose();
+        public void Dispose()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _unityContainer.Dispose();
+            _disposed = true;
+        }
     }
 }
