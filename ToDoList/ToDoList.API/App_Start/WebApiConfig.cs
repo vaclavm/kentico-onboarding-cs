@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+using System.Web.Http;
+using System.Web.Http.Routing;
+using Microsoft.Web.Http.Routing;
 
 namespace ToDoList.API
 {
@@ -8,14 +10,22 @@ namespace ToDoList.API
         {
             // Web API configuration and services
 
-            // Web API routes
-            config.MapHttpAttributeRoutes();
+            // Web API constrains
+            var constraintResolver = new DefaultInlineConstraintResolver
+            {
+                ConstraintMap =
+                {
+                    ["apiVersion"] = typeof(ApiVersionRouteConstraint)
+                }
+            };
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+            // Web API routes
+            config.MapHttpAttributeRoutes(constraintResolver);
+        }
+
+        public static void Configuration(HttpConfiguration configuration)
+        {
+            configuration.AddApiVersioning();
         }
     }
 }
