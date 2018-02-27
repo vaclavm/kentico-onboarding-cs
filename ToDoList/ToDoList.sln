@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.API.DependencyInje
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.API.Services.Tests", "test\ToDoList.API.Services.Tests\ToDoList.API.Services.Tests.csproj", "{C5769BBC-4874-423E-B495-9B1E7B639D07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.API.DependencyInjection.Tests", "test\ToDoList.API.DependencyInjection.Tests\ToDoList.API.DependencyInjection.Tests.csproj", "{0D950B0E-7F4D-4F6F-A3D0-EA1B19A3BB85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{C5769BBC-4874-423E-B495-9B1E7B639D07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5769BBC-4874-423E-B495-9B1E7B639D07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5769BBC-4874-423E-B495-9B1E7B639D07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D950B0E-7F4D-4F6F-A3D0-EA1B19A3BB85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D950B0E-7F4D-4F6F-A3D0-EA1B19A3BB85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D950B0E-7F4D-4F6F-A3D0-EA1B19A3BB85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D950B0E-7F4D-4F6F-A3D0-EA1B19A3BB85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

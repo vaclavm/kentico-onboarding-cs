@@ -35,5 +35,8 @@ namespace ToDoList.DependencyInjection
             }
             
         }
+
+        public void RegisterInstance<T>(T instance)
+            => _container.RegisterInstance(instance);
     }
 }
