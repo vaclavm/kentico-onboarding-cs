@@ -1,6 +1,4 @@
-﻿using ToDoList.DependencyInjection;
-
-namespace ToDoList.Contracts
+﻿namespace ToDoList.DependencyInjection
 {
     public interface IDependencyRegister
     {

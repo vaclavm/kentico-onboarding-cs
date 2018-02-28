@@ -43,8 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDependencyConstruct.cs" />
-    <Compile Include="IDependencyRegister.cs" />
     <Compile Include="Models\ToDo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IToDoRepository.cs" />
