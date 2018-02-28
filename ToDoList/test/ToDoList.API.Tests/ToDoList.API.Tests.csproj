@@ -6,8 +6,8 @@
     <ProjectGuid>{C8A825B0-EF8F-4D70-866F-B4EDECAF45BE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ToDoList.API.Tests</RootNamespace>
-    <AssemblyName>ToDoList.API.Tests</AssemblyName>
+    <RootNamespace>ToDoList.Api.Tests</RootNamespace>
+    <AssemblyName>ToDoList.Api.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

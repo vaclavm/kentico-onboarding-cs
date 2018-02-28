@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace ToDoList.API.Tests
+namespace ToDoList.Api.Tests
 {
     [TestFixture]
     public class DummyTestForTravis

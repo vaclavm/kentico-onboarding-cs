@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace ToDoList.API.Tests.Utilities
+namespace ToDoList.Api.Tests.Utilities
 {
     internal static class ControllerActionExtensions
     {

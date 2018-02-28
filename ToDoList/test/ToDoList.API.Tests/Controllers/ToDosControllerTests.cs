@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using NSubstitute;
 using NUnit.Framework;
-
 using ToDoList.Api.Controllers;
-using ToDoList.API.Tests.Utilities;
+using ToDoList.Api.Tests.Utilities;
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
 
-namespace ToDoList.API.Tests.Controllers
+namespace ToDoList.Api.Tests.Controllers
 {
     [TestFixture]
     public class ToDosControllerTests

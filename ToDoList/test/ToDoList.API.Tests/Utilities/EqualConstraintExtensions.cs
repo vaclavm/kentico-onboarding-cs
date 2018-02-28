@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework.Constraints;
-
 using ToDoList.Contracts.Models;
 
-namespace ToDoList.API.Tests.Utilities
+namespace ToDoList.Api.Tests.Utilities
 {
     internal static class EqualConstraintExtensions
     {
