@@ -51,9 +51,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ToDoList.API.Services\ToDoList.API.Services.csproj">
+    <ProjectReference Include="..\ToDoList.Api.Services\ToDoList.Api.Services.csproj">
       <Project>{06e56c1d-ec53-4fea-9ffc-8c22434cc96c}</Project>
-      <Name>ToDoList.API.Services</Name>
+      <Name>ToDoList.Api.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToDoList.Contracts\ToDoList.Contracts.csproj">
       <Project>{C99CA0DF-EF95-4C87-AC05-235CB1010A8B}</Project>

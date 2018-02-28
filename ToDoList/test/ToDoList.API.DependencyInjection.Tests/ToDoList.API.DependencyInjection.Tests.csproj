@@ -60,16 +60,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ToDoList.Api.DependencyInjection\ToDoList.Api.DependencyInjection.csproj">
       <Project>{78F73542-C41F-457C-8DC1-E4E121E40B6C}</Project>
       <Name>ToDoList.Api.DependencyInjection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ToDoList.API.Services\ToDoList.API.Services.csproj">
+    <ProjectReference Include="..\..\src\ToDoList.Api.Services\ToDoList.Api.Services.csproj">
       <Project>{06E56C1D-EC53-4FEA-9FFC-8C22434CC96C}</Project>
-      <Name>ToDoList.API.Services</Name>
+      <Name>ToDoList.Api.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\ToDoList.Api\ToDoList.Api.csproj">
       <Project>{CFFC7437-BF3E-4BE7-A5CB-00EC5C111073}</Project>

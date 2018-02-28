@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Repository", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.DependencyInjection", "src\ToDoList.DependencyInjection\ToDoList.DependencyInjection.csproj", "{E2AD6A67-7FF8-4464-94BE-5978132140B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.API.Services", "src\ToDoList.API.Services\ToDoList.API.Services.csproj", "{06E56C1D-EC53-4FEA-9FFC-8C22434CC96C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Api.Services", "src\ToDoList.Api.Services\ToDoList.Api.Services.csproj", "{06E56C1D-EC53-4FEA-9FFC-8C22434CC96C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Api.DependencyInjection", "src\ToDoList.Api.DependencyInjection\ToDoList.Api.DependencyInjection.csproj", "{78F73542-C41F-457C-8DC1-E4E121E40B6C}"
 EndProject

@@ -1,10 +1,9 @@
 ﻿using System.Net.Http;
 using System.Web;
-
 using ToDoList.Contracts.Services;
 using ToDoList.DependencyInjection;
 
-namespace ToDoList.API.Services
+namespace ToDoList.Api.Services
 {
     public class DependencyRegister : IDependencyRegister
     {
