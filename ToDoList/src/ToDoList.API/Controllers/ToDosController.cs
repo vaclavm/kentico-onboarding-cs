@@ -8,7 +8,7 @@ using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
 
-namespace ToDoList.API.Controllers
+namespace ToDoList.Api.Controllers
 {
     [ApiVersion("1.0")]
     [RoutePrefix("api/v{version:apiVersion}/todos")]

@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
 using Newtonsoft.Json.Serialization;
 
-namespace ToDoList.API
+namespace ToDoList.Api
 {
     internal static class JsonConfig
     {

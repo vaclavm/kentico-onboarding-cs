@@ -2,8 +2,7 @@
 using System.Web.Http.Routing;
 using Microsoft.Web.Http.Routing;
 
-
-namespace ToDoList.API
+namespace ToDoList.Api
 {
     internal static class RouteConfig
     {

@@ -8,7 +8,7 @@ using System.Web.Http;
 using NSubstitute;
 using NUnit.Framework;
 
-using ToDoList.API.Controllers;
+using ToDoList.Api.Controllers;
 using ToDoList.API.Tests.Utilities;
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;

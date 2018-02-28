@@ -1,9 +1,8 @@
 ﻿using System.Web.Http;
-
 using ToDoList.API.DependencyInjection;
 using ToDoList.API.Helpers;
 
-namespace ToDoList.API
+namespace ToDoList.Api
 {
     internal static class DependencyInjectionConfig
     {

@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace ToDoList.API
+namespace ToDoList.Api
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
