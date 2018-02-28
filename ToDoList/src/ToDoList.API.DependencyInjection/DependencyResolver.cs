@@ -14,11 +14,7 @@ namespace ToDoList.API.DependencyInjection
         
         public DependencyResolver(IUnityContainer container)
         {
-            if (container == null)
-            {
-                throw new ArgumentNullException(nameof(container));
-            }
-            _unityContainer = container;
+            _unityContainer = container ?? throw new ArgumentNullException(nameof(container));
         }
 
         public object GetService(Type serviceType)

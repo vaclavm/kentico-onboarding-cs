@@ -1,6 +1,5 @@
 ﻿using System.Web.Http.Dependencies;
 
-using ToDoList.Contracts;
 using ToDoList.Contracts.Services;
 using ToDoList.DependencyInjection;
 
