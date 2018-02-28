@@ -4,7 +4,7 @@ using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Exceptions;
 
-namespace ToDoList.API.DependencyInjection
+namespace ToDoList.Api.DependencyInjection
 {
     internal sealed class DependencyResolver : IDependencyResolver
     {

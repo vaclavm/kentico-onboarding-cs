@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Web;
 using NUnit.Framework;
 
+using ToDoList.Api.DependencyInjection;
 using ToDoList.API.Helpers;
 using ToDoList.API.Services;
 using ToDoList.Contracts.Repositories;

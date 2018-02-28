@@ -7,8 +7,8 @@
     <ProjectGuid>{78F73542-C41F-457C-8DC1-E4E121E40B6C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ToDoList.API.DependencyInjection</RootNamespace>
-    <AssemblyName>ToDoList.API.DependencyInjection</AssemblyName>
+    <RootNamespace>ToDoList.Api.DependencyInjection</RootNamespace>
+    <AssemblyName>ToDoList.Api.DependencyInjection</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

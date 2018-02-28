@@ -1,9 +1,8 @@
 ﻿using System.Web.Http.Dependencies;
-
 using ToDoList.Contracts.Services;
 using ToDoList.DependencyInjection;
 
-namespace ToDoList.API.DependencyInjection
+namespace ToDoList.Api.DependencyInjection
 {
     public class DependencyBootstrapper
     {
@@ -12,7 +11,7 @@ namespace ToDoList.API.DependencyInjection
         public static IDependencyResolver CreateWebApiResolver(IWebApiRoutes webApiRoutes)
             => new DependencyBootstrapper(new Container())
                 .Register<Repository.DependencyRegister>()
-                .Register<Services.DependencyRegister>()
+                .Register<API.Services.DependencyRegister>()
                 .RegisterInstance(webApiRoutes)
                 .CreateResolver();
 
