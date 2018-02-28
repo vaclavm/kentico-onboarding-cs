@@ -14,7 +14,7 @@ namespace ToDoList.API
             config.AddApiVersioning();
         }
 
-        private static DefaultInlineConstraintResolver CreateConstrainResolver()
+        private static IInlineConstraintResolver CreateConstrainResolver()
         {
             var constraintResolver = new DefaultInlineConstraintResolver
             {

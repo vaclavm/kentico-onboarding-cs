@@ -7,8 +7,9 @@ namespace ToDoList.API
     {
         public static void Register(HttpConfiguration config)
         {
-            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
+            var formatter = config.Formatters.JsonFormatter;
+            formatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            formatter.UseDataContractJsonSerializer = false;
         }
     }
 }
