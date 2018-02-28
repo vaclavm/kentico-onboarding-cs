@@ -52,11 +52,5 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ToDoList.DependencyInjection\ToDoList.DependencyInjection.csproj">
-      <Project>{E2AD6A67-7FF8-4464-94BE-5978132140B5}</Project>
-      <Name>ToDoList.DependencyInjection</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -27,7 +27,7 @@ namespace ToDoList.API.Controllers
         public async Task<IHttpActionResult> GetToDosAsync()
             => Ok(await _toDoRepository.GetToDosAsync());
 
-        [Route("{id}", Name = RoutesHelper.GetToDoRoute)]
+        [Route("{id}", Name = WebApiRoutes.GetToDoRoute)]
         public async Task<IHttpActionResult> GetToDoAsync(Guid id)
             => Ok(await _toDoRepository.GetToDoAsync(id));
         

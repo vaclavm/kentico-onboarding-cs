@@ -6,7 +6,7 @@ using ToDoList.Contracts.Services;
 
 namespace ToDoList.API.Helpers
 {
-    internal class RoutesHelper : IRoutesService
+    internal class WebApiRoutes : IWebApiRoutes
     {
         internal const string GetToDoRoute = "GetToDo";
 

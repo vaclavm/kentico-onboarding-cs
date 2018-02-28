@@ -10,11 +10,11 @@ namespace ToDoList.API.DependencyInjection
     {
         private static Container _container;
 
-        public static IDependencyResolver CreateWebApiResolver(IRoutesService routesService)
+        public static IDependencyResolver CreateWebApiResolver(IWebApiRoutes webApiRoutes)
             => new DependencyBootstrapper(new Container())
                 .Register<Repository.DependencyRegister>()
                 .Register<Services.DependencyRegister>()
-                .RegisterInstance(routesService)
+                .RegisterInstance(webApiRoutes)
                 .CreateResolver();
 
         internal DependencyBootstrapper(Container container)

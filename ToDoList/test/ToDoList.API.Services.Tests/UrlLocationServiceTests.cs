@@ -12,7 +12,7 @@ namespace ToDoList.API.Services.Tests
     [TestFixture]
     public class UrlLocationServiceTests
     {
-        private IRoutesService _routesService;
+        private IWebApiRoutes _webApiRoutes;
         private UrlLocationService _locationService;
 
         private const string WhatsUp = "whatsUp";
@@ -26,8 +26,8 @@ namespace ToDoList.API.Services.Tests
             var httpRequestMessage = new HttpRequestMessage();
             httpRequestMessage.Properties[System.Web.Http.Hosting.HttpPropertyKeys.HttpConfigurationKey] = configuration;
             
-            _routesService = Substitute.For<IRoutesService>();
-            _locationService = new UrlLocationService(new UrlHelper(httpRequestMessage), _routesService);
+            _webApiRoutes = Substitute.For<IWebApiRoutes>();
+            _locationService = new UrlLocationService(new UrlHelper(httpRequestMessage), _webApiRoutes);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace ToDoList.API.Services.Tests
             // Arrange
             string location = "WhatsUp";
             Guid guid = Guid.NewGuid();
-            _routesService.ToDoRouteForGet.Returns(location);
+            _webApiRoutes.ToDoRouteForGet.Returns(location);
 
             // Act
             var result = _locationService.GetNewResourceLocation(guid);

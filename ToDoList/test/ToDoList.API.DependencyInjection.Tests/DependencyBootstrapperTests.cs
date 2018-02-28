@@ -18,19 +18,19 @@ namespace ToDoList.API.DependencyInjection.Tests
         public void CreateWebApiResolver_AllInstancesAreRegistered()
         {
             // Arrange
-            var routeHelper = new RoutesHelper();
+            var routeHelper = new WebApiRoutes();
             var mockContext = new HttpContext(new HttpRequest(string.Empty, "http://www.google.com", string.Empty), new HttpResponse(new StringWriter()));
             mockContext.Items["MS_HttpRequestMessage"] = new HttpRequestMessage();
             HttpContext.Current = mockContext;
 
             // Act
             var resolver = DependencyBootstrapper.CreateWebApiResolver(routeHelper);
-            var routeService = resolver.GetService(typeof(RoutesHelper));
+            var routeService = resolver.GetService(typeof(WebApiRoutes));
             var toDoRepository = resolver.GetService(typeof(ToDoRepository));
             var urlLocaltionService = resolver.GetService(typeof(UrlLocationService));
 
             // Assert
-            Assert.That(routeService, Is.InstanceOf<IRoutesService>());
+            Assert.That(routeService, Is.InstanceOf<IWebApiRoutes>());
             Assert.That(toDoRepository, Is.InstanceOf<IToDoRepository>());
             Assert.That(urlLocaltionService, Is.InstanceOf<IUrlLocationService>());
         }

@@ -1,6 +1,6 @@
 ﻿namespace ToDoList.Contracts.Services
 {
-    public interface IRoutesService
+    public interface IWebApiRoutes
     {
         string ToDoRouteForGet { get; }
     }
