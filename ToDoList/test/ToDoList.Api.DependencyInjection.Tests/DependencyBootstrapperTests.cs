@@ -12,7 +12,7 @@ namespace ToDoList.API.DependencyInjection.Tests
     public class DependencyBootstrapperTests
     {
         [Test]
-        public void CreateWebApiResolver_AllInstancesAreRegistered()
+        public void CreateWebApiResolver_NotGenericInterfaces_AllAreRegistered()
         {
             // Arrange
             var routeHelper = new WebApiRoutes();
@@ -20,12 +20,12 @@ namespace ToDoList.API.DependencyInjection.Tests
 
             // Act
             DependencyResolver resolver = (DependencyResolver) DependencyBootstrapper.CreateWebApiResolver(routeHelper);
-            var typesInAssembly = assembly.GetExportedTypes().Where(type => type.IsInterface);
+            var interfaces = assembly.GetExportedTypes().Where(type => type.IsInterface);
 
             // Assert
-            foreach (var type in typesInAssembly)
+            foreach (var interfaceType in interfaces.Where(type => !type.IsGenericTypeDefinition))
             {
-                Assert.That(resolver.IsRegistered(type), Is.True, $"{type} is not registered");
+                Assert.That(resolver.IsRegistered(interfaceType), Is.True, $"{interfaceType} don't have registred implementation");
             }
         }
     }

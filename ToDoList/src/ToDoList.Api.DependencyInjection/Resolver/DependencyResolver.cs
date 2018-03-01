@@ -5,6 +5,7 @@ using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Exceptions;
 
+
 [assembly: InternalsVisibleTo("ToDoList.API.DependencyInjection.Tests")]
 
 namespace ToDoList.Api.DependencyInjection.Resolver
@@ -21,9 +22,7 @@ namespace ToDoList.Api.DependencyInjection.Resolver
         }
 
         public bool IsRegistered(Type serviceType)
-        {
-            return _unityContainer.IsRegistered(serviceType);
-        }
+            => _unityContainer.IsRegistered(serviceType);
 
         public object GetService(Type serviceType)
         {
@@ -49,11 +48,8 @@ namespace ToDoList.Api.DependencyInjection.Resolver
             }
         }
 
-        public IDependencyScope BeginScope()
-        {
-            var child = _unityContainer.CreateChildContainer();
-            return new DependencyResolver(child);
-        }
+        public IDependencyScope BeginScope() 
+            => new DependencyResolver(_unityContainer.CreateChildContainer());
 
         public void Dispose()
         {
