@@ -21,6 +21,7 @@ namespace ToDoList.Api.Tests.Controllers
     {
         private IToDoRepository _toDoRepositorySubstitute;
         private IUrlLocationService _urlLocationServiceSubstitute;
+        private IFormationService _formationServiceSubstitute;
         private ToDosController _controller;
 
         private static readonly IEnumerable<ToDo> _toDoList = new[]
@@ -35,8 +36,9 @@ namespace ToDoList.Api.Tests.Controllers
         {
             _toDoRepositorySubstitute = Substitute.For<IToDoRepository>();
             _urlLocationServiceSubstitute = Substitute.For<IUrlLocationService>();
+            _formationServiceSubstitute = Substitute.For<IFormationService>();
 
-            _controller = new ToDosController(_toDoRepositorySubstitute, _urlLocationServiceSubstitute)
+            _controller = new ToDosController(_toDoRepositorySubstitute, _urlLocationServiceSubstitute, _formationServiceSubstitute)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -83,7 +85,7 @@ namespace ToDoList.Api.Tests.Controllers
             var expectedToDo = _toDoList.ElementAt(itemIndex);
             string location = $"todos/{expectedToDo.Id}";
 
-            await _toDoRepositorySubstitute.AddToDoAsync(expectedToDo);
+            _formationServiceSubstitute.CreateToDoAsync(expectedToDo).Returns(expectedToDo);
             _urlLocationServiceSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
 
             // Act

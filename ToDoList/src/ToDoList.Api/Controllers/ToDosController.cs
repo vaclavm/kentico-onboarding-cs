@@ -17,9 +17,11 @@ namespace ToDoList.Api.Controllers
     {
         private readonly IToDoRepository _toDoRepository;
         private readonly IUrlLocationService _locationService;
+        private readonly IFormationService _formationService;
 
-        public ToDosController(IToDoRepository toDoRepository, IUrlLocationService locationService)
+        public ToDosController(IToDoRepository toDoRepository, IUrlLocationService locationService, IFormationService formationService)
         {
+            _formationService = formationService;
             _toDoRepository = toDoRepository;
             _locationService = locationService;
         }
@@ -33,10 +35,10 @@ namespace ToDoList.Api.Controllers
         
         public async Task<IHttpActionResult> PostToDoAsync([FromBody]ToDo toDoItem)
         {
-            await _toDoRepository.AddToDoAsync(toDoItem);
-            var toDoLocationUrl = _locationService.GetNewResourceLocation(toDoItem.Id);
+            var newToDo = await _formationService.CreateToDoAsync(toDoItem);
+            var toDoLocationUrl = _locationService.GetNewResourceLocation(newToDo.Id);
 
-            return Created(toDoLocationUrl, toDoItem);
+            return Created(toDoLocationUrl, newToDo);
         }
         
         [Route("{id}")]
