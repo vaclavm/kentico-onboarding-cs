@@ -33,10 +33,10 @@ namespace ToDoList.Api.Controllers
         
         public async Task<IHttpActionResult> PostToDoAsync([FromBody]ToDo toDoItem)
         {
-            var createdToDo = await _toDoRepository.AddToDoAsync(toDoItem);
-            var toDoLocationUrl = _locationService.GetNewResourceLocation(createdToDo.Id);
+            await _toDoRepository.AddToDoAsync(toDoItem);
+            var toDoLocationUrl = _locationService.GetNewResourceLocation(toDoItem.Id);
 
-            return Created(toDoLocationUrl, createdToDo);
+            return Created(toDoLocationUrl, toDoItem);
         }
         
         [Route("{id}")]

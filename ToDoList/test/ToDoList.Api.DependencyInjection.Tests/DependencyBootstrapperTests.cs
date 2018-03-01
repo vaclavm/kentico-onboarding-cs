@@ -27,7 +27,7 @@ namespace ToDoList.API.DependencyInjection.Tests
             // Act
             var resolver = DependencyBootstrapper.CreateWebApiResolver(routeHelper);
             var routeService = resolver.GetService(typeof(WebApiRoutes));
-            var toDoRepository = resolver.GetService(typeof(ToDoRepository));
+            var toDoRepository = resolver.GetService(typeof(MongoRepository));
             var urlLocaltionService = resolver.GetService(typeof(UrlLocationService));
 
             // Assert
