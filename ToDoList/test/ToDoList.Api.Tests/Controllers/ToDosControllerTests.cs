@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using NSubstitute;
+using NSubstitute.Exceptions;
 using NUnit.Framework;
 
 using ToDoList.Api.Controllers;
@@ -22,6 +23,7 @@ namespace ToDoList.Api.Tests.Controllers
         private IToDoRepository _toDoRepositorySubstitute;
         private IUrlLocationService _urlLocationServiceSubstitute;
         private IFormationService _formationServiceSubstitute;
+        private IRetrieveService<ToDo> _retrieveServiceSubstitute;
         private ToDosController _controller;
 
         private static readonly IEnumerable<ToDo> _toDoList = new[]
@@ -37,8 +39,9 @@ namespace ToDoList.Api.Tests.Controllers
             _toDoRepositorySubstitute = Substitute.For<IToDoRepository>();
             _urlLocationServiceSubstitute = Substitute.For<IUrlLocationService>();
             _formationServiceSubstitute = Substitute.For<IFormationService>();
+            _retrieveServiceSubstitute = Substitute.For<IRetrieveService<ToDo>>();
 
-            _controller = new ToDosController(_toDoRepositorySubstitute, _urlLocationServiceSubstitute, _formationServiceSubstitute)
+            _controller = new ToDosController(_toDoRepositorySubstitute, _urlLocationServiceSubstitute, _formationServiceSubstitute, _retrieveServiceSubstitute)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -46,10 +49,10 @@ namespace ToDoList.Api.Tests.Controllers
         }
 
         [Test]
-        public async Task GetToDosAsync_AllToDosReturned()
+        public async Task GetToDosAsync_OkReturned()
         {
             // Arrange
-            _toDoRepositorySubstitute.GetToDosAsync().Returns(_toDoList);
+            _retrieveServiceSubstitute.RetriveAllAsync().Returns(_toDoList);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.GetToDosAsync());
@@ -58,15 +61,17 @@ namespace ToDoList.Api.Tests.Controllers
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Expecting status code OK, but was {response.StatusCode}");
             Assert.That(result, Is.EqualTo(_toDoList).UsingToDoComparer(), "Todos are not equal");
+            Assert.That(() => _retrieveServiceSubstitute.Received().RetriveAllAsync(), Throws.Nothing, $"RetriveAllAsync should have been called");
         }
 
         [Test]
-        public async Task GetToDoAsync_CorrectToDoReturned()
+        public async Task GetToDoAsync_Exists_OkReturned()
         {
             // Arrange
             const int itemIndex = 0;
             var expectedToDo = _toDoList.ElementAt(itemIndex);
-            _toDoRepositorySubstitute.GetToDoAsync(expectedToDo.Id).Returns(expectedToDo);
+            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
+            _retrieveServiceSubstitute.RetriveOneAsync(expectedToDo.Id).Returns(expectedToDo);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.GetToDoAsync(expectedToDo.Id));
@@ -75,10 +80,27 @@ namespace ToDoList.Api.Tests.Controllers
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Expecting status code OK, but was {response.StatusCode}");
             Assert.That(result, Is.EqualTo(expectedToDo).UsingToDoComparer(), $"{result} is not equal to expected {expectedToDo}");
+            Assert.That(() => _retrieveServiceSubstitute.Received().RetriveOneAsync(expectedToDo.Id), Throws.Nothing, $"RetriveOneAsync should have been called");
         }
 
         [Test]
-        public async Task PostToDoAsync_IsAdded_NewToDoWithEqualRouteReturned()
+        public async Task GetToDoAsync_DoesNotExists_NotFoundReturned()
+        {
+            // Arrange
+            const int itemIndex = 0;
+            var expectedToDo = _toDoList.ElementAt(itemIndex);
+            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(false);
+
+            // Act
+            var response = await _controller.ExecuteAction(controller => controller.GetToDoAsync(expectedToDo.Id));
+
+            // Assert
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound), $"Expecting status code NotFound, but was {response.StatusCode}");
+            Assert.That(() => _retrieveServiceSubstitute.Received().RetriveOneAsync(expectedToDo.Id), Throws.TypeOf<ReceivedCallsException>(), $"RetriveOneAsync should not have been called");
+        }
+
+        [Test]
+        public async Task PostToDoAsync_IsAdded_CreatedReturned()
         {
             // Arrange
             const int itemIndex = 2;
@@ -105,6 +127,7 @@ namespace ToDoList.Api.Tests.Controllers
             // Arrange
             const int itemIndex = 2;
             var expectedToDo = _toDoList.ElementAt(itemIndex);
+            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
 
             _formationServiceSubstitute.UpdateToDoAsync(expectedToDo).Returns(expectedToDo);
 
@@ -114,14 +137,40 @@ namespace ToDoList.Api.Tests.Controllers
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {response.StatusCode}");
             Assert.That(() => _formationServiceSubstitute.Received().UpdateToDoAsync(expectedToDo), Throws.Nothing, $"UpdateToDoAsync should have been called");
+            Assert.That(() => _formationServiceSubstitute.Received().CreateToDoAsync(expectedToDo), Throws.TypeOf<ReceivedCallsException>(), $"CreateToDoAsync should not have been called");
         }
 
         [Test]
-        public async Task DeleteToDoAsync_IsDeleted_NoContentReturned()
+        public async Task PutToDoAsync_DoesNotExist_CreatedReturned()
+        {
+            // Arrange
+            const int itemIndex = 2;
+            var expectedToDo = _toDoList.ElementAt(itemIndex);
+            string location = $"todos/{expectedToDo.Id}";
+            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(false);
+
+            _formationServiceSubstitute.CreateToDoAsync(expectedToDo).Returns(expectedToDo);
+            _urlLocationServiceSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
+
+            // Act
+            var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(expectedToDo.Id, expectedToDo));
+            response.TryGetContentValue(out ToDo result);
+
+            // Assert
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created), $"Expecting status code Created, but was {response.StatusCode}");
+            Assert.That(response.Headers.Location.ToString(), Is.EqualTo(location), $"Location of new todo is not as expected, was {response.Headers.Location}");
+            Assert.That(result, Is.EqualTo(expectedToDo).UsingToDoComparer(), $"{result} is not equal to expected {expectedToDo}");
+            Assert.That(() => _formationServiceSubstitute.Received().CreateToDoAsync(expectedToDo), Throws.Nothing, $"CreateToDoAsync should have been called");
+            Assert.That(() => _formationServiceSubstitute.Received().UpdateToDoAsync(expectedToDo), Throws.TypeOf<ReceivedCallsException>(), $"UpdateToDoAsync should not have been called");
+        }
+
+        [Test]
+        public async Task DeleteToDoAsync_Exists_NoContentReturned()
         {
             // Arrange
             const int itemIndex = 1;
             var expectedToDo = _toDoList.ElementAt(itemIndex);
+            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.DeleteToDoAsync(expectedToDo.Id));
@@ -129,6 +178,22 @@ namespace ToDoList.Api.Tests.Controllers
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {response.StatusCode}");
             Assert.That(() => _toDoRepositorySubstitute.Received().DeleteToDoAsync(expectedToDo.Id), Throws.Nothing, $"DeleteToDoAsync should have been called");
+        }
+
+        [Test]
+        public async Task DeleteToDoAsync_DoesNotExists_NotFoundReturned()
+        {
+            // Arrange
+            const int itemIndex = 1;
+            var expectedToDo = _toDoList.ElementAt(itemIndex);
+            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(false);
+
+            // Act
+            var response = await _controller.ExecuteAction(controller => controller.DeleteToDoAsync(expectedToDo.Id));
+
+            // Assert
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound), $"Expecting status code NotFound, but is {response.StatusCode}");
+            Assert.That(() => _toDoRepositorySubstitute.Received().DeleteToDoAsync(expectedToDo.Id), Throws.TypeOf<ReceivedCallsException>(), $"DeleteToDoAsync should not have been called");
         }
     }
 }

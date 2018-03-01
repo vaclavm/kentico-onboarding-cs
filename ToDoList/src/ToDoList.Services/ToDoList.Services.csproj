@@ -45,6 +45,7 @@
     <Compile Include="FormationService.cs" />
     <Compile Include="IdentifierService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RetriveToDoService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ToDoList.Contracts\ToDoList.Contracts.csproj">

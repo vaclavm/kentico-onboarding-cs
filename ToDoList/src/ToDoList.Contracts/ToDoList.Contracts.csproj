@@ -65,6 +65,7 @@
     <Compile Include="Services\IDateTimeService.cs" />
     <Compile Include="Services\IFormationService.cs" />
     <Compile Include="Services\IIdentifierService.cs" />
+    <Compile Include="Services\IRetrieveService.cs" />
     <Compile Include="Services\IRoutesService.cs" />
     <Compile Include="Services\IUrlLocationService.cs" />
   </ItemGroup>
