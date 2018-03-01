@@ -3,6 +3,7 @@ using ToDoList.Api.DependencyInjection.Resolver;
 using ToDoList.Api.Services.DependencyInjection;
 using ToDoList.Contracts.Services;
 using ToDoList.DependencyInjection;
+using ToDoList.DependencyInjection.Container;
 
 namespace ToDoList.Api.DependencyInjection
 {

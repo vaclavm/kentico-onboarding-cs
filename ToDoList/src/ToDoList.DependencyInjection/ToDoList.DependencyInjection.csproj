@@ -64,9 +64,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Container.cs" />
+    <Compile Include="Container\Container.cs" />
     <Compile Include="IDependencyRegister.cs" />
-    <Compile Include="LifetimeManager.cs" />
+    <Compile Include="Container\LifetimeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,9 @@
 ﻿using System;
-
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
 
-namespace ToDoList.DependencyInjection
+namespace ToDoList.DependencyInjection.Container
 {
     public class Container
     {
@@ -33,8 +32,7 @@ namespace ToDoList.DependencyInjection
                     _container.RegisterType<TFrom, TTo>(new ContainerControlledLifetimeManager());
                     break;
                 default:
-                    _container.RegisterType<TFrom, TTo>();
-                    break;
+                    throw new ArgumentException($"Unknown life time manager");
             }
             
         }

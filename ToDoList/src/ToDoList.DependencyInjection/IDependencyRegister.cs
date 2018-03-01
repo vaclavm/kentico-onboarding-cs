@@ -2,6 +2,6 @@
 {
     public interface IDependencyRegister
     {
-        void Register(Container container);
+        void Register(Container.Container container);
     }
 }
