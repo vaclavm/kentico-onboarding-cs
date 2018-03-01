@@ -17,8 +17,8 @@ namespace ToDoList.Repository
 
         public MongoRepository(ConnectionConfiguration configuration)
         {
-            var databaseName = MongoUrl.Create(configuration.ConnectionString).DatabaseName;
-            var mongoDatabase = new MongoClient(databaseName).GetDatabase(databaseName);
+            var databaseUrl = MongoUrl.Create(configuration.ConnectionString);
+            var mongoDatabase = new MongoClient(databaseUrl).GetDatabase(databaseUrl.DatabaseName);
 
             _toToList = mongoDatabase.GetCollection<ToDo>("ToDoItems");
         }
