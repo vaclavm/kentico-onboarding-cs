@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using NSubstitute;
 using NUnit.Framework;
+
 using ToDoList.Api.Controllers;
 using ToDoList.Api.Tests.Utilities;
 using ToDoList.Contracts.Models;
@@ -80,9 +81,10 @@ namespace ToDoList.Api.Tests.Controllers
             // Arrange
             const int itemIndex = 2;
             var expectedToDo = _toDoList.ElementAt(itemIndex);
+            string location = $"todos/{expectedToDo.Id}";
 
             _toDoRepositorySubstitute.AddToDoAsync(expectedToDo).Returns(expectedToDo);
-            _urlLocationServiceSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns($"todos/{expectedToDo.Id}");
+            _urlLocationServiceSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.PostToDoAsync(expectedToDo));
@@ -90,7 +92,7 @@ namespace ToDoList.Api.Tests.Controllers
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created), $"Expecting status code Created, but was {response.StatusCode}");
-            Assert.That(response.Headers.Location.ToString(), Is.EqualTo($"todos/{expectedToDo.Id}"), $"Location of new todo is not as expected, was {response.Headers.Location}");
+            Assert.That(response.Headers.Location.ToString(), Is.EqualTo(location), $"Location of new todo is not as expected, was {response.Headers.Location}");
             Assert.That(result, Is.EqualTo(expectedToDo).UsingToDoComparer(), $"{result} is not equal to expected {expectedToDo}");
         }
 
@@ -106,6 +108,7 @@ namespace ToDoList.Api.Tests.Controllers
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {response.StatusCode}");
+            Assert.That(() => _toDoRepositorySubstitute.Received().ChangeToDoAsync(expectedToDo), Throws.Nothing, $"ChangeToDoAsync should have been called");
         }
 
         [Test]
@@ -120,6 +123,7 @@ namespace ToDoList.Api.Tests.Controllers
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {response.StatusCode}");
+            Assert.That(() => _toDoRepositorySubstitute.Received().DeleteToDoAsync(expectedToDo.Id), Throws.Nothing, $"DeleteToDoAsync should have been called");
         }
     }
 }

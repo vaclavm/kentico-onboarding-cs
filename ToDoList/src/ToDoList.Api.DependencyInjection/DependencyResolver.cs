@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Exceptions;
+
+[assembly: InternalsVisibleTo("ToDoList.API.DependencyInjection.Tests")]
 
 namespace ToDoList.Api.DependencyInjection
 {

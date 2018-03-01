@@ -4,6 +4,7 @@ using System.Web.Http;
 using System.Web.Http.Routing;
 using NSubstitute;
 using NUnit.Framework;
+
 using ToDoList.Contracts.Services;
 
 namespace ToDoList.Api.Services.Tests
@@ -14,13 +15,14 @@ namespace ToDoList.Api.Services.Tests
         private IWebApiRoutes _webApiRoutes;
         private UrlLocationService _locationService;
 
-        private const string WhatsUp = "whatsUp";
+        private const string Route = "whatsUp";
+        private const string RouteName = "RouteName";
 
         [SetUp]
         public void SetUp()
         {
             var configuration = new HttpConfiguration();
-            configuration.Routes.MapHttpRoute("WhatsUp", $"{WhatsUp}/{{id}}", new { id = RouteParameter.Optional });
+            configuration.Routes.MapHttpRoute(RouteName, $"{Route}/{{id}}/hello", new { id = RouteParameter.Optional });
 
             var httpRequestMessage = new HttpRequestMessage();
             httpRequestMessage.Properties[System.Web.Http.Hosting.HttpPropertyKeys.HttpConfigurationKey] = configuration;
@@ -33,15 +35,14 @@ namespace ToDoList.Api.Services.Tests
         public void GetNewResourceLocation_ReturnsCorrectLocation()
         {
             // Arrange
-            string location = "WhatsUp";
             Guid guid = Guid.NewGuid();
-            _webApiRoutes.ToDoRouteForGet.Returns(location);
+            _webApiRoutes.ToDoRouteForGet.Returns(RouteName);
 
             // Act
             var result = _locationService.GetNewResourceLocation(guid);
 
             // Assert
-            Assert.That(result, Is.EqualTo($"/{WhatsUp}/{guid}"), $"The result location {result}, should be {WhatsUp}{guid}");
+            Assert.That(result, Is.EqualTo($"/{Route}/{guid}/hello"), $"The result location {result}, should contain {guid} in the middle of the URL");
         }
     }
 }
