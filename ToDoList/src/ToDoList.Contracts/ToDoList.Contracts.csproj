@@ -63,7 +63,7 @@
     <Compile Include="Repositories\ConnectionConfiguration.cs" />
     <Compile Include="Repositories\IToDoRepository.cs" />
     <Compile Include="Services\IDateTimeService.cs" />
-    <Compile Include="Services\IFormationService.cs" />
+    <Compile Include="Services\IModificationService.cs" />
     <Compile Include="Services\IIdentifierService.cs" />
     <Compile Include="Services\IRetrieveService.cs" />
     <Compile Include="Services\IRoutesService.cs" />

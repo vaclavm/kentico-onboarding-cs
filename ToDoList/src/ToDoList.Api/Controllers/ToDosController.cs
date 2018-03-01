@@ -3,9 +3,9 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Web.Http;
+
 using ToDoList.API.Helpers;
 using ToDoList.Contracts.Models;
-using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
 
 namespace ToDoList.Api.Controllers
@@ -15,16 +15,14 @@ namespace ToDoList.Api.Controllers
     [Route("")]
     public class ToDosController : ApiController
     {
-        private readonly IToDoRepository _toDoRepository;
         private readonly IUrlLocationService _locationService;
-        private readonly IFormationService _formationService;
+        private readonly IModificationService<ToDo> _modificationService;
         private readonly IRetrieveService<ToDo> _retrieveService;
 
-        public ToDosController(IToDoRepository toDoRepository, IUrlLocationService locationService, IFormationService formationService, IRetrieveService<ToDo> retrieveService)
+        public ToDosController(IUrlLocationService locationService, IModificationService<ToDo> modificationService, IRetrieveService<ToDo> retrieveService)
         {
             _retrieveService = retrieveService;
-            _formationService = formationService;
-            _toDoRepository = toDoRepository;
+            _modificationService = modificationService;
             _locationService = locationService;
         }
         
@@ -57,7 +55,7 @@ namespace ToDoList.Api.Controllers
                 return Created(toDoLocationUrl, toDoItem);
             }
 
-            await _formationService.UpdateToDoAsync(toDoItem);
+            await _modificationService.UpdateAsync(toDoItem);
             return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -69,7 +67,7 @@ namespace ToDoList.Api.Controllers
                 return NotFound();
             }
 
-            await _toDoRepository.DeleteToDoAsync(id);
+            await _modificationService.DeleteAsync(id);
             _retrieveService.ClearCache();
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -77,7 +75,7 @@ namespace ToDoList.Api.Controllers
 
         private async Task<string> CreateToDoAsync(ToDo toDoItem)
         {
-            toDoItem = await _formationService.CreateToDoAsync(toDoItem);
+            toDoItem = await _modificationService.CreateAsync(toDoItem);
             string toDoLocationUrl = _locationService.GetNewResourceLocation(toDoItem.Id);
 
             return toDoLocationUrl;

@@ -85,10 +85,6 @@
       <Project>{E2AD6A67-7FF8-4464-94BE-5978132140B5}</Project>
       <Name>ToDoList.DependencyInjection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ToDoList.Repository\ToDoList.Repository.csproj">
-      <Project>{E3CF4AD1-6BCA-41D6-8F84-F5EF56D20F75}</Project>
-      <Name>ToDoList.Repository</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.AspNet.WebApi.Versioning, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">

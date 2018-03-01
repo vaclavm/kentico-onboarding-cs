@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="DateTimeService.cs" />
     <Compile Include="DependencyInjection\DependencyRegister.cs" />
-    <Compile Include="FormationService.cs" />
+    <Compile Include="ModificationToDoService.cs" />
     <Compile Include="IdentifierService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RetriveToDoService.cs" />

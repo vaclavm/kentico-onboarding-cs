@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using ToDoList.Contracts.Models;
@@ -9,27 +10,27 @@ using ToDoList.Contracts.Services;
 
 namespace ToDoList.Services
 {
-    internal class FormationService : IFormationService
+    internal class ModificationToDoService : IModificationService<ToDo>
     {
         private readonly IIdentifierService _identifierService;
         private readonly IToDoRepository _toDoRepository;
         private readonly IDateTimeService _dateTimeService;
 
-        public FormationService(IToDoRepository repository, IIdentifierService identifierService, IDateTimeService dateTimeService)
+        public ModificationToDoService(IToDoRepository repository, IIdentifierService identifierService, IDateTimeService dateTimeService)
         {
             _dateTimeService = dateTimeService;
             _toDoRepository = repository;
             _identifierService = identifierService;
         }
 
-        public async Task<ToDo> CreateToDoAsync(ToDo toCreateToDo)
+        public async Task<ToDo> CreateAsync(ToDo toCreate)
         {
             var now = _dateTimeService.GetCurrentDateTime();
 
             var newToDo = new ToDo
             {
                 Id = _identifierService.GenerateIdentifier(),
-                Text = toCreateToDo.Text,
+                Text = toCreate.Text,
                 Created = now,
                 LastModified = now
             };
@@ -38,12 +39,15 @@ namespace ToDoList.Services
             return newToDo;
         }
 
-        public async Task<ToDo> UpdateToDoAsync(ToDo toUpdateToDo)
+        public async Task<ToDo> UpdateAsync(ToDo toUpdate)
         {
-            toUpdateToDo.LastModified = _dateTimeService.GetCurrentDateTime();
-            await _toDoRepository.ChangeToDoAsync(toUpdateToDo);
+            toUpdate.LastModified = _dateTimeService.GetCurrentDateTime();
+            await _toDoRepository.ChangeToDoAsync(toUpdate);
 
-            return toUpdateToDo;
+            return toUpdate;
         }
+
+        public async Task DeleteAsync(Guid id)
+            => await _toDoRepository.DeleteToDoAsync(id);
     }
 }
