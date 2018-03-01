@@ -20,6 +20,11 @@ namespace ToDoList.Api.DependencyInjection.Resolver
             _unityContainer = container ?? throw new ArgumentNullException(nameof(container));
         }
 
+        public bool IsRegistered(Type serviceType)
+        {
+            return _unityContainer.IsRegistered(serviceType);
+        }
+
         public object GetService(Type serviceType)
         {
             try

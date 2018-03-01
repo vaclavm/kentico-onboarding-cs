@@ -18,7 +18,7 @@ namespace ToDoList.Api.DependencyInjection
                 .Register<Api.Services.DependencyInjection.DependencyRegister>()
                 .RegisterInstance(webApiRoutes)
                 .CreateResolver();
-
+        
         private DependencyBootstrapper(Container container)
         {
             _container = container;
