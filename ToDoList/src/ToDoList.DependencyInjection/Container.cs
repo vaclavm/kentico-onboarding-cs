@@ -29,6 +29,9 @@ namespace ToDoList.DependencyInjection
                 case LifetimeManager.Hierarchical:
                     _container.RegisterType<TFrom, TTo>(new HierarchicalLifetimeManager());
                     break;
+                case LifetimeManager.Singleton:
+                    _container.RegisterType<TFrom, TTo>(new ContainerControlledLifetimeManager());
+                    break;
                 default:
                     _container.RegisterType<TFrom, TTo>();
                     break;
