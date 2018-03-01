@@ -7,5 +7,7 @@ namespace ToDoList.Contracts.Services
     public interface IFormationService
     {
         Task<ToDo> CreateToDoAsync(ToDo toCreateToDo);
+
+        Task<ToDo> UpdateToDoAsync(ToDo toUpdateToDo);
     }
 }

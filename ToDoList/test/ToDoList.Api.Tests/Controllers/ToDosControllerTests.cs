@@ -96,6 +96,7 @@ namespace ToDoList.Api.Tests.Controllers
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created), $"Expecting status code Created, but was {response.StatusCode}");
             Assert.That(response.Headers.Location.ToString(), Is.EqualTo(location), $"Location of new todo is not as expected, was {response.Headers.Location}");
             Assert.That(result, Is.EqualTo(expectedToDo).UsingToDoComparer(), $"{result} is not equal to expected {expectedToDo}");
+            Assert.That(() => _formationServiceSubstitute.Received().CreateToDoAsync(expectedToDo), Throws.Nothing, $"CreateToDoAsync should have been called");
         }
 
         [Test]
@@ -105,12 +106,14 @@ namespace ToDoList.Api.Tests.Controllers
             const int itemIndex = 2;
             var expectedToDo = _toDoList.ElementAt(itemIndex);
 
+            _formationServiceSubstitute.UpdateToDoAsync(expectedToDo).Returns(expectedToDo);
+
             // Act
             var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(expectedToDo.Id, expectedToDo));
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {response.StatusCode}");
-            Assert.That(() => _toDoRepositorySubstitute.Received().ChangeToDoAsync(expectedToDo), Throws.Nothing, $"ChangeToDoAsync should have been called");
+            Assert.That(() => _formationServiceSubstitute.Received().UpdateToDoAsync(expectedToDo), Throws.Nothing, $"UpdateToDoAsync should have been called");
         }
 
         [Test]

@@ -10,7 +10,6 @@ using ToDoList.Contracts.Repositories;
 namespace ToDoList.Services.Tests
 {
     [TestFixture]
-
     public class FormationServiceTests
     {
         private IToDoRepository _toDoRepositorySubstitute;
@@ -47,6 +46,44 @@ namespace ToDoList.Services.Tests
             Assert.That(response.Id, Is.EqualTo(guid), "Id is not as expected");
             Assert.That(response.Created, Is.EqualTo(currentTime), "Created date is not as expected");
             Assert.That(response.LastModified, Is.EqualTo(currentTime), "Last modified date is not as expected");
+        }
+
+        [Test]
+        public async Task UpdateToDoAsync_LastModifiedIsUpdated()
+        {
+            // Arrange
+            var creationDateTime = DateTime.Now;
+            var updatedDateTime = creationDateTime.AddDays(1);
+            var expectedToDo = new ToDo { Id = Guid.NewGuid(), Text = "Test item", Created  = creationDateTime, LastModified = creationDateTime };
+
+            _dateTimeService.GetCurrentDateTime().Returns(updatedDateTime);
+
+            // Act
+            var response = await _toFormationService.UpdateToDoAsync(expectedToDo);
+
+            // Assert
+            Assert.That(response.LastModified, Is.EqualTo(updatedDateTime), "Last modified date is not as expected");
+            Assert.That(response.Created, Is.EqualTo(expectedToDo.Created), "Created date has changed");
+            Assert.That(response.Text, Is.EqualTo(expectedToDo.Text), "Text has changed");
+            Assert.That(response.Id, Is.EqualTo(expectedToDo.Id), "Id has changed");
+        }
+
+        [Test]
+        public async Task UpdateToDoAsync_CoreToDoFieladsAreUnchanged()
+        {
+            // Arrange
+            var creationDateTime = DateTime.Now;
+            var expectedToDo = new ToDo { Id = Guid.NewGuid(), Text = "Test item", Created = creationDateTime, LastModified = creationDateTime };
+
+            _dateTimeService.GetCurrentDateTime().Returns(creationDateTime.AddDays(1));
+
+            // Act
+            var response = await _toFormationService.UpdateToDoAsync(expectedToDo);
+
+            // Assert
+            Assert.That(response.Created, Is.EqualTo(expectedToDo.Created), "Created date has changed");
+            Assert.That(response.Text, Is.EqualTo(expectedToDo.Text), "Text has changed");
+            Assert.That(response.Id, Is.EqualTo(expectedToDo.Id), "Id has changed");
         }
     }
 }

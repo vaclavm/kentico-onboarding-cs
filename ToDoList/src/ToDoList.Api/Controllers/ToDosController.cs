@@ -44,7 +44,7 @@ namespace ToDoList.Api.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> PutToDoAsync(Guid id, [FromBody]ToDo toDoItem)
         {
-            await _toDoRepository.ChangeToDoAsync(toDoItem);
+            await _formationService.UpdateToDoAsync(toDoItem);
             return StatusCode(HttpStatusCode.NoContent);
         }
 

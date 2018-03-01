@@ -37,5 +37,13 @@ namespace ToDoList.Services
             await _toDoRepository.AddToDoAsync(newToDo);
             return newToDo;
         }
+
+        public async Task<ToDo> UpdateToDoAsync(ToDo toUpdateToDo)
+        {
+            toUpdateToDo.LastModified = _dateTimeService.GetCurrentDateTime();
+            await _toDoRepository.ChangeToDoAsync(toUpdateToDo);
+
+            return toUpdateToDo;
+        }
     }
 }
