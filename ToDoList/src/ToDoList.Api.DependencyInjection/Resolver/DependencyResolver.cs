@@ -7,7 +7,7 @@ using Unity.Exceptions;
 
 [assembly: InternalsVisibleTo("ToDoList.API.DependencyInjection.Tests")]
 
-namespace ToDoList.Api.DependencyInjection
+namespace ToDoList.Api.DependencyInjection.Resolver
 {
     internal sealed class DependencyResolver : IDependencyResolver
     {

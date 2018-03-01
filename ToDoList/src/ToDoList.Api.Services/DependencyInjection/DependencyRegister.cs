@@ -3,7 +3,7 @@ using System.Web;
 using ToDoList.Contracts.Services;
 using ToDoList.DependencyInjection;
 
-namespace ToDoList.Api.Services
+namespace ToDoList.Api.Services.DependencyInjection
 {
     public class DependencyRegister : IDependencyRegister
     {
