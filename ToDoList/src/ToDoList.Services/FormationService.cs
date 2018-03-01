@@ -13,19 +13,25 @@ namespace ToDoList.Services
     {
         private readonly IIdentifierService _identifierService;
         private readonly IToDoRepository _toDoRepository;
+        private readonly IDateTimeService _dateTimeService;
 
-        public FormationService(IToDoRepository repository, IIdentifierService identifierService)
+        public FormationService(IToDoRepository repository, IIdentifierService identifierService, IDateTimeService dateTimeService)
         {
+            _dateTimeService = dateTimeService;
             _toDoRepository = repository;
             _identifierService = identifierService;
         }
 
         public async Task<ToDo> CreateToDoAsync(ToDo toCreateToDo)
         {
+            var now = _dateTimeService.GetCurrentDateTime();
+
             var newToDo = new ToDo
             {
                 Id = _identifierService.GenerateIdentifier(),
-                Text = toCreateToDo.Text
+                Text = toCreateToDo.Text,
+                Created = now,
+                LastModified = now
             };
 
             await _toDoRepository.AddToDoAsync(newToDo);

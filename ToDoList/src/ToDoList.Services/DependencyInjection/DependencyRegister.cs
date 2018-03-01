@@ -9,6 +9,7 @@ namespace ToDoList.Services.DependencyInjection
         public void Register(Container container)
         {
             container.RegisterType<IIdentifierService, IdentifierService>(LifetimeManager.Hierarchical);
+            container.RegisterType<IDateTimeService, DateTimeService>(LifetimeManager.Hierarchical);
             container.RegisterType<IFormationService, FormationService>(LifetimeManager.Hierarchical);
         }
     }
