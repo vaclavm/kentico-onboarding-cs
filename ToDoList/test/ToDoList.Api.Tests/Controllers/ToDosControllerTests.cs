@@ -98,7 +98,7 @@ namespace ToDoList.Api.Tests.Controllers
         }
 
         [Test]
-        public async Task PostToDoAsync_IsAdded_CreatedReturned()
+        public async Task PostToDoAsync_CorrectModel_CreatedReturned()
         {
             // Arrange
             const int itemIndex = 2;
@@ -119,6 +119,48 @@ namespace ToDoList.Api.Tests.Controllers
             Assert.That(response.Headers.Location.ToString(), Is.EqualTo(location), $"Location of new todo is not as expected, was {response.Headers.Location}");
             Assert.That(result, Is.EqualTo(expectedToDo).UsingToDoComparer(), $"{result} is not equal to expected {expectedToDo}");
             Assert.That(() => _modificationServiceSubstitute.Received().CreateAsync(expectedToDo), Throws.Nothing, $"CreateAsync should have been called");
+        }
+
+        [Test]
+        public async Task PostToDoAsync_EmptyText_BadRequestReturned()
+        {
+            // Arrange
+            var postToDo = new ToDoViewModel { Value = string.Empty };
+
+            // Act
+            _controller.Validate(postToDo);
+            var response = await _controller.ExecuteAction(controller => controller.PostToDoAsync(postToDo));
+
+            // Assert
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest), $"Expecting status code BadRequest, but was {response.StatusCode}");
+        }
+
+        [Test]
+        public async Task PostToDoAsync_WhiteSpacesText_BadRequestReturned()
+        {
+            // Arrange
+            var postToDo = new ToDoViewModel { Value = "     " };
+
+            // Act
+            _controller.Validate(postToDo);
+            var response = await _controller.ExecuteAction(controller => controller.PostToDoAsync(postToDo));
+
+            // Assert
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest), $"Expecting status code BadRequest, but was {response.StatusCode}");
+        }
+
+        [Test]
+        public async Task PostToDoAsync_NullText_BadRequestReturned()
+        {
+            // Arrange
+            var postToDo = new ToDoViewModel();
+
+            // Act
+            _controller.Validate(postToDo);
+            var response = await _controller.ExecuteAction(controller => controller.PostToDoAsync(postToDo));
+
+            // Assert
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest), $"Expecting status code BadRequest, but was {response.StatusCode}");
         }
 
         [Test]
@@ -167,6 +209,48 @@ namespace ToDoList.Api.Tests.Controllers
             Assert.That(result, Is.EqualTo(expectedToDo).UsingToDoComparer(), $"{result} is not equal to expected {expectedToDo}");
             Assert.That(() => _modificationServiceSubstitute.Received().CreateAsync(expectedToDo), Throws.Nothing, $"CreateAsync should have been called");
             Assert.That(() => _modificationServiceSubstitute.Received().UpdateAsync(expectedToDo), Throws.TypeOf<ReceivedCallsException>(), $"UpdateAsync should not have been called");
+        }
+
+        [Test]
+        public async Task PutToDoAsync_EmptyText_BadRequestReturned()
+        {
+            // Arrange
+            var postToDo = new ToDoViewModel { Value = string.Empty };
+
+            // Act
+            _controller.Validate(postToDo);
+            var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(Guid.NewGuid(), postToDo));
+
+            // Assert
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest), $"Expecting status code BadRequest, but was {response.StatusCode}");
+        }
+
+        [Test]
+        public async Task PutToDoAsync_WhiteSpacesText_BadRequestReturned()
+        {
+            // Arrange
+            var postToDo = new ToDoViewModel { Value = "     " };
+
+            // Act
+            _controller.Validate(postToDo);
+            var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(Guid.NewGuid(), postToDo));
+
+            // Assert
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest), $"Expecting status code BadRequest, but was {response.StatusCode}");
+        }
+
+        [Test]
+        public async Task PutToDoAsync_NullText_BadRequestReturned()
+        {
+            // Arrange
+            var postToDo = new ToDoViewModel();
+
+            // Act
+            _controller.Validate(postToDo);
+            var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(Guid.NewGuid(), postToDo));
+
+            // Assert
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest), $"Expecting status code BadRequest, but was {response.StatusCode}");
         }
 
         [Test]
