@@ -70,7 +70,7 @@ namespace ToDoList.Services.Tests
         }
 
         [Test]
-        public async Task UpdateToDoAsync_CoreToDoFieladsAreUnchanged()
+        public async Task UpdateToDoAsync_OriginalFieldsUnchanged()
         {
             // Arrange
             var creationDateTime = DateTime.Now;
@@ -85,6 +85,21 @@ namespace ToDoList.Services.Tests
             Assert.That(response.Created, Is.EqualTo(expectedToDo.Created), "Created date has changed");
             Assert.That(response.Text, Is.EqualTo(expectedToDo.Text), "Text has changed");
             Assert.That(response.Id, Is.EqualTo(expectedToDo.Id), "Id has changed");
+        }
+
+        [Test]
+        public async Task DeleteToDoAsync_IsDeletedAndReturned()
+        {
+            // Arrange
+            var creationDateTime = DateTime.Now;
+            var expectedToDo = new ToDo { Id = Guid.NewGuid(), Text = "Test item", Created = creationDateTime, LastModified = creationDateTime };
+            
+            // Act
+            var response = await _toModificationToDoService.DeleteAsync(expectedToDo);
+
+            // Assert
+            Assert.That(response, Is.EqualTo(expectedToDo), "ToDo is not correctly returned");
+            Assert.That(() => _toDoRepositorySubstitute.Received().DeleteToDoAsync(expectedToDo.Id), Throws.Nothing, $"DeleteToDoAsync should have been called");
         }
     }
 }

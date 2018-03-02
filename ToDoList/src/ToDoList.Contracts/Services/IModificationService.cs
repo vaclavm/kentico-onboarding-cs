@@ -9,6 +9,6 @@ namespace ToDoList.Contracts.Services
 
         Task<T> UpdateAsync(T toUpdate);
 
-        Task DeleteAsync(Guid id);
+        Task<T> DeleteAsync(T id);
     }
 }

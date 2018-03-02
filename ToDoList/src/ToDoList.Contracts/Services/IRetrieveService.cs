@@ -12,6 +12,6 @@ namespace ToDoList.Contracts.Services
 
         Task<bool> IsInDatabaseAsync(Guid id);
 
-        void ClearCache(Guid id);
+        void ClearCache(T item);
     }
 }

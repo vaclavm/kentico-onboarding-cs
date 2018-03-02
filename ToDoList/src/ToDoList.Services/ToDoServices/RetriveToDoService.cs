@@ -42,9 +42,9 @@ namespace ToDoList.Services.ToDoServices
             return _cachedToDo != null;
         }
 
-        public void ClearCache(Guid id)
+        public void ClearCache(ToDo toDo)
         {
-            if (_cachedToDo.Id == id)
+            if (_cachedToDo.Id == toDo.Id)
             {
                 _cachedToDo = null;
             }

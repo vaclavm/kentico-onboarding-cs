@@ -260,13 +260,14 @@ namespace ToDoList.Api.Tests.Controllers
             const int itemIndex = 1;
             var expectedToDo = _toDoList.ElementAt(itemIndex);
             _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
+            _retrieveServiceSubstitute.RetriveOneAsync(expectedToDo.Id).Returns(expectedToDo);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.DeleteToDoAsync(expectedToDo.Id));
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {response.StatusCode}");
-            Assert.That(() => _modificationServiceSubstitute.Received().DeleteAsync(expectedToDo.Id), Throws.Nothing, $"DeleteToDoAsync should have been called");
+            Assert.That(() => _modificationServiceSubstitute.Received().DeleteAsync(expectedToDo), Throws.Nothing, $"DeleteToDoAsync should have been called");
         }
 
         [Test]
@@ -282,7 +283,7 @@ namespace ToDoList.Api.Tests.Controllers
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound), $"Expecting status code NotFound, but is {response.StatusCode}");
-            Assert.That(() => _modificationServiceSubstitute.Received().DeleteAsync(expectedToDo.Id), Throws.TypeOf<ReceivedCallsException>(), $"DeleteToDoAsync should not have been called");
+            Assert.That(() => _modificationServiceSubstitute.Received().DeleteAsync(expectedToDo), Throws.TypeOf<ReceivedCallsException>(), $"DeleteToDoAsync should not have been called");
         }
     }
 }

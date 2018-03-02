@@ -77,8 +77,9 @@ namespace ToDoList.Api.Controllers
                 return NotFound();
             }
 
-            await _modificationService.DeleteAsync(id);
-            _retrieveService.ClearCache(id);
+            var toDo = await _retrieveService.RetriveOneAsync(id);
+            await _modificationService.DeleteAsync(toDo);
+            _retrieveService.ClearCache(toDo);
 
             return StatusCode(HttpStatusCode.NoContent);
         }
