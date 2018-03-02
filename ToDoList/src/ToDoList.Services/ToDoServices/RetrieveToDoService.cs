@@ -10,20 +10,20 @@ using ToDoList.Contracts.Services;
 
 namespace ToDoList.Services.ToDoServices
 {
-    internal class RetriveToDoService : IRetrieveService<ToDo>
+    internal class RetrieveToDoService : IRetrieveService<ToDo>
     {
         private ToDo _cachedToDo;
         private readonly IToDoRepository _toDoRepository;
 
-        public RetriveToDoService(IToDoRepository repository)
+        public RetrieveToDoService(IToDoRepository repository)
         {
             _toDoRepository = repository;
         }
 
-        public async Task<IEnumerable<ToDo>> RetriveAllAsync()
+        public async Task<IEnumerable<ToDo>> RetrieveAllAsync()
             => await _toDoRepository.GetToDosAsync();
 
-        public async Task<ToDo> RetriveOneAsync(Guid id)
+        public async Task<ToDo> RetrieveOneAsync(Guid id)
         {
             if (_cachedToDo?.Id != id)
             {

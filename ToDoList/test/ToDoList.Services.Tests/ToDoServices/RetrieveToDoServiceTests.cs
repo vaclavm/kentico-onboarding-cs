@@ -13,20 +13,20 @@ namespace ToDoList.Services.Tests.ToDoServices
     public class RetrieveToDoServiceTests
     {
         private IToDoRepository _toDoRepositorySubstitute;
-        private RetriveToDoService _retrieveToDoService;
+        private RetrieveToDoService _retrieveToDoService;
 
         [SetUp]
         public void SetUp()
         {
             _toDoRepositorySubstitute = Substitute.For<IToDoRepository>();
-            _retrieveToDoService = new RetriveToDoService(_toDoRepositorySubstitute);
+            _retrieveToDoService = new RetrieveToDoService(_toDoRepositorySubstitute);
         }
 
         [Test]
         public async Task RetrieveAllAsync()
         {
             // Act
-            await _retrieveToDoService.RetriveAllAsync();
+            await _retrieveToDoService.RetrieveAllAsync();
 
             // Assert
             Assert.That(() => _toDoRepositorySubstitute.Received().GetToDosAsync(), Throws.Nothing, "GetToDosAsync should have been called");
@@ -41,11 +41,11 @@ namespace ToDoList.Services.Tests.ToDoServices
             _toDoRepositorySubstitute.GetToDoAsync(guid).Returns(expectedToDo);
 
             // Act
-            var retrievedToDo = await _retrieveToDoService.RetriveOneAsync(guid);
+            var retrievedToDo = await _retrieveToDoService.RetrieveOneAsync(guid);
 
             // Assert
             Assert.That(retrievedToDo, Is.EqualTo(expectedToDo), "ToDo was not returned as expected");
-            Assert.That(() => _toDoRepositorySubstitute.Received().GetToDosAsync(), Throws.Nothing, "GetToDosAsync should have been called");
+            Assert.That(() => _toDoRepositorySubstitute.Received().GetToDoAsync(guid), Throws.Nothing, "GetToDosAsync should have been called");
 
         }
 
@@ -56,10 +56,10 @@ namespace ToDoList.Services.Tests.ToDoServices
             var guid = Guid.NewGuid();
             var expectedToDo = new ToDo { Id = guid, Text = "Test" };
             _toDoRepositorySubstitute.GetToDoAsync(guid).Returns(expectedToDo);
-            await _retrieveToDoService.RetriveOneAsync(guid);
+            await _retrieveToDoService.RetrieveOneAsync(guid);
 
             // Act
-            var retrievedToDo = await _retrieveToDoService.RetriveOneAsync(guid);
+            var retrievedToDo = await _retrieveToDoService.RetrieveOneAsync(guid);
 
             // Assert
             Assert.That(retrievedToDo, Is.EqualTo(expectedToDo), "ToDo was not returned as expected");
@@ -89,7 +89,7 @@ namespace ToDoList.Services.Tests.ToDoServices
             var guid = Guid.NewGuid();
             var expectedToDo = new ToDo { Id = guid, Text = "Test" };
             _toDoRepositorySubstitute.GetToDoAsync(guid).Returns(expectedToDo);
-            await _retrieveToDoService.RetriveOneAsync(guid);
+            await _retrieveToDoService.RetrieveOneAsync(guid);
 
             // Act
             bool isInDb = await _retrieveToDoService.IsInDatabaseAsync(guid);

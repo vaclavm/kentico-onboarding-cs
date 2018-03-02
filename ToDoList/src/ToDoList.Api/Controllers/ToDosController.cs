@@ -27,7 +27,7 @@ namespace ToDoList.Api.Controllers
         }
         
         public async Task<IHttpActionResult> GetToDosAsync()
-            => Ok(await _retrieveService.RetriveAllAsync());
+            => Ok(await _retrieveService.RetrieveAllAsync());
 
         [Route("{id}", Name = WebApiRoutes.GetToDoRoute)]
         public async Task<IHttpActionResult> GetToDoAsync(Guid id)
@@ -37,7 +37,7 @@ namespace ToDoList.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(await _retrieveService.RetriveOneAsync(id));
+            return Ok(await _retrieveService.RetrieveOneAsync(id));
         }
 
         public async Task<IHttpActionResult> PostToDoAsync(ToDoViewModel toDoItem)
@@ -65,7 +65,7 @@ namespace ToDoList.Api.Controllers
                 return Created(location, newItem);
             }
 
-            await _modificationService.UpdateAsync(toDoItem.Convert(await _retrieveService.RetriveOneAsync(id)));
+            await _modificationService.UpdateAsync(toDoItem.Convert(await _retrieveService.RetrieveOneAsync(id)));
             return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -77,7 +77,7 @@ namespace ToDoList.Api.Controllers
                 return NotFound();
             }
 
-            var toDo = await _retrieveService.RetriveOneAsync(id);
+            var toDo = await _retrieveService.RetrieveOneAsync(id);
             await _modificationService.DeleteAsync(toDo);
             _retrieveService.ClearCache(toDo);
 

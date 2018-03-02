@@ -6,9 +6,9 @@ namespace ToDoList.Contracts.Services
 {
     public interface IRetrieveService<T>
     {
-        Task<IEnumerable<T>> RetriveAllAsync();
+        Task<IEnumerable<T>> RetrieveAllAsync();
 
-        Task<T> RetriveOneAsync(Guid id);
+        Task<T> RetrieveOneAsync(Guid id);
 
         Task<bool> IsInDatabaseAsync(Guid id);
 
