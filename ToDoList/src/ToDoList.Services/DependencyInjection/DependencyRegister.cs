@@ -12,7 +12,7 @@ namespace ToDoList.Services.DependencyInjection
         {
             container.RegisterType<IIdentifierService, IdentifierService>(LifetimeManager.Hierarchical);
             container.RegisterType<IDateTimeService, DateTimeService>(LifetimeManager.Hierarchical);
-            container.RegisterType<IModificationService<ToDo>, ModificationToDoService>(LifetimeManager.Hierarchical);
+            container.RegisterType<IModificationService<ToDo>, ModificationToDoService>(LifetimeManager.Singleton);
             container.RegisterType<IRetrieveService<ToDo>, RetriveToDoService>(LifetimeManager.Singleton);
         }
     }

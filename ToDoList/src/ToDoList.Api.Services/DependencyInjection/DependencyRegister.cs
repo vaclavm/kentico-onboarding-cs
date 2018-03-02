@@ -21,8 +21,6 @@ namespace ToDoList.Api.Services.DependencyInjection
         }
 
         private static HttpRequestMessage InjectHttpRequest()
-        {
-            return (HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"];
-        }
+            => (HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"];
     }
 }
