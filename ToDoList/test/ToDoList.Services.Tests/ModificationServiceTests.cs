@@ -47,6 +47,7 @@ namespace ToDoList.Services.Tests
             Assert.That(response.Id, Is.EqualTo(guid), "Id is not as expected");
             Assert.That(response.Created, Is.EqualTo(currentTime), "Created date is not as expected");
             Assert.That(response.LastModified, Is.EqualTo(currentTime), "Last modified date is not as expected");
+            Assert.That(() => _toDoRepositorySubstitute.Received().AddToDoAsync(response), Throws.Nothing, $"AddToDoAsync should have been called");
         }
 
         [Test]
@@ -67,6 +68,7 @@ namespace ToDoList.Services.Tests
             Assert.That(response.Created, Is.EqualTo(expectedToDo.Created), "Created date has changed");
             Assert.That(response.Text, Is.EqualTo(expectedToDo.Text), "Text has changed");
             Assert.That(response.Id, Is.EqualTo(expectedToDo.Id), "Id has changed");
+            Assert.That(() => _toDoRepositorySubstitute.Received().ChangeToDoAsync(response), Throws.Nothing, $"AddToDoAsync should have been called");
         }
 
         [Test]
@@ -85,6 +87,7 @@ namespace ToDoList.Services.Tests
             Assert.That(response.Created, Is.EqualTo(expectedToDo.Created), "Created date has changed");
             Assert.That(response.Text, Is.EqualTo(expectedToDo.Text), "Text has changed");
             Assert.That(response.Id, Is.EqualTo(expectedToDo.Id), "Id has changed");
+            Assert.That(() => _toDoRepositorySubstitute.Received().ChangeToDoAsync(response), Throws.Nothing, $"AddToDoAsync should have been called");
         }
 
         [Test]
