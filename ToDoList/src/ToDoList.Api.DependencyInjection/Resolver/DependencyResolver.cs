@@ -13,8 +13,8 @@ namespace ToDoList.Api.DependencyInjection.Resolver
     internal sealed class DependencyResolver : IDependencyResolver
     {
         private bool _disposed;
-
         private readonly IUnityContainer _unityContainer;
+        private const string _webHttpSource = "System.Web.Http";
         
         public DependencyResolver(IUnityContainer container)
         {
@@ -30,7 +30,7 @@ namespace ToDoList.Api.DependencyInjection.Resolver
             {
                 return _unityContainer.Resolve(serviceType);
             }
-            catch (ResolutionFailedException)
+            catch (ResolutionFailedException exception) when (exception.Message.Contains(_webHttpSource))
             {
                 return null;
             }
@@ -42,7 +42,7 @@ namespace ToDoList.Api.DependencyInjection.Resolver
             {
                 return _unityContainer.ResolveAll(serviceType);
             }
-            catch (ResolutionFailedException)
+            catch (ResolutionFailedException exception) when (exception.Message.Contains(_webHttpSource))
             {
                 return new List<object>();
             }
