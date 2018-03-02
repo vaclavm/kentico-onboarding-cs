@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Web.Http;
-
+using ToDoList.Api.ViewModels;
 using ToDoList.API.Helpers;
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Services;
@@ -40,22 +40,34 @@ namespace ToDoList.Api.Controllers
             return Ok(await _retrieveService.RetriveOneAsync(id));
         }
 
-        public async Task<IHttpActionResult> PostToDoAsync([FromBody]ToDo toDoItem)
+        public async Task<IHttpActionResult> PostToDoAsync(ToDoViewModel toDoItem)
         {
-            string toDoLocationUrl = await CreateToDoAsync(toDoItem);
-            return Created(toDoLocationUrl, toDoItem);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var toDo = toDoItem.Convert();
+            string toDoLocationUrl = await CreateToDoAsync(toDo);
+            return Created(toDoLocationUrl, toDo);
         }
         
         [Route("{id}")]
-        public async Task<IHttpActionResult> PutToDoAsync(Guid id, [FromBody]ToDo toDoItem)
+        public async Task<IHttpActionResult> PutToDoAsync(Guid id, ToDoViewModel toDoItem)
         {
-            if (!await _retrieveService.IsInDatabaseAsync(id))
+            if (!ModelState.IsValid)
             {
-                string toDoLocationUrl = await CreateToDoAsync(toDoItem);
-                return Created(toDoLocationUrl, toDoItem);
+                return BadRequest(ModelState);
             }
 
-            await _modificationService.UpdateAsync(toDoItem);
+            if (!await _retrieveService.IsInDatabaseAsync(id))
+            {
+                var toDo = toDoItem.Convert();
+                string toDoLocationUrl = await CreateToDoAsync(toDo);
+                return Created(toDoLocationUrl, toDo);
+            }
+
+            await _modificationService.UpdateAsync(toDoItem.Convert(await _retrieveService.RetriveOneAsync(id)));
             return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -68,7 +80,7 @@ namespace ToDoList.Api.Controllers
             }
 
             await _modificationService.DeleteAsync(id);
-            _retrieveService.ClearCache();
+            _retrieveService.ClearCache(id);
 
             return StatusCode(HttpStatusCode.NoContent);
         }

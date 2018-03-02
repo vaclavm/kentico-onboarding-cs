@@ -11,6 +11,7 @@ using NUnit.Framework;
 
 using ToDoList.Api.Controllers;
 using ToDoList.Api.Tests.Utilities;
+using ToDoList.Api.ViewModels;
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Services;
 
@@ -103,12 +104,14 @@ namespace ToDoList.Api.Tests.Controllers
             const int itemIndex = 2;
             var expectedToDo = _toDoList.ElementAt(itemIndex);
             string location = $"todos/{expectedToDo.Id}";
+            var postToDo = Substitute.For<ToDoViewModel>();
 
+            postToDo.Convert().Returns(expectedToDo);
             _modificationServiceSubstitute.CreateAsync(expectedToDo).Returns(expectedToDo);
             _urlLocationServiceSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
 
             // Act
-            var response = await _controller.ExecuteAction(controller => controller.PostToDoAsync(expectedToDo));
+            var response = await _controller.ExecuteAction(controller => controller.PostToDoAsync(postToDo));
             response.TryGetContentValue(out ToDo result);
 
             // Assert
@@ -124,12 +127,15 @@ namespace ToDoList.Api.Tests.Controllers
             // Arrange
             const int itemIndex = 2;
             var expectedToDo = _toDoList.ElementAt(itemIndex);
-            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
+            var putToDo = Substitute.For<ToDoViewModel>();
 
+            putToDo.Convert(expectedToDo).Returns(expectedToDo);
+            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
+            _retrieveServiceSubstitute.RetriveOneAsync(expectedToDo.Id).Returns(expectedToDo);
             _modificationServiceSubstitute.UpdateAsync(expectedToDo).Returns(expectedToDo);
 
             // Act
-            var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(expectedToDo.Id, expectedToDo));
+            var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(expectedToDo.Id, putToDo));
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {response.StatusCode}");
@@ -144,13 +150,15 @@ namespace ToDoList.Api.Tests.Controllers
             const int itemIndex = 2;
             var expectedToDo = _toDoList.ElementAt(itemIndex);
             string location = $"todos/{expectedToDo.Id}";
-            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(false);
+            var putToDo = Substitute.For<ToDoViewModel>();
 
+            putToDo.Convert().Returns(expectedToDo);
+            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(false);
             _modificationServiceSubstitute.CreateAsync(expectedToDo).Returns(expectedToDo);
             _urlLocationServiceSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
 
             // Act
-            var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(expectedToDo.Id, expectedToDo));
+            var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(expectedToDo.Id, putToDo));
             response.TryGetContentValue(out ToDo result);
 
             // Assert
