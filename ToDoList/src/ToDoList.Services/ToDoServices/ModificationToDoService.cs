@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
 
 [assembly: InternalsVisibleTo("ToDoList.Services.Tests")]
 
-namespace ToDoList.Services
+namespace ToDoList.Services.ToDoServices
 {
     internal class ModificationToDoService : IModificationService<ToDo>
     {

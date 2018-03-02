@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
 
-namespace ToDoList.Services
+namespace ToDoList.Services.ToDoServices
 {
     internal class RetriveToDoService : IRetrieveService<ToDo>
     {

@@ -6,6 +6,7 @@ using NUnit.Framework;
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Services;
 using ToDoList.Contracts.Repositories;
+using ToDoList.Services.ToDoServices;
 
 namespace ToDoList.Services.Tests
 {
