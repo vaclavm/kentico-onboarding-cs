@@ -125,7 +125,7 @@ namespace ToDoList.Api.Tests.Controllers
         public async Task PostToDoAsync_EmptyText_BadRequestReturned()
         {
             // Arrange
-            var postToDo = new ToDoViewModel { Value = string.Empty };
+            var postToDo = new ToDoViewModel { Text = string.Empty };
 
             // Act
             _controller.Validate(postToDo);
@@ -139,7 +139,7 @@ namespace ToDoList.Api.Tests.Controllers
         public async Task PostToDoAsync_WhiteSpacesText_BadRequestReturned()
         {
             // Arrange
-            var postToDo = new ToDoViewModel { Value = "     " };
+            var postToDo = new ToDoViewModel { Text = "     " };
 
             // Act
             _controller.Validate(postToDo);
@@ -215,7 +215,7 @@ namespace ToDoList.Api.Tests.Controllers
         public async Task PutToDoAsync_EmptyText_BadRequestReturned()
         {
             // Arrange
-            var postToDo = new ToDoViewModel { Value = string.Empty };
+            var postToDo = new ToDoViewModel { Text = string.Empty };
 
             // Act
             _controller.Validate(postToDo);
@@ -229,7 +229,7 @@ namespace ToDoList.Api.Tests.Controllers
         public async Task PutToDoAsync_WhiteSpacesText_BadRequestReturned()
         {
             // Arrange
-            var postToDo = new ToDoViewModel { Value = "     " };
+            var postToDo = new ToDoViewModel { Text = "     " };
 
             // Act
             _controller.Validate(postToDo);
