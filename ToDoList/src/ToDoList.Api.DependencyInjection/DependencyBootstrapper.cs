@@ -24,8 +24,8 @@ namespace ToDoList.Api.DependencyInjection
             _container = container;
         }
 
-        private UnityDependencyResolver CreateResolver()
-            => new UnityDependencyResolver(_container);
+        private DependencyResolver CreateResolver()
+            => new DependencyResolver(_container);
 
         private DependencyBootstrapper RegisterInstance<TInstance>(TInstance instance)
         {
