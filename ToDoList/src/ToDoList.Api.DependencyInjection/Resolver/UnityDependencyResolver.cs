@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Exceptions;
 
-
-[assembly: InternalsVisibleTo("ToDoList.API.DependencyInjection.Tests")]
+using ToDoList.Contracts.DependencyInjection;
 
 namespace ToDoList.Api.DependencyInjection.Resolver
 {
-    internal sealed class DependencyResolver : IDependencyResolver
+    internal sealed class UnityDependencyResolver : IDependencyResolver
     {
         private bool _disposed;
         private readonly IUnityContainer _unityContainer;
-        private const string _webHttpSource = "System.Web.Http";
-        
-        public DependencyResolver(IUnityContainer container)
+
+        public UnityDependencyResolver(IContainer container)
+        {
+            try
+            {
+                _unityContainer = (IUnityContainer)container.GetContainer();
+            }
+            catch
+            {
+                throw new ArgumentException(nameof(container));
+            }
+        }
+
+        private UnityDependencyResolver(IUnityContainer container)
         {
             _unityContainer = container ?? throw new ArgumentNullException(nameof(container));
         }

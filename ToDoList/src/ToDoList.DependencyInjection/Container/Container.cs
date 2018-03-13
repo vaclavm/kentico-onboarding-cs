@@ -3,13 +3,16 @@ using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
 
+using ToDoList.Contracts.DependencyInjection;
+using LifetimeManager = ToDoList.Contracts.DependencyInjection.LifetimeManager;
+
 namespace ToDoList.DependencyInjection.Container
 {
-    public class Container
+    internal class Container : IContainer
     {
         private readonly UnityContainer _container = new UnityContainer();
 
-        public IUnityContainer GetContainer()
+        public object GetContainer()
         {
             return _container;
         }

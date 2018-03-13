@@ -1,8 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-using ToDoList.Contracts.Services;
-
-[assembly: InternalsVisibleTo("ToDoList.API.DependencyInjection.Tests")]
+﻿using ToDoList.Contracts.Services;
 
 namespace ToDoList.API.Helpers
 {

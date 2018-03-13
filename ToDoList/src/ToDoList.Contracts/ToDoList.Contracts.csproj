@@ -68,6 +68,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DependencyInjection\IContainer.cs" />
+    <Compile Include="DependencyInjection\IDependencyRegister.cs" />
+    <Compile Include="DependencyInjection\LifetimeManager.cs" />
     <Compile Include="Models\ToDo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ConnectionConfiguration.cs" />

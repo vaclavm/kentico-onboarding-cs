@@ -64,13 +64,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContainerFactory.cs" />
     <Compile Include="Container\Container.cs" />
-    <Compile Include="IDependencyRegister.cs" />
-    <Compile Include="Container\LifetimeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ToDoList.Contracts\ToDoList.Contracts.csproj">
+      <Project>{c99ca0df-ef95-4c87-ac05-235cb1010a8b}</Project>
+      <Name>ToDoList.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

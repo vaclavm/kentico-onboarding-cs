@@ -19,6 +19,9 @@ using System.Runtime.InteropServices;
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
+// Setting other visibility to other assemblies
+[assembly: InternalsVisibleTo("ToDoList.API.DependencyInjection.Tests")]
+
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("cffc7437-bf3e-4be7-a5cb-00ec5c111073")]
 

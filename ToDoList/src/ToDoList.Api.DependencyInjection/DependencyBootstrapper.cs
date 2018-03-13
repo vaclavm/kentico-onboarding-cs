@@ -1,31 +1,32 @@
 ﻿using System.Web.Http.Dependencies;
 
 using ToDoList.Api.DependencyInjection.Resolver;
+using ToDoList.Api.Services.DependencyInjection;
+using ToDoList.Contracts.DependencyInjection;
 using ToDoList.Contracts.Services;
 using ToDoList.DependencyInjection;
-using ToDoList.DependencyInjection.Container;
 
 namespace ToDoList.Api.DependencyInjection
 {
     public class DependencyBootstrapper
     {
-        private static Container _container;
+        private static IContainer _container;
 
         public static IDependencyResolver CreateWebApiResolver(IWebApiRoutes webApiRoutes)
-            => new DependencyBootstrapper(new Container())
+            => new DependencyBootstrapper(ContainerFactory.GetContainer())
                 .Register<ToDoList.Repository.DependencyInjection.DependencyRegister>()
                 .Register<ToDoList.Services.DependencyInjection.DependencyRegister>()
                 .Register<Api.Services.DependencyInjection.DependencyRegister>()
                 .RegisterInstance(webApiRoutes)
                 .CreateResolver();
-        
-        private DependencyBootstrapper(Container container)
+
+        private DependencyBootstrapper(IContainer container)
         {
             _container = container;
         }
 
-        private DependencyResolver CreateResolver()
-            => new DependencyResolver(_container.GetContainer());
+        private UnityDependencyResolver CreateResolver()
+            => new UnityDependencyResolver(_container);
 
         private DependencyBootstrapper RegisterInstance<TInstance>(TInstance instance)
         {
