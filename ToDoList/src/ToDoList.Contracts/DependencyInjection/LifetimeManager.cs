@@ -1,4 +1,4 @@
-﻿namespace ToDoList.DependencyInjection.Container
+﻿namespace ToDoList.Contracts.DependencyInjection
 {
     public enum LifetimeManager
     {

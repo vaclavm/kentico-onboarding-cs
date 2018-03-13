@@ -5,17 +5,31 @@ using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Exceptions;
 
+using ToDoList.Contracts.DependencyInjection;
+
 [assembly: InternalsVisibleTo("ToDoList.API.DependencyInjection.Tests")]
 
 namespace ToDoList.Api.DependencyInjection.Resolver
 {
-    internal sealed class DependencyResolver : IDependencyResolver
+    internal sealed class UnityDependencyResolver : IDependencyResolver
     {
         private bool _disposed;
 
         private readonly IUnityContainer _unityContainer;
-        
-        public DependencyResolver(IUnityContainer container)
+
+        public UnityDependencyResolver(IContainer container)
+        {
+            try
+            {
+                _unityContainer = (IUnityContainer)container.GetContainer();
+            }
+            catch
+            {
+                throw new ArgumentException(nameof(container));
+            }
+        }
+
+        private UnityDependencyResolver(IUnityContainer container)
         {
             _unityContainer = container ?? throw new ArgumentNullException(nameof(container));
         }
@@ -47,7 +61,7 @@ namespace ToDoList.Api.DependencyInjection.Resolver
         public IDependencyScope BeginScope()
         {
             var child = _unityContainer.CreateChildContainer();
-            return new DependencyResolver(child);
+            return new UnityDependencyResolver(child);
         }
 
         public void Dispose()
