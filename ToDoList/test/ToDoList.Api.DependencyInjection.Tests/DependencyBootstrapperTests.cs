@@ -21,7 +21,7 @@ namespace ToDoList.API.DependencyInjection.Tests
             var unregistredInterfaces = new [] { typeof(IContainer).FullName, typeof(IDependencyRegister).FullName };
 
             // Act
-            UnityDependencyResolver resolver = (UnityDependencyResolver) DependencyBootstrapper.CreateWebApiResolver(routeHelper);
+            DependencyResolver resolver = (DependencyResolver) DependencyBootstrapper.CreateWebApiResolver(routeHelper);
             var interfaces = assembly.GetExportedTypes().Where(type => type.IsInterface && !type.IsGenericTypeDefinition);
 
             // Assert
