@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
-
-[assembly: InternalsVisibleTo("ToDoList.API.DependencyInjection.Tests")]
 
 namespace ToDoList.Repository
 {

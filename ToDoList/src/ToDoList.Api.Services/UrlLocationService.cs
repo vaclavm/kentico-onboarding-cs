@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Web.Http.Routing;
 using ToDoList.Contracts.Services;
-
-[assembly: InternalsVisibleTo("ToDoList.API.Services.Tests")]
-[assembly: InternalsVisibleTo("ToDoList.API.DependencyInjection.Tests")]
 
 namespace ToDoList.Api.Services
 {
