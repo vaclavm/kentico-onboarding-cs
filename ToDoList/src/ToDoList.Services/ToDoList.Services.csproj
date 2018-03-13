@@ -52,10 +52,6 @@
       <Project>{C99CA0DF-EF95-4C87-AC05-235CB1010A8B}</Project>
       <Name>ToDoList.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ToDoList.DependencyInjection\ToDoList.DependencyInjection.csproj">
-      <Project>{e2ad6a67-7ff8-4464-94be-5978132140b5}</Project>
-      <Name>ToDoList.DependencyInjection</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

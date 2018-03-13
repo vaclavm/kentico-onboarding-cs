@@ -12,6 +12,7 @@ namespace ToDoList.Api.DependencyInjection.Resolver
     {
         private bool _disposed;
         private readonly IUnityContainer _unityContainer;
+        private const string _webHttpSource = "System.Web.Http";
 
         public UnityDependencyResolver(IContainer container)
         {
@@ -58,7 +59,7 @@ namespace ToDoList.Api.DependencyInjection.Resolver
         }
 
         public IDependencyScope BeginScope() 
-            => new DependencyResolver(_unityContainer.CreateChildContainer());
+            => new UnityDependencyResolver(_unityContainer.CreateChildContainer());
 
         public void Dispose()
         {

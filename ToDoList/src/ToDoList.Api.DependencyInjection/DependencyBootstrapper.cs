@@ -1,7 +1,5 @@
 ﻿using System.Web.Http.Dependencies;
-
 using ToDoList.Api.DependencyInjection.Resolver;
-using ToDoList.Api.Services.DependencyInjection;
 using ToDoList.Contracts.DependencyInjection;
 using ToDoList.Contracts.Services;
 using ToDoList.DependencyInjection;
