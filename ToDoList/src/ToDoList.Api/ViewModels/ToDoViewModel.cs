@@ -16,7 +16,7 @@ namespace ToDoList.Api.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Text))
             {
-                yield return new ValidationResult("The ToDo value must be set", new[] { nameof(Text) });
+                yield return new ValidationResult("The Text property of ToDo must be set", new[] { nameof(Text) });
             }
         }
     }
