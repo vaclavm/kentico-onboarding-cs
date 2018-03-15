@@ -21,24 +21,24 @@ namespace ToDoList.Services.ToDoServices
             _identifierService = identifierService;
         }
 
-        public async Task<ToDo> CreateAsync(ToDo toCreate)
+        public async Task<ToDo> CreateAsync(IConvertibleObject<ToDo> toCreate)
         {
             var now = _dateTimeService.GetCurrentDateTime();
 
-            var newToDo = new ToDo
-            {
-                Id = _identifierService.GenerateIdentifier(),
-                Text = toCreate.Text,
-                Created = now,
-                LastModified = now
-            };
+            var newToDo = toCreate.Convert();
+            newToDo.Id = _identifierService.GenerateIdentifier();
+            newToDo.Created = now;
+            newToDo.LastModified = now;
 
             await _toDoRepository.AddToDoAsync(newToDo);
             return newToDo;
         }
 
-        public async Task<ToDo> UpdateAsync(ToDo toUpdate)
+        public async Task<ToDo> UpdateAsync(ToDo toUpdate, IConvertibleObject<ToDo> updateFrom)
         {
+            var newToDo = updateFrom.Convert();
+
+            toUpdate.Text = newToDo.Text;
             toUpdate.LastModified = _dateTimeService.GetCurrentDateTime();
             await _toDoRepository.ChangeToDoAsync(toUpdate);
 

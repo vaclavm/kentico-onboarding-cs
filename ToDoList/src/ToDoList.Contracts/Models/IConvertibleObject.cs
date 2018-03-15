@@ -1,9 +1,7 @@
 ﻿namespace ToDoList.Contracts.Models
 {
-    public interface IConvertibleObject<T>
+    public interface IConvertibleObject<TObject>
     {
-        T Convert();
-
-        T Convert(T original);
+        TObject Convert();
     }
 }

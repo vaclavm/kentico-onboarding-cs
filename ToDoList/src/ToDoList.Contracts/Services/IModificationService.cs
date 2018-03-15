@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using ToDoList.Contracts.Models;
 
 namespace ToDoList.Contracts.Services
 {
     public interface IModificationService<T>
     {
-        Task<T> CreateAsync(T toCreate);
+        Task<T> CreateAsync(IConvertibleObject<T> toCreate);
 
-        Task<T> UpdateAsync(T toUpdate);
+        Task<T> UpdateAsync(T toUpdate, IConvertibleObject<T> updateFrom);
 
         Task<T> DeleteAsync(T id);
     }

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
+
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
@@ -28,18 +29,26 @@ namespace ToDoList.Services.Tests.ToDoServices
         }
 
         [Test]
-        public async Task CreateToDoAsync_ToDoIsSetCorrectly()
+        public async Task CreateToDoAsync_NewToDo_ToDoIsCreated()
         {
             // Arrange
-            var expectedToDo = new ToDo { Text = "Test item" };
             var guid = Guid.NewGuid();
             var currentTime = DateTime.Now;
+            var expectedToDo = new ToDo
+            {
+                Id = guid,
+                Text = "Test item",
+                Created = currentTime,
+                LastModified = currentTime
+            };
+            var convertibleToDo = Substitute.For<IConvertibleObject<ToDo>>();
 
+            convertibleToDo.Convert().Returns(expectedToDo);
             _dateTimeService.GetCurrentDateTime().Returns(currentTime);
             _identifierServiceSubstitute.GenerateIdentifier().Returns(guid);
 
             // Act
-            var response = await _toModificationToDoService.CreateAsync(expectedToDo);
+            var response = await _toModificationToDoService.CreateAsync(convertibleToDo);
 
             // Assert
             Assert.That(response.Text, Is.EqualTo(expectedToDo.Text), "ToDo item is not as expected");
@@ -50,47 +59,38 @@ namespace ToDoList.Services.Tests.ToDoServices
         }
 
         [Test]
-        public async Task UpdateToDoAsync_LastModifiedIsUpdated()
+        public async Task UpdateToDoAsync_ToDoWithChangedText_TextAndLastModifiedIsUpdated()
         {
             // Arrange
+            var textToUpdate = "Update item";
             var creationDateTime = DateTime.Now;
             var updatedDateTime = creationDateTime.AddDays(1);
-            var expectedToDo = new ToDo { Id = Guid.NewGuid(), Text = "Test item", Created  = creationDateTime, LastModified = creationDateTime };
+            var expectedToDo = new ToDo
+            {
+                Id = Guid.NewGuid(),
+                Text = "Test item",
+                Created = creationDateTime,
+                LastModified = creationDateTime
 
+            };
+            var convertibleToDo = Substitute.For<IConvertibleObject<ToDo>>();
+
+            convertibleToDo.Convert().Returns(new ToDo { Text = textToUpdate });
             _dateTimeService.GetCurrentDateTime().Returns(updatedDateTime);
 
             // Act
-            var response = await _toModificationToDoService.UpdateAsync(expectedToDo);
+            var response = await _toModificationToDoService.UpdateAsync(expectedToDo, convertibleToDo);
 
             // Assert
+            Assert.That(response.Text, Is.EqualTo(textToUpdate), "Text is not as expected");
             Assert.That(response.LastModified, Is.EqualTo(updatedDateTime), "Last modified date is not as expected");
             Assert.That(response.Created, Is.EqualTo(expectedToDo.Created), "Created date has changed");
-            Assert.That(response.Text, Is.EqualTo(expectedToDo.Text), "Text has changed");
             Assert.That(response.Id, Is.EqualTo(expectedToDo.Id), "Id has changed");
-            Assert.That(() => _toDoRepositorySubstitute.Received().ChangeToDoAsync(response), Throws.Nothing, $"AddToDoAsync should have been called");
+            Assert.That(() => _toDoRepositorySubstitute.Received().ChangeToDoAsync(response), Throws.Nothing, $"ChangeToDoAsync should have been called");
         }
 
         [Test]
-        public async Task UpdateToDoAsync_OriginalFieldsUnchanged()
-        {
-            // Arrange
-            var creationDateTime = DateTime.Now;
-            var expectedToDo = new ToDo { Id = Guid.NewGuid(), Text = "Test item", Created = creationDateTime, LastModified = creationDateTime };
-
-            _dateTimeService.GetCurrentDateTime().Returns(creationDateTime.AddDays(1));
-
-            // Act
-            var response = await _toModificationToDoService.UpdateAsync(expectedToDo);
-
-            // Assert
-            Assert.That(response.Created, Is.EqualTo(expectedToDo.Created), "Created date has changed");
-            Assert.That(response.Text, Is.EqualTo(expectedToDo.Text), "Text has changed");
-            Assert.That(response.Id, Is.EqualTo(expectedToDo.Id), "Id has changed");
-            Assert.That(() => _toDoRepositorySubstitute.Received().ChangeToDoAsync(response), Throws.Nothing, $"AddToDoAsync should have been called");
-        }
-
-        [Test]
-        public async Task DeleteToDoAsync_IsDeletedAndReturned()
+        public async Task DeleteToDoAsync_ExistingToDo_ReturnsDeletedToDo()
         {
             // Arrange
             var creationDateTime = DateTime.Now;

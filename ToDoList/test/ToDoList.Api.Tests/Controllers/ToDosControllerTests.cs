@@ -104,10 +104,9 @@ namespace ToDoList.Api.Tests.Controllers
             const int itemIndex = 2;
             var expectedToDo = _toDoList.ElementAt(itemIndex);
             string location = $"todos/{expectedToDo.Id}";
-            var postToDo = Substitute.For<ToDoViewModel>();
-
-            postToDo.Convert().Returns(expectedToDo);
-            _modificationServiceSubstitute.CreateAsync(expectedToDo).Returns(expectedToDo);
+            var postToDo = new ToDoViewModel { Text = expectedToDo.Text };
+            
+            _modificationServiceSubstitute.CreateAsync(Arg.Any<IConvertibleObject<ToDo>>()).Returns(expectedToDo);
             _urlLocationServiceSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
 
             // Act
@@ -118,7 +117,7 @@ namespace ToDoList.Api.Tests.Controllers
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created), $"Expecting status code Created, but was {response.StatusCode}");
             Assert.That(response.Headers.Location.ToString(), Is.EqualTo(location), $"Location of new todo is not as expected, was {response.Headers.Location}");
             Assert.That(result, Is.EqualTo(expectedToDo).UsingToDoComparer(), $"{result} is not equal to expected {expectedToDo}");
-            Assert.That(() => _modificationServiceSubstitute.Received().CreateAsync(expectedToDo), Throws.Nothing, $"CreateAsync should have been called");
+            Assert.That(() => _modificationServiceSubstitute.Received().CreateAsync(Arg.Any<IConvertibleObject<ToDo>>()), Throws.Nothing, $"CreateAsync should have been called");
         }
 
         [Test]
@@ -169,20 +168,18 @@ namespace ToDoList.Api.Tests.Controllers
             // Arrange
             const int itemIndex = 2;
             var expectedToDo = _toDoList.ElementAt(itemIndex);
-            var putToDo = Substitute.For<ToDoViewModel>();
-
-            putToDo.Convert(expectedToDo).Returns(expectedToDo);
+            var putToDo = new ToDoViewModel {Text = expectedToDo.Text};
+            
             _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
             _retrieveServiceSubstitute.RetrieveOneAsync(expectedToDo.Id).Returns(expectedToDo);
-            _modificationServiceSubstitute.UpdateAsync(expectedToDo).Returns(expectedToDo);
+            _modificationServiceSubstitute.UpdateAsync(expectedToDo, Arg.Any<IConvertibleObject<ToDo>>()).ReturnsForAnyArgs(expectedToDo);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(expectedToDo.Id, putToDo));
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent), $"Expecting status code NoContent, but is {response.StatusCode}");
-            Assert.That(() => _modificationServiceSubstitute.Received().UpdateAsync(expectedToDo), Throws.Nothing, $"UpdateAsync should have been called");
-            Assert.That(() => _modificationServiceSubstitute.Received().CreateAsync(expectedToDo), Throws.TypeOf<ReceivedCallsException>(), $"CreateAsync should not have been called");
+            Assert.That(() => _modificationServiceSubstitute.Received().UpdateAsync(expectedToDo, Arg.Any<IConvertibleObject<ToDo>>()), Throws.Nothing, $"UpdateAsync should have been called");
         }
 
         [Test]
@@ -192,11 +189,10 @@ namespace ToDoList.Api.Tests.Controllers
             const int itemIndex = 2;
             var expectedToDo = _toDoList.ElementAt(itemIndex);
             string location = $"todos/{expectedToDo.Id}";
-            var putToDo = Substitute.For<ToDoViewModel>();
-
-            putToDo.Convert().Returns(expectedToDo);
+            var putToDo = new ToDoViewModel { Text = expectedToDo.Text };
+            
             _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(false);
-            _modificationServiceSubstitute.CreateAsync(expectedToDo).Returns(expectedToDo);
+            _modificationServiceSubstitute.CreateAsync(Arg.Any<IConvertibleObject<ToDo>>()).Returns(expectedToDo);
             _urlLocationServiceSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
 
             // Act
@@ -207,8 +203,7 @@ namespace ToDoList.Api.Tests.Controllers
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created), $"Expecting status code Created, but was {response.StatusCode}");
             Assert.That(response.Headers.Location.ToString(), Is.EqualTo(location), $"Location of new todo is not as expected, was {response.Headers.Location}");
             Assert.That(result, Is.EqualTo(expectedToDo).UsingToDoComparer(), $"{result} is not equal to expected {expectedToDo}");
-            Assert.That(() => _modificationServiceSubstitute.Received().CreateAsync(expectedToDo), Throws.Nothing, $"CreateAsync should have been called");
-            Assert.That(() => _modificationServiceSubstitute.Received().UpdateAsync(expectedToDo), Throws.TypeOf<ReceivedCallsException>(), $"UpdateAsync should not have been called");
+            Assert.That(() => _modificationServiceSubstitute.Received().CreateAsync(Arg.Any<IConvertibleObject<ToDo>>()), Throws.Nothing, $"CreateAsync should have been called");
         }
 
         [Test]

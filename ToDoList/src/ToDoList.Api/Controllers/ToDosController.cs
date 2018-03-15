@@ -65,7 +65,9 @@ namespace ToDoList.Api.Controllers
                 return Created(location, newItem);
             }
 
-            await _modificationService.UpdateAsync(toDoItem.Convert(await _retrieveService.RetrieveOneAsync(id)));
+            var originalToDo = await _retrieveService.RetrieveOneAsync(id);
+            await _modificationService.UpdateAsync(originalToDo, toDoItem);
+
             return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -86,7 +88,7 @@ namespace ToDoList.Api.Controllers
 
         private async Task<(ToDo, string)> CreateToDoAsync(ToDoViewModel toDoItem)
         {
-            var newToDoItem = await _modificationService.CreateAsync(toDoItem.Convert());
+            var newToDoItem = await _modificationService.CreateAsync(toDoItem);
             string toDoLocationUrl = _locationService.GetNewResourceLocation(newToDoItem.Id);
 
             return (newToDoItem, toDoLocationUrl);
