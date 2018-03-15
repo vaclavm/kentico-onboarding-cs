@@ -15,6 +15,6 @@ namespace ToDoList.Contracts.Models
         public DateTime LastModified { get; set; }
 
         public override string ToString()
-            => $"Id: {Id}; Text: {Text}";
+            => $"Id: {Id}; Text: {Text}; Created {Created}; LastModified {LastModified}";
     }
 }
