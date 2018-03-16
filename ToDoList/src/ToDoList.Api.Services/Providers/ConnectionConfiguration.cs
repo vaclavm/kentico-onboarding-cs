@@ -1,9 +1,9 @@
 ﻿using System.Configuration;
 using ToDoList.Contracts.Providers;
 
-namespace ToDoList.Api.Services.Services
+namespace ToDoList.Api.Services.Providers
 {
-    internal class ConnectionConfigurationService : IConnectionConfiguration
+    internal class ConnectionConfiguration : IConnectionConfiguration
     {
         private string _connectionString;
 

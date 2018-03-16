@@ -2,14 +2,14 @@
 using System.Web.Http.Routing;
 using ToDoList.Contracts.Providers;
 
-namespace ToDoList.Api.Services.Services
+namespace ToDoList.Api.Services.Providers
 {
-    internal class UrlLocationService : ILocator
+    internal class Locator : ILocator
     {
         private readonly UrlHelper _urlHelper;
         private readonly IWebApiRoutes _webApiRoutes;
 
-        public UrlLocationService(UrlHelper urlHelper, IWebApiRoutes webApiRoutes)
+        public Locator(UrlHelper urlHelper, IWebApiRoutes webApiRoutes)
         {
             _urlHelper = urlHelper;
             _webApiRoutes = webApiRoutes;

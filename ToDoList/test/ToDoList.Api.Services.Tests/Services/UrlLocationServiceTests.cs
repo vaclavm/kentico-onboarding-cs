@@ -3,9 +3,8 @@ using System.Web.Http.Routing;
 using NSubstitute;
 using NUnit.Framework;
 
-using ToDoList.Api.Services.Services;
+using ToDoList.Api.Services.Providers;
 using ToDoList.Contracts.Providers;
-using ToDoList.Contracts.Services;
 
 namespace ToDoList.Api.Services.Tests.Services
 {
@@ -17,7 +16,7 @@ namespace ToDoList.Api.Services.Tests.Services
 
         private UrlHelper _urlHelperSubstitute;
         private IWebApiRoutes _webApiRoutes;
-        private UrlLocationService _locationService;
+        private Locator _locator;
 
         [SetUp]
         public void SetUp()
@@ -25,7 +24,7 @@ namespace ToDoList.Api.Services.Tests.Services
             _urlHelperSubstitute = Substitute.For<UrlHelper>();
             _webApiRoutes = Substitute.For<IWebApiRoutes>();
 
-            _locationService = new UrlLocationService(_urlHelperSubstitute, _webApiRoutes);
+            _locator = new Locator(_urlHelperSubstitute, _webApiRoutes);
         }
 
         [Test]
@@ -38,7 +37,7 @@ namespace ToDoList.Api.Services.Tests.Services
             _urlHelperSubstitute.Route(RouteName, Arg.Any<object>()).Returns(actualLocation);
 
             // Act
-            var result = _locationService.GetNewResourceLocation(guid);
+            var result = _locator.GetNewResourceLocation(guid);
 
             // Assert
             Assert.That(result, Is.EqualTo(actualLocation), $"The result location {result}, should contain {guid} in the middle of the URL");

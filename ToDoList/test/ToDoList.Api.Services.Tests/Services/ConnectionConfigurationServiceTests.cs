@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
-
-using ToDoList.Api.Services.Services;
+using ToDoList.Api.Services.Providers;
 
 namespace ToDoList.Api.Services.Tests.Services
 {
@@ -11,7 +10,7 @@ namespace ToDoList.Api.Services.Tests.Services
         public void ConnectionString()
         {
             // Act
-            var service = new ConnectionConfigurationService();
+            var service = new ConnectionConfiguration();
             
             // Assert
             Assert.That(service.ConnectionString, Is.EqualTo("http://test.url/todolist"), "Connection string is not correctly retrieved");
