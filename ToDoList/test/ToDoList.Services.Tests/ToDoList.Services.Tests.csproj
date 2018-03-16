@@ -78,6 +78,10 @@
       <Project>{46f1bd4d-924a-472e-84b7-74bcf02e93d8}</Project>
       <Name>ToDoList.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ToDoList.Test.Utils\ToDoList.Test.Utils.csproj">
+      <Project>{11a14a14-db36-49bd-892c-3806f56742f2}</Project>
+      <Name>ToDoList.Test.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
@@ -19,9 +19,6 @@ namespace ToDoList.Services.ToDoServices
         {
             _toDoRepository = repository;
         }
-
-        public async Task<IEnumerable<ToDo>> RetrieveAllAsync()
-            => await _toDoRepository.GetToDosAsync();
 
         public async Task<ToDo> RetrieveOneAsync(Guid id)
         {
@@ -45,9 +42,9 @@ namespace ToDoList.Services.ToDoServices
             return _cachedToDo != null;
         }
 
-        public void ClearCache(ToDo toDo)
+        public void ClearCache(Guid id)
         {
-            if (_cachedToDo.Id == toDo.Id)
+            if (_cachedToDo.Id == id)
             {
                 _cachedToDo = null;
             }

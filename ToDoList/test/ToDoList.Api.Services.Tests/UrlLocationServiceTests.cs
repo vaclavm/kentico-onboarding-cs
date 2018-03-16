@@ -35,7 +35,7 @@ namespace ToDoList.Api.Services.Tests
         public void GetNewResourceLocation_ReturnsCorrectLocation()
         {
             // Arrange
-            Guid guid = Guid.NewGuid();
+            Guid guid = Guid.Parse("088b288d-d149-4598-a9c1-49fdb2b7bb4a");
             _webApiRoutes.ToDoRouteForGet.Returns(RouteName);
 
             // Act

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Api", "src\ToDoList.Api\ToDoList.Api.csproj", "{CFFC7437-BF3E-4BE7-A5CB-00EC5C111073}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Services", "src\ToDoList.Services\ToDoList.Services.csproj", "{46F1BD4D-924A-472E-84B7-74BCF02E93D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Services.Tests", "test\ToDoList.Services.Tests\ToDoList.Services.Tests.csproj", "{C2C67454-274A-4954-80EF-6A6BAB9C30CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Test.Utils", "test\ToDoList.Test.Utils\ToDoList.Test.Utils.csproj", "{11A14A14-DB36-49BD-892C-3806F56742F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,10 @@ Global
 		{C2C67454-274A-4954-80EF-6A6BAB9C30CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2C67454-274A-4954-80EF-6A6BAB9C30CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2C67454-274A-4954-80EF-6A6BAB9C30CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11A14A14-DB36-49BD-892C-3806F56742F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11A14A14-DB36-49BD-892C-3806F56742F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11A14A14-DB36-49BD-892C-3806F56742F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11A14A14-DB36-49BD-892C-3806F56742F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,5 +101,9 @@ Global
 		{0D950B0E-7F4D-4F6F-A3D0-EA1B19A3BB85} = {D3B7909E-5F1F-4963-9E8A-9F25F764E736}
 		{46F1BD4D-924A-472E-84B7-74BCF02E93D8} = {0F0B1F21-AF93-494E-97C5-40CCD56F6842}
 		{C2C67454-274A-4954-80EF-6A6BAB9C30CD} = {D3B7909E-5F1F-4963-9E8A-9F25F764E736}
+		{11A14A14-DB36-49BD-892C-3806F56742F2} = {D3B7909E-5F1F-4963-9E8A-9F25F764E736}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D674C80-60A3-472D-A99C-82C750FEF298}
 	EndGlobalSection
 EndGlobal

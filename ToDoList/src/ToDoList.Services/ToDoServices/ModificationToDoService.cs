@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
@@ -43,12 +44,6 @@ namespace ToDoList.Services.ToDoServices
             await _toDoRepository.ChangeToDoAsync(toUpdate);
 
             return toUpdate;
-        }
-
-        public async Task<ToDo> DeleteAsync(ToDo toDelete)
-        {
-            await _toDoRepository.DeleteToDoAsync(toDelete.Id);
-            return toDelete;
         }
     }
 }

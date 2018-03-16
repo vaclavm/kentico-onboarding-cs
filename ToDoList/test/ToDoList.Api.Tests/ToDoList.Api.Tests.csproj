@@ -72,8 +72,6 @@
   <ItemGroup>
     <Compile Include="Controllers\ToDosControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\ControllerActionExtensions.cs" />
-    <Compile Include="Utilities\EqualConstraintExtensions.cs" />
     <Compile Include="ViewModels\ToDoViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +82,10 @@
     <ProjectReference Include="..\..\src\ToDoList.Contracts\ToDoList.Contracts.csproj">
       <Project>{C99CA0DF-EF95-4C87-AC05-235CB1010A8B}</Project>
       <Name>ToDoList.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToDoList.Test.Utils\ToDoList.Test.Utils.csproj">
+      <Project>{11A14A14-DB36-49BD-892C-3806F56742F2}</Project>
+      <Name>ToDoList.Test.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

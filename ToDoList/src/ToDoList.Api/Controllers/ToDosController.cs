@@ -3,9 +3,11 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Web.Http;
+
 using ToDoList.Api.ViewModels;
 using ToDoList.API.Helpers;
 using ToDoList.Contracts.Models;
+using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
 
 namespace ToDoList.Api.Controllers
@@ -18,16 +20,18 @@ namespace ToDoList.Api.Controllers
         private readonly IUrlLocationService _locationService;
         private readonly IModificationService<ToDo> _modificationService;
         private readonly IRetrieveService<ToDo> _retrieveService;
+        private readonly IToDoRepository _repositoryService;
 
-        public ToDosController(IUrlLocationService locationService, IModificationService<ToDo> modificationService, IRetrieveService<ToDo> retrieveService)
+        public ToDosController(IUrlLocationService locationService, IModificationService<ToDo> modificationService, IRetrieveService<ToDo> retrieveService, IToDoRepository repositoryService)
         {
             _retrieveService = retrieveService;
             _modificationService = modificationService;
             _locationService = locationService;
+            _repositoryService = repositoryService;
         }
         
         public async Task<IHttpActionResult> GetToDosAsync()
-            => Ok(await _retrieveService.RetrieveAllAsync());
+            => Ok(await _repositoryService.GetToDosAsync());
 
         [Route("{id}", Name = WebApiRoutes.GetToDoRoute)]
         public async Task<IHttpActionResult> GetToDoAsync(Guid id)
@@ -84,10 +88,9 @@ namespace ToDoList.Api.Controllers
             {
                 return NotFound();
             }
-
-            var toDo = await _retrieveService.RetrieveOneAsync(id);
-            await _modificationService.DeleteAsync(toDo);
-            _retrieveService.ClearCache(toDo);
+            
+            await _repositoryService.DeleteToDoAsync(id);
+            _retrieveService.ClearCache(id);
 
             return StatusCode(HttpStatusCode.NoContent);
         }

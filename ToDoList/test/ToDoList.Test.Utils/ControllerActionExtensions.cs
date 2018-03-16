@@ -4,9 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace ToDoList.Api.Tests.Utilities
+namespace ToDoList.Test.Utils
 {
-    internal static class ControllerActionExtensions
+    public static class ControllerActionExtensions
     {
         public static async Task<HttpResponseMessage> ExecuteAction<T>(this T controller, Func<T, Task<IHttpActionResult>> controllerAction) 
             where T : ApiController

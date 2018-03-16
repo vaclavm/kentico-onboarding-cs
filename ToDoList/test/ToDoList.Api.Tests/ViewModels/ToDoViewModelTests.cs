@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 
-using ToDoList.Api.Tests.Utilities;
 using ToDoList.Api.ViewModels;
 using ToDoList.Contracts.Models;
+using ToDoList.Test.Utils;
 
 namespace ToDoList.Api.Tests.ViewModels
 {

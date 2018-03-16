@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework.Constraints;
+
 using ToDoList.Contracts.Models;
 
-namespace ToDoList.Api.Tests.Utilities
+namespace ToDoList.Test.Utils
 {
-    internal static class EqualConstraintExtensions
+    public static class EqualConstraintExtensions
     {
         public static EqualConstraint UsingToDoComparer(this EqualConstraint constraint)
             => constraint.Using(ToDoComparer.Instance.Value);

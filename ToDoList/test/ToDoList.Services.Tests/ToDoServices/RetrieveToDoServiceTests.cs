@@ -14,38 +14,29 @@ namespace ToDoList.Services.Tests.ToDoServices
     {
         private IToDoRepository _toDoRepositorySubstitute;
         private RetrieveToDoService _retrieveToDoService;
+        private Guid _guid;
 
         [SetUp]
         public void SetUp()
         {
             _toDoRepositorySubstitute = Substitute.For<IToDoRepository>();
             _retrieveToDoService = new RetrieveToDoService(_toDoRepositorySubstitute);
-        }
-
-        [Test]
-        public async Task RetrieveAllAsync()
-        {
-            // Act
-            await _retrieveToDoService.RetrieveAllAsync();
-
-            // Assert
-            Assert.That(() => _toDoRepositorySubstitute.Received().GetToDosAsync(), Throws.Nothing, "GetToDosAsync should have been called");
+            _guid = Guid.Parse("088b288d-d149-4598-a9c1-49fdb2b7bb4a");
         }
 
         [Test]
         public async Task RetrieveOneAsync_ReturnsCorrectToDo()
         {
             // Arrange
-            var guid = Guid.NewGuid();
-            var expectedToDo = new ToDo { Id = guid, Text = "Test" };
-            _toDoRepositorySubstitute.GetToDoAsync(guid).Returns(expectedToDo);
+            var expectedToDo = new ToDo { Id = _guid, Text = "Test" };
+            _toDoRepositorySubstitute.GetToDoAsync(_guid).Returns(expectedToDo);
 
             // Act
-            var retrievedToDo = await _retrieveToDoService.RetrieveOneAsync(guid);
+            var retrievedToDo = await _retrieveToDoService.RetrieveOneAsync(_guid);
 
             // Assert
             Assert.That(retrievedToDo, Is.EqualTo(expectedToDo), "ToDo was not returned as expected");
-            Assert.That(() => _toDoRepositorySubstitute.Received().GetToDoAsync(guid), Throws.Nothing, "GetToDosAsync should have been called");
+            Assert.That(() => _toDoRepositorySubstitute.Received().GetToDoAsync(_guid), Throws.Nothing, "GetToDosAsync should have been called");
 
         }
 
@@ -53,64 +44,58 @@ namespace ToDoList.Services.Tests.ToDoServices
         public async Task RetrieveOneAsync_ReturnsCachedToDo()
         {
             // Arrange
-            var guid = Guid.NewGuid();
-            var expectedToDo = new ToDo { Id = guid, Text = "Test" };
-            _toDoRepositorySubstitute.GetToDoAsync(guid).Returns(expectedToDo);
-            await _retrieveToDoService.RetrieveOneAsync(guid);
+            var expectedToDo = new ToDo { Id = _guid, Text = "Test" };
+            _toDoRepositorySubstitute.GetToDoAsync(_guid).Returns(expectedToDo);
+            await _retrieveToDoService.RetrieveOneAsync(_guid);
 
             // Act
-            var retrievedToDo = await _retrieveToDoService.RetrieveOneAsync(guid);
+            var retrievedToDo = await _retrieveToDoService.RetrieveOneAsync(_guid);
 
             // Assert
             Assert.That(retrievedToDo, Is.EqualTo(expectedToDo), "ToDo was not returned as expected");
-            Assert.That(() => _toDoRepositorySubstitute.Received(1).GetToDoAsync(guid), Throws.Nothing, "GetToDosAsync should have been called only once");
+            Assert.That(() => _toDoRepositorySubstitute.Received(1).GetToDoAsync(_guid), Throws.Nothing, "GetToDosAsync should have been called only once");
         }
 
         [Test]
         public async Task IsInDatabaseAsync_Exists_ReturnsTrue()
         {
             // Arrange
-            var guid = Guid.NewGuid();
-            var expectedToDo = new ToDo { Id = guid, Text = "Test" };
-            _toDoRepositorySubstitute.GetToDoAsync(guid).Returns(expectedToDo);
+            var expectedToDo = new ToDo { Id = _guid, Text = "Test" };
+            _toDoRepositorySubstitute.GetToDoAsync(_guid).Returns(expectedToDo);
 
             // Act
-            bool isInDb = await _retrieveToDoService.IsInDatabaseAsync(guid);
+            bool isInDb = await _retrieveToDoService.IsInDatabaseAsync(_guid);
 
             // Assert
             Assert.That(isInDb, Is.True, "ToDo should have exists");
-            Assert.That(() => _toDoRepositorySubstitute.Received().GetToDoAsync(guid), Throws.Nothing, "GetToDosAsync should have been called");
+            Assert.That(() => _toDoRepositorySubstitute.Received().GetToDoAsync(_guid), Throws.Nothing, "GetToDosAsync should have been called");
         }
 
         [Test]
         public async Task IsInDatabaseAsync_Cached_ReturnsTrue()
         {
             // Arrange
-            var guid = Guid.NewGuid();
-            var expectedToDo = new ToDo { Id = guid, Text = "Test" };
-            _toDoRepositorySubstitute.GetToDoAsync(guid).Returns(expectedToDo);
-            await _retrieveToDoService.RetrieveOneAsync(guid);
+            var expectedToDo = new ToDo { Id = _guid, Text = "Test" };
+            _toDoRepositorySubstitute.GetToDoAsync(_guid).Returns(expectedToDo);
+            await _retrieveToDoService.RetrieveOneAsync(_guid);
 
             // Act
-            bool isInDb = await _retrieveToDoService.IsInDatabaseAsync(guid);
+            bool isInDb = await _retrieveToDoService.IsInDatabaseAsync(_guid);
 
             // Assert
             Assert.That(isInDb, Is.True, "ToDo should have exists");
-            Assert.That(() => _toDoRepositorySubstitute.Received(1).GetToDoAsync(guid), Throws.Nothing, "GetToDosAsync should have been called once");
+            Assert.That(() => _toDoRepositorySubstitute.Received(1).GetToDoAsync(_guid), Throws.Nothing, "GetToDosAsync should have been called once");
         }
 
         [Test]
         public async Task IsInDatabaseAsync_NotExists_ReturnsFalse()
         {
-            // Arrange
-            var guid = Guid.NewGuid();
-
             // Act
-            bool isInDb = await _retrieveToDoService.IsInDatabaseAsync(guid);
+            bool isInDb = await _retrieveToDoService.IsInDatabaseAsync(_guid);
 
             // Assert
             Assert.That(isInDb, Is.False, "ToDo should have not exists");
-            Assert.That(() => _toDoRepositorySubstitute.Received().GetToDoAsync(guid), Throws.Nothing, "GetToDosAsync should have been called");
+            Assert.That(() => _toDoRepositorySubstitute.Received().GetToDoAsync(_guid), Throws.Nothing, "GetToDosAsync should have been called");
         }
     }
 }
