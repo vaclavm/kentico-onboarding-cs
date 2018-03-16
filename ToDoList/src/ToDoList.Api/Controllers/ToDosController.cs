@@ -37,7 +37,8 @@ namespace ToDoList.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(await _retrieveService.RetrieveOneAsync(id));
+            var retrievedToDo = await _retrieveService.RetrieveOneAsync(id);
+            return Ok(retrievedToDo);
         }
 
         public async Task<IHttpActionResult> PostToDoAsync(ToDoViewModel toDoItem)
@@ -59,10 +60,15 @@ namespace ToDoList.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!await _retrieveService.IsInDatabaseAsync(id))
+            if (id == Guid.Empty)
             {
                 (ToDo newItem, string location) = await CreateToDoAsync(toDoItem);
                 return Created(location, newItem);
+            }
+
+            if (!await _retrieveService.IsInDatabaseAsync(id))
+            {
+                return NotFound();
             }
 
             var originalToDo = await _retrieveService.RetrieveOneAsync(id);
@@ -86,7 +92,7 @@ namespace ToDoList.Api.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        private async Task<(ToDo, string)> CreateToDoAsync(ToDoViewModel toDoItem)
+        private async Task<(ToDo newToDo, string location)> CreateToDoAsync(ToDoViewModel toDoItem)
         {
             var newToDoItem = await _modificationService.CreateAsync(toDoItem);
             string toDoLocationUrl = _locationService.GetNewResourceLocation(newToDoItem.Id);
