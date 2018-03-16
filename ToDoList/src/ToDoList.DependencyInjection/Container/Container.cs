@@ -1,5 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Formatting;
+using System.Web.Http.Controllers;
+using System.Web.Http.Dispatcher;
+using System.Web.Http.ExceptionHandling;
+using System.Web.Http.Hosting;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
@@ -12,9 +18,18 @@ namespace ToDoList.DependencyInjection.Container
 {
     internal class Container : IContainer
     {
+        private bool _disposed;
         private readonly IUnityContainer _unityContainer;
-        private const string _webHttpSource = "System.Web.Http";
-        private const string _netHttpSource = "System.Net.Http";
+        private static IEnumerable<string> _unresolvableTypes = new List<string>
+        {
+            nameof(IHostBufferPolicySelector),
+            nameof(IHttpControllerSelector),
+            nameof(IHttpControllerActivator),
+            nameof(IHttpActionSelector),
+            nameof(IHttpActionInvoker),
+            nameof(IContentNegotiator),
+            nameof(IExceptionHandler)
+        };
 
         public Container() : this(new UnityContainer()) { }
 
@@ -50,11 +65,11 @@ namespace ToDoList.DependencyInjection.Container
         public object ResolveType(Type serviceType)
         {
             try
-            { 
+            {
                 return _unityContainer.Resolve(serviceType);
             }
             catch (ResolutionFailedException exception) 
-                when (exception.Message.Contains(_webHttpSource) || exception.Message.Contains(_netHttpSource))
+                when (IsWebOrNetException(exception.TypeRequested))
             {
                 return null;
             }
@@ -67,7 +82,7 @@ namespace ToDoList.DependencyInjection.Container
                 return _unityContainer.ResolveAll(serviceType);
             }
             catch (ResolutionFailedException exception)
-                when (exception.Message.Contains(_webHttpSource) || exception.Message.Contains(_netHttpSource))
+                when (IsWebOrNetException(exception.TypeRequested))
             {
                 return new List<object>();
             }
@@ -78,8 +93,19 @@ namespace ToDoList.DependencyInjection.Container
 
         public bool IsRegistered(Type serviceType)
             => _unityContainer.IsRegistered(serviceType);
-
+        
         public void Dispose()
-            => _unityContainer.Dispose();
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _unityContainer.Dispose();
+            _disposed = true;
+        }
+
+        private bool IsWebOrNetException(string exceptionType) 
+            => _unresolvableTypes.Contains(exceptionType);
     }
 }
