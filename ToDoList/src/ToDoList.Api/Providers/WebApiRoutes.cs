@@ -1,6 +1,6 @@
 ﻿using ToDoList.Contracts.Providers;
 
-namespace ToDoList.API.Helpers
+namespace ToDoList.Api.Providers
 {
     internal class WebApiRoutes : IWebApiRoutes
     {

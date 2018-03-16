@@ -3,8 +3,8 @@ using System.Reflection;
 using NUnit.Framework;
 
 using ToDoList.Api.DependencyInjection;
+using ToDoList.Api.Providers;
 using ToDoList.API.DependencyInjection.Tests.Container;
-using ToDoList.API.Helpers;
 using ToDoList.Contracts.DependencyInjection;
 
 namespace ToDoList.API.DependencyInjection.Tests

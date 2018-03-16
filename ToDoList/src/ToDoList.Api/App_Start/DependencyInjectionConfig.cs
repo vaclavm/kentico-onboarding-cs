@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 using ToDoList.Api.DependencyInjection;
-using ToDoList.API.Helpers;
+using ToDoList.Api.Providers;
 
 namespace ToDoList.Api
 {

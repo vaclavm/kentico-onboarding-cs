@@ -3,9 +3,8 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Web.Http;
-
+using ToDoList.Api.Providers;
 using ToDoList.Api.ViewModels;
-using ToDoList.API.Helpers;
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Repositories;
