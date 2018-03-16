@@ -1,7 +1,7 @@
 ﻿using ToDoList.Contracts.DependencyInjection;
 using ToDoList.Contracts.Repositories;
 
-namespace ToDoList.Repository.DependencyInjection
+namespace ToDoList.Repository
 {
     public class DependencyRegister : IDependencyRegister
     {
