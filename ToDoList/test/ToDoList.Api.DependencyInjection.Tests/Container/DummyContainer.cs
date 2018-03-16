@@ -15,11 +15,15 @@ namespace ToDoList.API.DependencyInjection.Tests.Container
         public void RegisterType<T>(Func<T> injectionFunction) 
             => _registrations.Add(Tuple.Create(string.Empty, typeof(T).FullName));
 
-        public void RegisterType<TFrom, TTo>(LifetimeManager managerType) 
+        public void RegisterType<TFrom, TTo>() 
             where TTo : TFrom 
             => _registrations.Add(Tuple.Create(typeof(TFrom).FullName, typeof(TTo).FullName));
 
-        public void RegisterInstance<T>(T instance) 
+        public void RegisterTypeAsSingleton<TFrom, TTo>()
+            where TTo : TFrom
+            => _registrations.Add(Tuple.Create(typeof(TFrom).FullName, typeof(TTo).FullName));
+
+        public void RegisterInstance<T>(T instance)
             => _registrations.Add(Tuple.Create(typeof(T).FullName, instance.GetType().FullName));
 
         public object ResolveType(Type serviceType) 

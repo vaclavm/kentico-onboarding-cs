@@ -13,8 +13,8 @@ namespace ToDoList.Api.Services.DependencyInjection
         public void Register(IContainer container)
         {
             container.RegisterType(InjectHttpRequest);
-            container.RegisterType<IUrlLocationService, UrlLocationService>(LifetimeManager.Hierarchical);
-            container.RegisterType<IConnectionConfiguration, ConnectionConfigurationService>(LifetimeManager.Singleton);
+            container.RegisterTypeAsSingleton<IUrlLocationService, UrlLocationService>();
+            container.RegisterTypeAsSingleton<IConnectionConfiguration, ConnectionConfigurationService>();
         }
 
         private static HttpRequestMessage InjectHttpRequest()

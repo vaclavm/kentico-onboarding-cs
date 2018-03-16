@@ -6,6 +6,6 @@ namespace ToDoList.Repository.DependencyInjection
     public class DependencyRegister : IDependencyRegister
     {
         public void Register(IContainer container)
-            => container.RegisterType<IToDoRepository, MongoRepository>(LifetimeManager.Singleton);
+            => container.RegisterTypeAsSingleton<IToDoRepository, MongoRepository>();
     }
 }

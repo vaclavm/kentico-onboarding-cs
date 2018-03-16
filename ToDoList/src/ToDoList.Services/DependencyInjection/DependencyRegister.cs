@@ -9,10 +9,10 @@ namespace ToDoList.Services.DependencyInjection
     {
         public void Register(IContainer container)
         {
-            container.RegisterType<IIdentifierService, IdentifierService>(LifetimeManager.Hierarchical);
-            container.RegisterType<IDateTimeService, DateTimeService>(LifetimeManager.Hierarchical);
-            container.RegisterType<IModificationService<ToDo>, ModificationToDoService>(LifetimeManager.Singleton);
-            container.RegisterType<IRetrieveService<ToDo>, RetrieveToDoService>(LifetimeManager.Singleton);
+            container.RegisterType<IIdentifierService, IdentifierService>();
+            container.RegisterType<IDateTimeService, DateTimeService>();
+            container.RegisterTypeAsSingleton<IModificationService<ToDo>, ModificationToDoService>();
+            container.RegisterTypeAsSingleton<IRetrieveService<ToDo>, RetrieveToDoService>();
         }
     }
 }

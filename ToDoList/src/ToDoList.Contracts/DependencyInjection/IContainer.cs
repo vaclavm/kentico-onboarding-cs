@@ -9,7 +9,11 @@ namespace ToDoList.Contracts.DependencyInjection
 
         void RegisterType<T>(Func<T> injectionFunction);
 
-        void RegisterType<TFrom, TTo>(LifetimeManager managerType) where TTo : TFrom;
+        void RegisterType<TFrom, TTo>()
+            where TTo : TFrom;
+
+        void RegisterTypeAsSingleton<TFrom, TTo>()
+            where TTo : TFrom;
 
         void RegisterInstance<T>(T instance);
 
