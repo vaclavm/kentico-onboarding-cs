@@ -1,9 +1,10 @@
 ﻿using ToDoList.Contracts.DependencyInjection;
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Services;
+using ToDoList.Services.Services;
 using ToDoList.Services.ToDoServices;
 
-namespace ToDoList.Services.DependencyInjection
+namespace ToDoList.Services
 {
     public class DependencyRegister : IDependencyRegister
     {

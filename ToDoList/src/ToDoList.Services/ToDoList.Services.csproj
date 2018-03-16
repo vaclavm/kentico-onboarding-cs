@@ -40,10 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DateTimeService.cs" />
-    <Compile Include="DependencyInjection\DependencyRegister.cs" />
+    <Compile Include="DependencyRegister.cs" />
+    <Compile Include="Services\DateTimeService.cs" />
+    <Compile Include="Services\IdentifierService.cs" />
     <Compile Include="ToDoServices\ModificationToDoService.cs" />
-    <Compile Include="IdentifierService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToDoServices\RetrieveToDoService.cs" />
   </ItemGroup>
