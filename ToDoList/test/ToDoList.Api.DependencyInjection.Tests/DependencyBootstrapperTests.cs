@@ -3,7 +3,7 @@ using System.Reflection;
 using NUnit.Framework;
 
 using ToDoList.Api.DependencyInjection;
-using ToDoList.Api.DependencyInjection.Resolver;
+using ToDoList.API.DependencyInjection.Tests.Container;
 using ToDoList.API.Helpers;
 using ToDoList.Contracts.DependencyInjection;
 
@@ -19,15 +19,39 @@ namespace ToDoList.API.DependencyInjection.Tests
             var routeHelper = new WebApiRoutes();
             var assembly = Assembly.Load("ToDoList.Contracts");
             var unregistredInterfaces = new [] { typeof(IContainer).FullName, typeof(IDependencyRegister).FullName };
-
+            var dummyContainer = new DummyContainer();
+            
             // Act
-            DependencyResolver resolver = (DependencyResolver) DependencyBootstrapper.CreateWebApiResolver(routeHelper);
+            var bootstrapper = new DependencyBootstrapper(dummyContainer);
+            var resolver = bootstrapper.CreateWebApiResolver(routeHelper);
             var interfaces = assembly.GetExportedTypes().Where(type => type.IsInterface && !type.IsGenericTypeDefinition);
 
             // Assert
             foreach (var interfaceType in interfaces.Where(type => !unregistredInterfaces.Contains(type.FullName)))
             {
-                Assert.That(resolver.IsRegistered(interfaceType), Is.True, $"{interfaceType} don't have registred implementation");
+                var service = resolver.GetService(interfaceType);
+                Assert.That(service, Is.Not.Null, $"{interfaceType} don't have registred implementation");
+            }
+        }
+
+        [Test]
+        public void CreateWebApiResolver_GenericInterfaces_HaveAtLeastOneRegistration()
+        {
+            // Arrange
+            var routeHelper = new WebApiRoutes();
+            var assembly = Assembly.Load("ToDoList.Contracts");
+            var dummyContainer = new DummyContainer();
+
+            // Act
+            var bootstrapper = new DependencyBootstrapper(dummyContainer);
+            var resolver = bootstrapper.CreateWebApiResolver(routeHelper);
+            var interfaces = assembly.GetExportedTypes().Where(type => type.IsInterface && type.IsGenericTypeDefinition);
+
+            // Assert
+            foreach (var interfaceType in interfaces)
+            {
+                var services = resolver.GetServices(interfaceType);
+                Assert.That(services, Is.Not.Null.Or.Empty, $"{interfaceType} don't have registred at least one implementation");
             }
         }
     }

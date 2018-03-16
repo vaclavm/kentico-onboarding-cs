@@ -1,4 +1,10 @@
-﻿using System.Web.Http.Dependencies;
+﻿using System.Collections.Generic;
+using System.Net.Http.Formatting;
+using System.Web.Http.Controllers;
+using System.Web.Http.Dependencies;
+using System.Web.Http.Dispatcher;
+using System.Web.Http.ExceptionHandling;
+using System.Web.Http.Hosting;
 using ToDoList.Api.DependencyInjection.Resolver;
 using ToDoList.Contracts.DependencyInjection;
 using ToDoList.Contracts.Services;
@@ -8,19 +14,33 @@ namespace ToDoList.Api.DependencyInjection
 {
     public class DependencyBootstrapper
     {
-        private static IContainer _container;
+        private readonly IContainer _container;
+        
+        public DependencyBootstrapper() : this(ContainerFactory.GetContainer()) { }
 
-        public static IDependencyResolver CreateWebApiResolver(IWebApiRoutes webApiRoutes)
-            => new DependencyBootstrapper(ContainerFactory.GetContainer())
-                .Register<ToDoList.Repository.DependencyInjection.DependencyRegister>()
-                .Register<ToDoList.Services.DependencyInjection.DependencyRegister>()
-                .Register<Api.Services.DependencyInjection.DependencyRegister>()
-                .RegisterInstance(webApiRoutes)
-                .CreateResolver();
-
-        private DependencyBootstrapper(IContainer container)
+        internal DependencyBootstrapper(IContainer container)
         {
             _container = container;
+
+            _container.ExcludedTypes = new List<string>
+            {
+                nameof(IHostBufferPolicySelector),
+                nameof(IHttpControllerSelector),
+                nameof(IHttpControllerActivator),
+                nameof(IHttpActionSelector),
+                nameof(IHttpActionInvoker),
+                nameof(IContentNegotiator),
+                nameof(IExceptionHandler)
+            };
+        }
+
+        public IDependencyResolver CreateWebApiResolver(IWebApiRoutes webApiRoutes)
+        {
+            return Register<ToDoList.Repository.DependencyInjection.DependencyRegister>()
+                .Register<ToDoList.Services.DependencyInjection.DependencyRegister>()
+                .Register<ToDoList.Api.Services.DependencyInjection.DependencyRegister>()
+                .RegisterInstance(webApiRoutes)
+                .CreateResolver();
         }
 
         private DependencyResolver CreateResolver()

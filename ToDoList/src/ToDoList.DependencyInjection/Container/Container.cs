@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Formatting;
-using System.Web.Http.Controllers;
-using System.Web.Http.Dispatcher;
-using System.Web.Http.ExceptionHandling;
-using System.Web.Http.Hosting;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
@@ -20,21 +15,13 @@ namespace ToDoList.DependencyInjection.Container
     {
         private bool _disposed;
         private readonly IUnityContainer _unityContainer;
-        private static IEnumerable<string> _unresolvableTypes = new List<string>
-        {
-            nameof(IHostBufferPolicySelector),
-            nameof(IHttpControllerSelector),
-            nameof(IHttpControllerActivator),
-            nameof(IHttpActionSelector),
-            nameof(IHttpActionInvoker),
-            nameof(IContentNegotiator),
-            nameof(IExceptionHandler)
-        };
 
         public Container() : this(new UnityContainer()) { }
 
         private Container(IUnityContainer unityContainer)
             => _unityContainer = unityContainer;
+
+        public IEnumerable<string> ExcludedTypes { get; set; }
 
         public void RegisterType<T>(Func<T> injectionFunction)
             => _unityContainer.RegisterType<T>(new InjectionFactory(_ => injectionFunction()));
@@ -90,9 +77,6 @@ namespace ToDoList.DependencyInjection.Container
 
         public IContainer CreateChildContainer() 
             => new Container(_unityContainer.CreateChildContainer());
-
-        public bool IsRegistered(Type serviceType)
-            => _unityContainer.IsRegistered(serviceType);
         
         public void Dispose()
         {
@@ -106,6 +90,6 @@ namespace ToDoList.DependencyInjection.Container
         }
 
         private bool IsWebOrNetException(string exceptionType) 
-            => _unresolvableTypes.Contains(exceptionType);
+            => ExcludedTypes.Contains(exceptionType);
     }
 }

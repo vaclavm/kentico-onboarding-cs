@@ -7,6 +7,6 @@ namespace ToDoList.Api
     internal static class DependencyInjectionConfig
     {
         public static void Register(HttpConfiguration config)
-            => config.DependencyResolver = DependencyBootstrapper.CreateWebApiResolver(new WebApiRoutes());
+            => config.DependencyResolver = new DependencyBootstrapper().CreateWebApiResolver(new WebApiRoutes());
     }
 }

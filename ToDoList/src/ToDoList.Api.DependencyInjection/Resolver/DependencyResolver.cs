@@ -23,9 +23,6 @@ namespace ToDoList.Api.DependencyInjection.Resolver
         public IDependencyScope BeginScope() 
             => new DependencyResolver(_container.CreateChildContainer());
 
-        public bool IsRegistered(Type serviceType)
-            => _container.IsRegistered(serviceType);
-
         public void Dispose()
         {
             if (_disposed)
