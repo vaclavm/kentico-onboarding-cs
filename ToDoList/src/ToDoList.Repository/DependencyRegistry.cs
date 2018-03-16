@@ -1,6 +1,6 @@
 ﻿using ToDoList.Contracts.DependencyInjection;
 using ToDoList.Contracts.Repositories;
-using ToDoList.Repository.Repository;
+using ToDoList.Repository.Repositories;
 
 namespace ToDoList.Repository
 {

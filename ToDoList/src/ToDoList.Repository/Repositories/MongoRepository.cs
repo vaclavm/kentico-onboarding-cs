@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MongoDB.Driver;
-
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
 
-namespace ToDoList.Repository.Repository
+namespace ToDoList.Repository.Repositories
 {
     internal class MongoRepository : IToDoRepository
     {
