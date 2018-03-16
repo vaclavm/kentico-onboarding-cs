@@ -6,7 +6,7 @@ using MongoDB.Driver;
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Repositories;
 
-namespace ToDoList.Repository
+namespace ToDoList.Repository.Repository
 {
     internal class MongoRepository : IToDoRepository
     {
@@ -14,7 +14,7 @@ namespace ToDoList.Repository
 
         private readonly IMongoCollection<ToDo> _toToList;
 
-        public MongoRepository(IConnectionConfiguration configuration)
+        internal MongoRepository(IConnectionConfiguration configuration)
         {
             var databaseUrl = MongoUrl.Create(configuration.ConnectionString);
             var mongoDatabase = new MongoClient(databaseUrl).GetDatabase(databaseUrl.DatabaseName);

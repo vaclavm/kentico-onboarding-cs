@@ -5,6 +5,7 @@ using System.Web.Http.Dependencies;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Hosting;
+
 using ToDoList.Api.DependencyInjection.Resolver;
 using ToDoList.Contracts.DependencyInjection;
 using ToDoList.Contracts.Services;
@@ -36,7 +37,7 @@ namespace ToDoList.Api.DependencyInjection
 
         public IDependencyResolver CreateWebApiResolver(IWebApiRoutes webApiRoutes)
         {
-            return Register<ToDoList.Repository.DependencyInjection.DependencyRegister>()
+            return Register<ToDoList.Repository.DependencyRegister>()
                 .Register<ToDoList.Services.DependencyInjection.DependencyRegister>()
                 .Register<ToDoList.Api.Services.DependencyInjection.DependencyRegister>()
                 .RegisterInstance(webApiRoutes)
