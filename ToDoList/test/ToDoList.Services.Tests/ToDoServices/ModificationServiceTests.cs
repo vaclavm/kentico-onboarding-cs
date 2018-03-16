@@ -6,7 +6,7 @@ using NUnit.Framework;
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Repositories;
-using ToDoList.Services.ToDoServices;
+using ToDoList.Services.Services;
 using ToDoList.Test.Utils;
 
 namespace ToDoList.Services.Tests.ToDoServices

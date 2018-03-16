@@ -1,9 +1,9 @@
 ﻿using System;
 using ToDoList.Contracts.Providers;
 
-namespace ToDoList.Services.Services
+namespace ToDoList.Services.Providers
 {
-    internal class DateTimeService : ITimeProvider
+    internal class TimeProvider : ITimeProvider
     {
         public DateTime GetCurrentDateTime()
             => DateTime.Now;

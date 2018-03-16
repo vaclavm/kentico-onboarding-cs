@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using ToDoList.Services.Services;
+using ToDoList.Services.Providers;
 
 namespace ToDoList.Services.Tests.Services
 {
@@ -15,7 +15,7 @@ namespace ToDoList.Services.Tests.Services
         public void GetCurrentDateTime_ReturnsDateTimeNow()
         {
             // Arrange
-            var dateTimeService = new DateTimeService();
+            var dateTimeService = new TimeProvider();
             var expectedDateTime = DateTime.Now;
 
             // Act

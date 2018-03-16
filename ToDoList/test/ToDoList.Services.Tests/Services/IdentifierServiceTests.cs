@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using ToDoList.Services.Services;
+using ToDoList.Services.Providers;
 
 namespace ToDoList.Services.Tests.Services
 {
@@ -11,7 +11,7 @@ namespace ToDoList.Services.Tests.Services
         public void GenerateIdentifier_NotEmptyGuid()
         {
             // Arrange
-            var identifierService = new IdentifierService();
+            var identifierService = new IdentifierProvider();
 
             // Act
             var actualIdentifier = identifierService.GenerateIdentifier();

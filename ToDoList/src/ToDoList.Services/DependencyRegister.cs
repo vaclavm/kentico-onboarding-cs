@@ -2,8 +2,8 @@
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Services;
+using ToDoList.Services.Providers;
 using ToDoList.Services.Services;
-using ToDoList.Services.ToDoServices;
 
 namespace ToDoList.Services
 {
@@ -11,8 +11,8 @@ namespace ToDoList.Services
     {
         public void Register(IContainer container)
         {
-            container.RegisterType<IIdentifierProvider, IdentifierService>();
-            container.RegisterType<ITimeProvider, DateTimeService>();
+            container.RegisterType<IIdentifierProvider, IdentifierProvider>();
+            container.RegisterType<ITimeProvider, TimeProvider>();
             container.RegisterTypeAsSingleton<IModificationService<ToDo>, ModificationToDoService>();
             container.RegisterTypeAsSingleton<IRetrievalService<ToDo>, RetrievalToDoService>();
         }

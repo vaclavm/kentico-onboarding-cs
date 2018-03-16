@@ -41,11 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyRegister.cs" />
-    <Compile Include="Services\DateTimeService.cs" />
-    <Compile Include="Services\IdentifierService.cs" />
-    <Compile Include="ToDoServices\ModificationToDoService.cs" />
+    <Compile Include="Providers\IdentifierProvider.cs" />
+    <Compile Include="Providers\TimeProvider.cs" />
+    <Compile Include="Services\ModificationToDoService.cs" />
+    <Compile Include="Services\RetrievalToDoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ToDoServices\RetrievalToDoService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ToDoList.Contracts\ToDoList.Contracts.csproj">
