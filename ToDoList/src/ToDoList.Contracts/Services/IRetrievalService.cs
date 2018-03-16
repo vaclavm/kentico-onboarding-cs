@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ToDoList.Contracts.Services
 {
-    public interface IRetrieveService<T>
+    public interface IRetrievalService<T>
     {
         Task<T> RetrieveOneAsync(Guid id);
 

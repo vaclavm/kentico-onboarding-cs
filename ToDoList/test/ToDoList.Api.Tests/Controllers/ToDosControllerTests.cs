@@ -30,7 +30,7 @@ namespace ToDoList.Api.Tests.Controllers
 
         private IUrlLocationService _urlLocationServiceSubstitute;
         private IModificationService<ToDo> _modificationServiceSubstitute;
-        private IRetrieveService<ToDo> _retrieveServiceSubstitute;
+        private IRetrievalService<ToDo> _retrievalServiceSubstitute;
         private IToDoRepository _repositoryService;
         private ToDosController _controller;
 
@@ -39,10 +39,10 @@ namespace ToDoList.Api.Tests.Controllers
         {
             _urlLocationServiceSubstitute = Substitute.For<IUrlLocationService>();
             _modificationServiceSubstitute = Substitute.For<IModificationService<ToDo>>();
-            _retrieveServiceSubstitute = Substitute.For<IRetrieveService<ToDo>>();
+            _retrievalServiceSubstitute = Substitute.For<IRetrievalService<ToDo>>();
             _repositoryService = Substitute.For<IToDoRepository>();
 
-            _controller = new ToDosController(_urlLocationServiceSubstitute, _modificationServiceSubstitute, _retrieveServiceSubstitute, _repositoryService)
+            _controller = new ToDosController(_urlLocationServiceSubstitute, _modificationServiceSubstitute, _retrievalServiceSubstitute, _repositoryService)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -71,8 +71,8 @@ namespace ToDoList.Api.Tests.Controllers
             // Arrange
             const int itemIndex = 0;
             var expectedToDo = ToDoList.ElementAt(itemIndex);
-            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
-            _retrieveServiceSubstitute.RetrieveOneAsync(expectedToDo.Id).Returns(expectedToDo);
+            _retrievalServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
+            _retrievalServiceSubstitute.RetrieveOneAsync(expectedToDo.Id).Returns(expectedToDo);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.GetToDoAsync(expectedToDo.Id));
@@ -81,7 +81,7 @@ namespace ToDoList.Api.Tests.Controllers
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Expecting status code OK, but was {response.StatusCode}");
             Assert.That(result, Is.EqualTo(expectedToDo).UsingToDoComparer(), $"{result} is not equal to expected {expectedToDo}");
-            Assert.That(() => _retrieveServiceSubstitute.Received().RetrieveOneAsync(expectedToDo.Id), Throws.Nothing, $"RetrieveOneAsync should have been called");
+            Assert.That(() => _retrievalServiceSubstitute.Received().RetrieveOneAsync(expectedToDo.Id), Throws.Nothing, $"RetrieveOneAsync should have been called");
         }
 
         [Test]
@@ -90,14 +90,14 @@ namespace ToDoList.Api.Tests.Controllers
             // Arrange
             const int itemIndex = 0;
             var expectedToDo = ToDoList.ElementAt(itemIndex);
-            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(false);
+            _retrievalServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(false);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.GetToDoAsync(expectedToDo.Id));
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound), $"Expecting status code NotFound, but was {response.StatusCode}");
-            Assert.That(() => _retrieveServiceSubstitute.Received().RetrieveOneAsync(expectedToDo.Id), Throws.TypeOf<ReceivedCallsException>(), $"RetrieveOneAsync should not have been called");
+            Assert.That(() => _retrievalServiceSubstitute.Received().RetrieveOneAsync(expectedToDo.Id), Throws.TypeOf<ReceivedCallsException>(), $"RetrieveOneAsync should not have been called");
         }
 
         [Test]
@@ -173,8 +173,8 @@ namespace ToDoList.Api.Tests.Controllers
             var expectedToDo = ToDoList.ElementAt(itemIndex);
             var putToDo = new ToDoViewModel {Text = expectedToDo.Text};
             
-            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
-            _retrieveServiceSubstitute.RetrieveOneAsync(expectedToDo.Id).Returns(expectedToDo);
+            _retrievalServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
+            _retrievalServiceSubstitute.RetrieveOneAsync(expectedToDo.Id).Returns(expectedToDo);
             _modificationServiceSubstitute.UpdateAsync(expectedToDo, Arg.Any<IConvertibleObject<ToDo>>()).ReturnsForAnyArgs(expectedToDo);
 
             // Act
@@ -193,7 +193,7 @@ namespace ToDoList.Api.Tests.Controllers
             var expectedToDo = ToDoList.ElementAt(itemIndex);
             var putToDo = new ToDoViewModel { Text = expectedToDo.Text };
             
-            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(false);
+            _retrievalServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(false);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(expectedToDo.Id, putToDo));
@@ -273,7 +273,7 @@ namespace ToDoList.Api.Tests.Controllers
             // Arrange
             const int itemIndex = 1;
             var expectedToDo = ToDoList.ElementAt(itemIndex);
-            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
+            _retrievalServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(true);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.DeleteToDoAsync(expectedToDo.Id));
@@ -289,7 +289,7 @@ namespace ToDoList.Api.Tests.Controllers
             // Arrange
             const int itemIndex = 1;
             var expectedToDo = ToDoList.ElementAt(itemIndex);
-            _retrieveServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(false);
+            _retrievalServiceSubstitute.IsInDatabaseAsync(expectedToDo.Id).Returns(false);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.DeleteToDoAsync(expectedToDo.Id));

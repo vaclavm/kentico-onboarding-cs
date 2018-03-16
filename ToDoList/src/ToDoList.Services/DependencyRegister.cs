@@ -13,7 +13,7 @@ namespace ToDoList.Services
             container.RegisterType<IIdentifierService, IdentifierService>();
             container.RegisterType<IDateTimeService, DateTimeService>();
             container.RegisterTypeAsSingleton<IModificationService<ToDo>, ModificationToDoService>();
-            container.RegisterTypeAsSingleton<IRetrieveService<ToDo>, RetrieveToDoService>();
+            container.RegisterTypeAsSingleton<IRetrievalService<ToDo>, RetrievalToDoService>();
         }
     }
 }

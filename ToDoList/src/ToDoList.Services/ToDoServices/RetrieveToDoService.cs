@@ -10,12 +10,12 @@ using ToDoList.Contracts.Services;
 
 namespace ToDoList.Services.ToDoServices
 {
-    internal class RetrieveToDoService : IRetrieveService<ToDo>
+    internal class RetrievalToDoService : IRetrievalService<ToDo>
     {
         private ToDo _cachedToDo;
         private readonly IToDoRepository _toDoRepository;
 
-        public RetrieveToDoService(IToDoRepository repository)
+        public RetrievalToDoService(IToDoRepository repository)
         {
             _toDoRepository = repository;
         }
