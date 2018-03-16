@@ -1,6 +1,5 @@
 ﻿using System.Configuration;
-
-using ToDoList.Contracts.Repositories;
+using ToDoList.Contracts.Providers;
 
 namespace ToDoList.Api.Services.Services
 {

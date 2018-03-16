@@ -1,4 +1,4 @@
-﻿namespace ToDoList.Contracts.Repositories
+﻿namespace ToDoList.Contracts.Providers
 {
     public interface IConnectionConfiguration
     {
