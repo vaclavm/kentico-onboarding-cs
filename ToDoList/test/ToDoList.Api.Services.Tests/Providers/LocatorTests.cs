@@ -2,11 +2,10 @@
 using System.Web.Http.Routing;
 using NSubstitute;
 using NUnit.Framework;
-
 using ToDoList.Api.Services.Providers;
 using ToDoList.Contracts.Providers;
 
-namespace ToDoList.Api.Services.Tests.Services
+namespace ToDoList.Api.Services.Tests.Providers
 {
     [TestFixture]
     public class UrlLocationServiceTests

@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using ToDoList.Api.Services.Providers;
 
-namespace ToDoList.Api.Services.Tests.Services
+namespace ToDoList.Api.Services.Tests.Providers
 {
     [TestFixture]
     public class ConnectionConfigurationServiceTests
