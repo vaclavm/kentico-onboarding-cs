@@ -4,6 +4,7 @@ using System.Web;
 using ToDoList.Api.Services.Services;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.DependencyInjection;
+using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Services;
 
 namespace ToDoList.Api.Services
@@ -13,7 +14,7 @@ namespace ToDoList.Api.Services
         public void Register(IContainer container)
         {
             container.RegisterType(InjectHttpRequest);
-            container.RegisterTypeAsSingleton<IUrlLocationService, UrlLocationService>();
+            container.RegisterTypeAsSingleton<ILocator, UrlLocationService>();
             container.RegisterTypeAsSingleton<IConnectionConfiguration, ConnectionConfigurationService>();
         }
 

@@ -8,6 +8,7 @@ using System.Web.Http.Hosting;
 
 using ToDoList.Api.DependencyInjection.Resolver;
 using ToDoList.Contracts.DependencyInjection;
+using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Services;
 using ToDoList.DependencyInjection;
 

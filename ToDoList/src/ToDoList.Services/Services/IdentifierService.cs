@@ -1,9 +1,10 @@
 ﻿using System;
-using ToDoList.Contracts.Services;
+
+using ToDoList.Contracts.Providers;
 
 namespace ToDoList.Services.Services
 {
-    internal class IdentifierService : IIdentifierService
+    internal class IdentifierService : IIdentifierProvider
     {
         public Guid GenerateIdentifier()
             => Guid.NewGuid();

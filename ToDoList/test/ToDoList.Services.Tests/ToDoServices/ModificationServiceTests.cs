@@ -4,8 +4,8 @@ using NSubstitute;
 using NUnit.Framework;
 
 using ToDoList.Contracts.Models;
+using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Repositories;
-using ToDoList.Contracts.Services;
 using ToDoList.Services.ToDoServices;
 using ToDoList.Test.Utils;
 
@@ -15,8 +15,8 @@ namespace ToDoList.Services.Tests.ToDoServices
     public class ModificationServiceTests
     {
         private IToDoRepository _toDoRepositorySubstitute;
-        private IIdentifierService _identifierServiceSubstitute;
-        private IDateTimeService _dateTimeService;
+        private IIdentifierProvider _idProvider;
+        private ITimeProvider _timeProvider;
         private ModificationToDoService _toModificationToDoService;
         private Guid _guid;
 
@@ -24,10 +24,10 @@ namespace ToDoList.Services.Tests.ToDoServices
         public void SetUp()
         {
             _toDoRepositorySubstitute = Substitute.For<IToDoRepository>();
-            _identifierServiceSubstitute = Substitute.For<IIdentifierService>();
-            _dateTimeService = Substitute.For<IDateTimeService>();
+            _idProvider = Substitute.For<IIdentifierProvider>();
+            _timeProvider = Substitute.For<ITimeProvider>();
 
-            _toModificationToDoService = new ModificationToDoService(_toDoRepositorySubstitute, _identifierServiceSubstitute, _dateTimeService);
+            _toModificationToDoService = new ModificationToDoService(_toDoRepositorySubstitute, _idProvider, _timeProvider);
 
             _guid = Guid.Parse("088b288d-d149-4598-a9c1-49fdb2b7bb4a");
         }
@@ -47,8 +47,8 @@ namespace ToDoList.Services.Tests.ToDoServices
             var convertibleToDo = Substitute.For<IConvertibleObject<ToDo>>();
 
             convertibleToDo.Convert().Returns(expectedToDo);
-            _dateTimeService.GetCurrentDateTime().Returns(currentTime);
-            _identifierServiceSubstitute.GenerateIdentifier().Returns(_guid);
+            _timeProvider.GetCurrentDateTime().Returns(currentTime);
+            _idProvider.GenerateIdentifier().Returns(_guid);
 
             // Act
             var response = await _toModificationToDoService.CreateAsync(convertibleToDo);
@@ -84,7 +84,7 @@ namespace ToDoList.Services.Tests.ToDoServices
             var convertibleToDo = Substitute.For<IConvertibleObject<ToDo>>();
 
             convertibleToDo.Convert().Returns(new ToDo { Text = textToUpdate });
-            _dateTimeService.GetCurrentDateTime().Returns(updatedDateTime);
+            _timeProvider.GetCurrentDateTime().Returns(updatedDateTime);
 
             // Act
             var response = await _toModificationToDoService.UpdateAsync(existingToDo, convertibleToDo);

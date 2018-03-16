@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Web.Http.Routing;
-using ToDoList.Contracts.Services;
+using ToDoList.Contracts.Providers;
 
 namespace ToDoList.Api.Services.Services
 {
-    internal class UrlLocationService : IUrlLocationService
+    internal class UrlLocationService : ILocator
     {
         private readonly UrlHelper _urlHelper;
         private readonly IWebApiRoutes _webApiRoutes;

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using ToDoList.Contracts.Models;
+using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
 
@@ -11,23 +12,23 @@ namespace ToDoList.Services.ToDoServices
 {
     internal class ModificationToDoService : IModificationService<ToDo>
     {
-        private readonly IIdentifierService _identifierService;
+        private readonly IIdentifierProvider _identifierProvider;
         private readonly IToDoRepository _toDoRepository;
-        private readonly IDateTimeService _dateTimeService;
+        private readonly ITimeProvider _timeProvider;
 
-        public ModificationToDoService(IToDoRepository repository, IIdentifierService identifierService, IDateTimeService dateTimeService)
+        public ModificationToDoService(IToDoRepository repository, IIdentifierProvider identifierProvider, ITimeProvider timeProvider)
         {
-            _dateTimeService = dateTimeService;
+            _timeProvider = timeProvider;
             _toDoRepository = repository;
-            _identifierService = identifierService;
+            _identifierProvider = identifierProvider;
         }
 
         public async Task<ToDo> CreateAsync(IConvertibleObject<ToDo> toCreate)
         {
-            var now = _dateTimeService.GetCurrentDateTime();
+            var now = _timeProvider.GetCurrentDateTime();
 
             var newToDo = toCreate.Convert();
-            newToDo.Id = _identifierService.GenerateIdentifier();
+            newToDo.Id = _identifierProvider.GenerateIdentifier();
             newToDo.Created = now;
             newToDo.LastModified = now;
 
@@ -40,7 +41,7 @@ namespace ToDoList.Services.ToDoServices
             var newToDo = updateFrom.Convert();
 
             toUpdate.Text = newToDo.Text;
-            toUpdate.LastModified = _dateTimeService.GetCurrentDateTime();
+            toUpdate.LastModified = _timeProvider.GetCurrentDateTime();
             await _toDoRepository.ChangeToDoAsync(toUpdate);
 
             return toUpdate;

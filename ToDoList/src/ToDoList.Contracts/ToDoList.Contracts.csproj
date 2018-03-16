@@ -72,15 +72,15 @@
     <Compile Include="DependencyInjection\IDependencyRegister.cs" />
     <Compile Include="Models\ToDo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\IIdentifierProvider.cs" />
+    <Compile Include="Providers\ILocator.cs" />
+    <Compile Include="Providers\ITimeProvider.cs" />
+    <Compile Include="Providers\IWebApiRoutes.cs" />
     <Compile Include="Repositories\IConnectionConfiguration.cs" />
     <Compile Include="Repositories\IToDoRepository.cs" />
     <Compile Include="Models\IConvertibleObject.cs" />
-    <Compile Include="Services\IDateTimeService.cs" />
     <Compile Include="Services\IModificationService.cs" />
-    <Compile Include="Services\IIdentifierService.cs" />
     <Compile Include="Services\IRetrievalService.cs" />
-    <Compile Include="Services\IRoutesService.cs" />
-    <Compile Include="Services\IUrlLocationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

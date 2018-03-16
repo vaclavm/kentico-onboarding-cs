@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ToDoList.Contracts.Services
+namespace ToDoList.Contracts.Providers
 {
-    public interface IUrlLocationService
+    public interface ILocator
     {
         string GetNewResourceLocation(Guid id);
     }

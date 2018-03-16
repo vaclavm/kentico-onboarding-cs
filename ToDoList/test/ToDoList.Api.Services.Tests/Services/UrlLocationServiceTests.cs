@@ -4,6 +4,7 @@ using NSubstitute;
 using NUnit.Framework;
 
 using ToDoList.Api.Services.Services;
+using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Services;
 
 namespace ToDoList.Api.Services.Tests.Services

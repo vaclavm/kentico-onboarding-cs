@@ -7,6 +7,7 @@ using Microsoft.Web.Http;
 using ToDoList.Api.ViewModels;
 using ToDoList.API.Helpers;
 using ToDoList.Contracts.Models;
+using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
 
@@ -17,12 +18,12 @@ namespace ToDoList.Api.Controllers
     [Route("")]
     public class ToDosController : ApiController
     {
-        private readonly IUrlLocationService _locationService;
+        private readonly ILocator _locationService;
         private readonly IModificationService<ToDo> _modificationService;
         private readonly IRetrievalService<ToDo> _retrievalService;
         private readonly IToDoRepository _repositoryService;
 
-        public ToDosController(IUrlLocationService locationService, IModificationService<ToDo> modificationService, IRetrievalService<ToDo> retrievalService, IToDoRepository repositoryService)
+        public ToDosController(ILocator locationService, IModificationService<ToDo> modificationService, IRetrievalService<ToDo> retrievalService, IToDoRepository repositoryService)
         {
             _retrievalService = retrievalService;
             _modificationService = modificationService;

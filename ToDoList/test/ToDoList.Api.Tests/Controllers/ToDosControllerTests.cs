@@ -12,6 +12,7 @@ using NUnit.Framework;
 using ToDoList.Api.Controllers;
 using ToDoList.Api.ViewModels;
 using ToDoList.Contracts.Models;
+using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
 using ToDoList.Test.Utils;
@@ -28,7 +29,7 @@ namespace ToDoList.Api.Tests.Controllers
             new ToDo {Id = Guid.Parse("1d710f5d-4bbe-4654-906e-6c708e2bc410"), Text = "Dummy To Do 3"}
         };
 
-        private IUrlLocationService _urlLocationServiceSubstitute;
+        private ILocator _locatorSubstitute;
         private IModificationService<ToDo> _modificationServiceSubstitute;
         private IRetrievalService<ToDo> _retrievalServiceSubstitute;
         private IToDoRepository _repositoryService;
@@ -37,12 +38,12 @@ namespace ToDoList.Api.Tests.Controllers
         [SetUp]
         public void SetUp()
         {
-            _urlLocationServiceSubstitute = Substitute.For<IUrlLocationService>();
+            _locatorSubstitute = Substitute.For<ILocator>();
             _modificationServiceSubstitute = Substitute.For<IModificationService<ToDo>>();
             _retrievalServiceSubstitute = Substitute.For<IRetrievalService<ToDo>>();
             _repositoryService = Substitute.For<IToDoRepository>();
 
-            _controller = new ToDosController(_urlLocationServiceSubstitute, _modificationServiceSubstitute, _retrievalServiceSubstitute, _repositoryService)
+            _controller = new ToDosController(_locatorSubstitute, _modificationServiceSubstitute, _retrievalServiceSubstitute, _repositoryService)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -110,7 +111,7 @@ namespace ToDoList.Api.Tests.Controllers
             var postToDo = new ToDoViewModel { Text = expectedToDo.Text };
             
             _modificationServiceSubstitute.CreateAsync(Arg.Any<IConvertibleObject<ToDo>>()).Returns(expectedToDo);
-            _urlLocationServiceSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
+            _locatorSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.PostToDoAsync(postToDo));
@@ -212,7 +213,7 @@ namespace ToDoList.Api.Tests.Controllers
             var putToDo = new ToDoViewModel { Text = expectedToDo.Text };
 
             _modificationServiceSubstitute.CreateAsync(Arg.Any<IConvertibleObject<ToDo>>()).Returns(expectedToDo);
-            _urlLocationServiceSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
+            _locatorSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(Guid.Empty, putToDo));

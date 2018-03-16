@@ -1,4 +1,4 @@
-﻿namespace ToDoList.Contracts.Services
+﻿namespace ToDoList.Contracts.Providers
 {
     public interface IWebApiRoutes
     {
