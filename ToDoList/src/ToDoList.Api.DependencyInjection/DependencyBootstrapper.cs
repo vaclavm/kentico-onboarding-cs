@@ -39,7 +39,7 @@ namespace ToDoList.Api.DependencyInjection
         {
             return Register<ToDoList.Repository.DependencyRegister>()
                 .Register<ToDoList.Services.DependencyRegister>()
-                .Register<ToDoList.Api.Services.DependencyInjection.DependencyRegister>()
+                .Register<ToDoList.Api.Services.DependencyRegister>()
                 .RegisterInstance(webApiRoutes)
                 .CreateResolver();
         }

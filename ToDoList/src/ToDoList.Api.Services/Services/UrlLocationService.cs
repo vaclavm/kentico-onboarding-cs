@@ -2,7 +2,7 @@
 using System.Web.Http.Routing;
 using ToDoList.Contracts.Services;
 
-namespace ToDoList.Api.Services
+namespace ToDoList.Api.Services.Services
 {
     internal class UrlLocationService : IUrlLocationService
     {
