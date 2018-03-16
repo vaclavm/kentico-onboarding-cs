@@ -13,15 +13,16 @@ namespace ToDoList.Repository
 {
     internal class MongoRepository : IToDoRepository
     {
+        private const string ToDosCollectionName = "ToDoItems";
+
         private readonly IMongoCollection<ToDo> _toToList;
-        private const string _collectionName = "ToDoItems";
 
         public MongoRepository(IConnectionConfiguration configuration)
         {
             var databaseUrl = MongoUrl.Create(configuration.ConnectionString);
             var mongoDatabase = new MongoClient(databaseUrl).GetDatabase(databaseUrl.DatabaseName);
 
-            _toToList = mongoDatabase.GetCollection<ToDo>(_collectionName);
+            _toToList = mongoDatabase.GetCollection<ToDo>(ToDosCollectionName);
         }
 
         public async Task<IEnumerable<ToDo>> GetToDosAsync()
