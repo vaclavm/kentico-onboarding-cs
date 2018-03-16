@@ -4,9 +4,8 @@ script:
   - xbuild /p:Configuration=Release ToDoList/ToDoList.sln
 before_install:
     - sudo apt-get install nunit-console
-before_script:
-    - nuget restore ToDoList/ToDoList.sln
 after_script:
     - nunit-console ToDoList/test/ToDoList.Api.Tests/bin/Release/ToDoList.Api.Tests.dll
     - nunit-console ToDoList/test/ToDoList.Api.Services.Tests/bin/Release/ToDoList.Api.Services.Tests.dll
     - nunit-console ToDoList/test/ToDoList.Api.DependencyInjection.Tests/bin/Release/ToDoList.Api.DependencyInjection.Tests.dll
+    - nunit-console ToDoList/test/ToDoList.Services.Tests/bin/Release/ToDoList.Services.Tests.dll
