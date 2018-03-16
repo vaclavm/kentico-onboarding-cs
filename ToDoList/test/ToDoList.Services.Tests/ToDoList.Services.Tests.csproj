@@ -55,11 +55,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\DateTimeServiceTests.cs" />
-    <Compile Include="Services\IdentifierServiceTests.cs" />
-    <Compile Include="ToDoServices\ModificationServiceTests.cs" />
+    <Compile Include="Providers\IdentifierProviderTests.cs" />
+    <Compile Include="Providers\TimeProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ToDoServices\RetrieveToDoServiceTests.cs" />
+    <Compile Include="Services\ModificationServiceTests.cs" />
+    <Compile Include="Services\RetrievalToDoServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -83,6 +83,7 @@
       <Name>ToDoList.Test.Utils</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

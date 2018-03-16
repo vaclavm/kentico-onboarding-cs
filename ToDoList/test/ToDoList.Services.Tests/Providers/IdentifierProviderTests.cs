@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using ToDoList.Services.Providers;
 
-namespace ToDoList.Services.Tests.Services
+namespace ToDoList.Services.Tests.Providers
 {
     [TestFixture]
     public class IdentifierServiceTests

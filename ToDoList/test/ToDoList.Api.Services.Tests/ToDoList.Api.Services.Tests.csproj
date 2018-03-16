@@ -66,8 +66,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ConnectionConfigurationServiceTests.cs" />
-    <Compile Include="Services\UrlLocationServiceTests.cs" />
+    <Compile Include="Providers\ConnectionConfigurationTests.cs" />
+    <Compile Include="Providers\LocatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

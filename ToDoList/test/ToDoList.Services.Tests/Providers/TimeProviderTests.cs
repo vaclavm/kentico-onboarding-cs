@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using ToDoList.Services.Providers;
 
-namespace ToDoList.Services.Tests.Services
+namespace ToDoList.Services.Tests.Providers
 {
     [TestFixture]
     public class DateTimeServiceTests

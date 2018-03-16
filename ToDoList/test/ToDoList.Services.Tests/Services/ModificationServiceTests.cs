@@ -2,14 +2,13 @@
 using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
-
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Services.Services;
 using ToDoList.Test.Utils;
 
-namespace ToDoList.Services.Tests.ToDoServices
+namespace ToDoList.Services.Tests.Services
 {
     [TestFixture]
     public class ModificationServiceTests
