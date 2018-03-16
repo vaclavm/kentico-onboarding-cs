@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Net.Http;
-using System.Web.Http;
 using System.Web.Http.Routing;
 using NSubstitute;
 using NUnit.Framework;
@@ -12,23 +10,20 @@ namespace ToDoList.Api.Services.Tests
     [TestFixture]
     public class UrlLocationServiceTests
     {
-        private IWebApiRoutes _webApiRoutes;
-        private UrlLocationService _locationService;
-
         private const string Route = "whatsUp";
         private const string RouteName = "RouteName";
+
+        private UrlHelper _urlHelperSubstitute;
+        private IWebApiRoutes _webApiRoutes;
+        private UrlLocationService _locationService;
 
         [SetUp]
         public void SetUp()
         {
-            var configuration = new HttpConfiguration();
-            configuration.Routes.MapHttpRoute(RouteName, $"{Route}/{{id}}/hello", new { id = RouteParameter.Optional });
-
-            var httpRequestMessage = new HttpRequestMessage();
-            httpRequestMessage.Properties[System.Web.Http.Hosting.HttpPropertyKeys.HttpConfigurationKey] = configuration;
-            
+            _urlHelperSubstitute = Substitute.For<UrlHelper>();
             _webApiRoutes = Substitute.For<IWebApiRoutes>();
-            _locationService = new UrlLocationService(new UrlHelper(httpRequestMessage), _webApiRoutes);
+
+            _locationService = new UrlLocationService(_urlHelperSubstitute, _webApiRoutes);
         }
 
         [Test]
@@ -36,13 +31,15 @@ namespace ToDoList.Api.Services.Tests
         {
             // Arrange
             Guid guid = Guid.Parse("088b288d-d149-4598-a9c1-49fdb2b7bb4a");
+            var actualLocation = $"/{Route}/{guid}/hello";
             _webApiRoutes.ToDoRouteForGet.Returns(RouteName);
+            _urlHelperSubstitute.Route(RouteName, Arg.Any<object>()).Returns(actualLocation);
 
             // Act
             var result = _locationService.GetNewResourceLocation(guid);
 
             // Assert
-            Assert.That(result, Is.EqualTo($"/{Route}/{guid}/hello"), $"The result location {result}, should contain {guid} in the middle of the URL");
+            Assert.That(result, Is.EqualTo(actualLocation), $"The result location {result}, should contain {guid} in the middle of the URL");
         }
     }
 }
