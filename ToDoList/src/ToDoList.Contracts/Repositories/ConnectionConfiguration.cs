@@ -1,7 +1,7 @@
 ﻿namespace ToDoList.Contracts.Repositories
 {
-    public class ConnectionConfiguration
+    public interface IConnectionConfiguration
     {
-        public string ConnectionString { get; set; }
+        string ConnectionString { get; }
     }
 }

@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="DependencyInjection\DependencyRegister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ConnectionConfigurationService.cs" />
     <Compile Include="UrlLocationService.cs" />
   </ItemGroup>
   <ItemGroup>

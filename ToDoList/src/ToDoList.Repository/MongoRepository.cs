@@ -16,7 +16,7 @@ namespace ToDoList.Repository
         private readonly IMongoCollection<ToDo> _toToList;
         private const string _collectionName = "ToDoItems";
 
-        public MongoRepository(ConnectionConfiguration configuration)
+        public MongoRepository(IConnectionConfiguration configuration)
         {
             var databaseUrl = MongoUrl.Create(configuration.ConnectionString);
             var mongoDatabase = new MongoClient(databaseUrl).GetDatabase(databaseUrl.DatabaseName);

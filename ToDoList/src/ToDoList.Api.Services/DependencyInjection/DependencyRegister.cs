@@ -1,7 +1,7 @@
-﻿using System.Configuration;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Web;
 
+using ToDoList.Api.Services.Services;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.DependencyInjection;
 using ToDoList.Contracts.Services;
@@ -14,9 +14,7 @@ namespace ToDoList.Api.Services.DependencyInjection
         {
             container.RegisterType(InjectHttpRequest);
             container.RegisterType<IUrlLocationService, UrlLocationService>(LifetimeManager.Hierarchical);
-
-            var configuration = new ConnectionConfiguration { ConnectionString = ConfigurationManager.ConnectionStrings["MongoConnectionString"].ConnectionString };
-            container.RegisterInstance(configuration);
+            container.RegisterType<IConnectionConfiguration, ConnectionConfigurationService>(LifetimeManager.Singleton);
         }
 
         private static HttpRequestMessage InjectHttpRequest()
