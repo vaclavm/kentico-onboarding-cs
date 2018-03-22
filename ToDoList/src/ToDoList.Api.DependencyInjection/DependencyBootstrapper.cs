@@ -5,11 +5,11 @@ using System.Web.Http.Dependencies;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Hosting;
-
+using System.Web.Http.Metadata;
+using System.Web.Http.Validation;
 using ToDoList.Api.DependencyInjection.Resolver;
 using ToDoList.Contracts.DependencyInjection;
 using ToDoList.Contracts.Providers;
-using ToDoList.Contracts.Services;
 using ToDoList.DependencyInjection;
 
 namespace ToDoList.Api.DependencyInjection
@@ -32,7 +32,9 @@ namespace ToDoList.Api.DependencyInjection
                 nameof(IHttpActionSelector),
                 nameof(IHttpActionInvoker),
                 nameof(IContentNegotiator),
-                nameof(IExceptionHandler)
+                nameof(IExceptionHandler),
+                nameof(IModelValidatorCache),
+                nameof(ModelMetadataProvider),
             };
         }
 

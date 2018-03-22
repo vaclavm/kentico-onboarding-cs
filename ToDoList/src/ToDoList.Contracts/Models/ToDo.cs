@@ -1,11 +1,9 @@
 ﻿using System;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace ToDoList.Contracts.Models
 {
     public class ToDo
     {
-        [BsonId]
         public Guid Id { get; set; }
 
         public string Text { get; set; }
