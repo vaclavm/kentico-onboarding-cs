@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using NUnit.Framework;
 
 using ToDoList.Api.DependencyInjection;
@@ -27,11 +29,16 @@ namespace ToDoList.API.DependencyInjection.Tests
             var interfaces = assembly.GetExportedTypes().Where(type => type.IsInterface && !type.IsGenericTypeDefinition);
 
             // Assert
+            var ungeristredInterfaces = new List<string>();
             foreach (var interfaceType in interfaces.Where(type => !unregistredInterfaces.Contains(type.FullName)))
             {
-                var service = resolver.GetService(interfaceType);
-                Assert.That(service, Is.Not.Null, $"{interfaceType} don't have registred implementation");
+                if (resolver.GetService(interfaceType) == null)
+                {
+                    ungeristredInterfaces.Add(interfaceType.ToString());
+                }
             }
+
+            Assert.That(ungeristredInterfaces, Is.Empty, $"{string.Join(", ", ungeristredInterfaces)} don't have registred implementation");
         }
     }
 }
