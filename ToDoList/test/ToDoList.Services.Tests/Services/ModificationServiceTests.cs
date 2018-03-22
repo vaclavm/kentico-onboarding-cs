@@ -16,7 +16,7 @@ namespace ToDoList.Services.Tests.Services
         private IToDoRepository _toDoRepositorySubstitute;
         private IIdentifierProvider _idProvider;
         private ITimeProvider _timeProvider;
-        private ModificationToDoService _toModificationToDoService;
+        private ModificationToDoModificationToDoService _modificationToToDoModificationToDoService;
         private Guid _guid;
 
         [SetUp]
@@ -26,7 +26,7 @@ namespace ToDoList.Services.Tests.Services
             _idProvider = Substitute.For<IIdentifierProvider>();
             _timeProvider = Substitute.For<ITimeProvider>();
 
-            _toModificationToDoService = new ModificationToDoService(_toDoRepositorySubstitute, _idProvider, _timeProvider);
+            _modificationToToDoModificationToDoService = new ModificationToDoModificationToDoService(_toDoRepositorySubstitute, _idProvider, _timeProvider);
 
             _guid = Guid.Parse("088b288d-d149-4598-a9c1-49fdb2b7bb4a");
         }
@@ -50,7 +50,7 @@ namespace ToDoList.Services.Tests.Services
             _idProvider.GenerateIdentifier().Returns(_guid);
 
             // Act
-            var response = await _toModificationToDoService.CreateAsync(convertibleToDo);
+            var response = await _modificationToToDoModificationToDoService.CreateAsync(convertibleToDo);
 
             // Assert
             Assert.That(response, Is.EqualTo(expectedToDo).UsingToDoComparer(), "ToDo item is not as expected");
@@ -86,7 +86,7 @@ namespace ToDoList.Services.Tests.Services
             _timeProvider.GetCurrentDateTime().Returns(updatedDateTime);
 
             // Act
-            var response = await _toModificationToDoService.UpdateAsync(existingToDo, convertibleToDo);
+            var response = await _modificationToToDoModificationToDoService.UpdateAsync(existingToDo, convertibleToDo);
 
             // Assert
             Assert.That(response, Is.EqualTo(expectedToDo).UsingToDoComparer(), "ToDo item is not as expected");

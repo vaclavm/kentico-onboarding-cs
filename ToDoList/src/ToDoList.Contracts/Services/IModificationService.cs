@@ -4,10 +4,10 @@ using ToDoList.Contracts.Models;
 
 namespace ToDoList.Contracts.Services
 {
-    public interface IModificationService<T>
+    public interface IModificationToDoService
     {
-        Task<T> CreateAsync(IConvertibleObject<T> toCreate);
+        Task<ToDo> CreateAsync(IConvertibleObject<ToDo> toCreate);
 
-        Task<T> UpdateAsync(T toUpdate, IConvertibleObject<T> updateFrom);
+        Task<ToDo> UpdateAsync(ToDo toUpdate, IConvertibleObject<ToDo> updateFrom);
     }
 }

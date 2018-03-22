@@ -18,14 +18,14 @@ namespace ToDoList.Api.Controllers
     public class ToDosController : ApiController
     {
         private readonly ILocator _locationService;
-        private readonly IModificationService<ToDo> _modificationService;
-        private readonly IRetrievalService<ToDo> _retrievalService;
+        private readonly IModificationToDoService _modificationToDoService;
+        private readonly IRetrievalToDoService _retrievalToDoService;
         private readonly IToDoRepository _repositoryService;
 
-        public ToDosController(ILocator locationService, IModificationService<ToDo> modificationService, IRetrievalService<ToDo> retrievalService, IToDoRepository repositoryService)
+        public ToDosController(ILocator locationService, IModificationToDoService modificationToDoService, IRetrievalToDoService retrievalToDoService, IToDoRepository repositoryService)
         {
-            _retrievalService = retrievalService;
-            _modificationService = modificationService;
+            _retrievalToDoService = retrievalToDoService;
+            _modificationToDoService = modificationToDoService;
             _locationService = locationService;
             _repositoryService = repositoryService;
         }
@@ -36,12 +36,12 @@ namespace ToDoList.Api.Controllers
         [Route("{id}", Name = WebApiRoutes.GetToDoRoute)]
         public async Task<IHttpActionResult> GetToDoAsync(Guid id)
         {
-            if (!await _retrievalService.IsInDatabaseAsync(id))
+            if (!await _retrievalToDoService.IsInDatabaseAsync(id))
             {
                 return NotFound();
             }
 
-            var retrievedToDo = await _retrievalService.RetrieveOneAsync(id);
+            var retrievedToDo = await _retrievalToDoService.RetrieveOneAsync(id);
             return Ok(retrievedToDo);
         }
 
@@ -70,13 +70,13 @@ namespace ToDoList.Api.Controllers
                 return Created(location, newItem);
             }
 
-            if (!await _retrievalService.IsInDatabaseAsync(id))
+            if (!await _retrievalToDoService.IsInDatabaseAsync(id))
             {
                 return NotFound();
             }
 
-            var originalToDo = await _retrievalService.RetrieveOneAsync(id);
-            await _modificationService.UpdateAsync(originalToDo, toDoItem);
+            var originalToDo = await _retrievalToDoService.RetrieveOneAsync(id);
+            await _modificationToDoService.UpdateAsync(originalToDo, toDoItem);
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -84,20 +84,20 @@ namespace ToDoList.Api.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> DeleteToDoAsync(Guid id)
         {
-            if (!await _retrievalService.IsInDatabaseAsync(id))
+            if (!await _retrievalToDoService.IsInDatabaseAsync(id))
             {
                 return NotFound();
             }
             
             await _repositoryService.DeleteToDoAsync(id);
-            _retrievalService.ClearCache(id);
+            _retrievalToDoService.ClearCache(id);
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
         private async Task<(ToDo newToDo, string location)> CreateToDoAsync(ToDoViewModel toDoItem)
         {
-            var newToDoItem = await _modificationService.CreateAsync(toDoItem);
+            var newToDoItem = await _modificationToDoService.CreateAsync(toDoItem);
             string toDoLocationUrl = _locationService.GetNewResourceLocation(newToDoItem.Id);
 
             return (newToDoItem, toDoLocationUrl);

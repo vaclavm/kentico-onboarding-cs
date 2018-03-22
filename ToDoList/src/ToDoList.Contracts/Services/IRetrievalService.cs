@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using ToDoList.Contracts.Models;
+
 namespace ToDoList.Contracts.Services
 {
-    public interface IRetrievalService<T>
+    public interface IRetrievalToDoService
     {
-        Task<T> RetrieveOneAsync(Guid id);
+        Task<ToDo> RetrieveOneAsync(Guid id);
 
         Task<bool> IsInDatabaseAsync(Guid id);
 

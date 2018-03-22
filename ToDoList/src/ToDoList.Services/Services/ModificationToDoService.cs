@@ -1,21 +1,19 @@
-﻿using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using ToDoList.Contracts.Models;
 using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
 
-[assembly: InternalsVisibleTo("ToDoList.Services.Tests")]
-
 namespace ToDoList.Services.Services
 {
-    internal class ModificationToDoService : IModificationService<ToDo>
+    internal class ModificationToDoModificationToDoService : IModificationToDoService
     {
         private readonly IIdentifierProvider _identifierProvider;
         private readonly IToDoRepository _toDoRepository;
         private readonly ITimeProvider _timeProvider;
 
-        public ModificationToDoService(IToDoRepository repository, IIdentifierProvider identifierProvider, ITimeProvider timeProvider)
+        public ModificationToDoModificationToDoService(IToDoRepository repository, IIdentifierProvider identifierProvider, ITimeProvider timeProvider)
         {
             _timeProvider = timeProvider;
             _toDoRepository = repository;
