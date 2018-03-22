@@ -79,8 +79,8 @@
     <Compile Include="Providers\IWebApiRoutes.cs" />
     <Compile Include="Repositories\IToDoRepository.cs" />
     <Compile Include="Models\IConvertibleObject.cs" />
-    <Compile Include="Services\IModificationService.cs" />
-    <Compile Include="Services\IRetrievalService.cs" />
+    <Compile Include="Services\IModificationToDoService.cs" />
+    <Compile Include="Services\IRetrievalToDoService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -58,7 +58,7 @@ namespace ToDoList.DependencyInjection.Container
             catch (ResolutionFailedException exception)
                 when (IsWebOrNetException(exception.TypeRequested))
             {
-                return new List<object>();
+                return Enumerable.Empty<object>();
             }
         }
 
