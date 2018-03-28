@@ -8,26 +8,26 @@ namespace ToDoList.API.DependencyInjection.Tests.Container
 {
     internal class DummyContainer : IContainer
     {
-        private List<Tuple<string, string>> _registrations = new List<Tuple<string, string>>();
+        private readonly List<(string interfaceType, string implementationType)> _registrations = new List<(string, string)>();
 
         public IEnumerable<string> ExcludedTypes { get; set; }
 
         public void RegisterType<T>(Func<T> injectionFunction) 
-            => _registrations.Add(Tuple.Create(string.Empty, typeof(T).FullName));
+            => _registrations.Add((string.Empty, typeof(T).FullName));
 
         public void RegisterType<TFrom, TTo>() 
             where TTo : TFrom 
-            => _registrations.Add(Tuple.Create(typeof(TFrom).FullName, typeof(TTo).FullName));
+            => _registrations.Add((typeof(TFrom).FullName, typeof(TTo).FullName));
 
         public void RegisterTypeAsSingleton<TFrom, TTo>()
             where TTo : TFrom
-            => _registrations.Add(Tuple.Create(typeof(TFrom).FullName, typeof(TTo).FullName));
+            => _registrations.Add((typeof(TFrom).FullName, typeof(TTo).FullName));
 
         public void RegisterInstance<T>(T instance)
-            => _registrations.Add(Tuple.Create(typeof(T).FullName, instance.GetType().FullName));
+            => _registrations.Add((typeof(T).FullName, instance.GetType().FullName));
 
         public object ResolveType(Type serviceType) 
-            => _registrations.FirstOrDefault(x => x.Item1 == serviceType.FullName)?.Item2;
+            => _registrations.FirstOrDefault(x => x.interfaceType == serviceType.FullName).implementationType;
 
         public IEnumerable<object> ResolveTypes(Type serviceType)
         {

@@ -19,8 +19,8 @@ namespace ToDoList.API.DependencyInjection.Tests
         {
             // Arrange
             var routeHelper = new WebApiRoutes();
-            var assembly = Assembly.Load("ToDoList.Contracts");
-            var unregistredInterfaces = new [] { typeof(IContainer).FullName, typeof(IDependencyRegister).FullName };
+            var assembly = typeof(IDependencyRegister).Assembly;
+            var excludedInterfaces = new [] { typeof(IContainer).FullName, typeof(IDependencyRegister).FullName };
             var dummyContainer = new DummyContainer();
             
             // Act
@@ -29,16 +29,13 @@ namespace ToDoList.API.DependencyInjection.Tests
             var interfaces = assembly.GetExportedTypes().Where(type => type.IsInterface && !type.IsGenericTypeDefinition);
 
             // Assert
-            var ungeristredInterfaces = new List<string>();
-            foreach (var interfaceType in interfaces.Where(type => !unregistredInterfaces.Contains(type.FullName)))
-            {
-                if (resolver.GetService(interfaceType) == null)
-                {
-                    ungeristredInterfaces.Add(interfaceType.ToString());
-                }
-            }
+            var unregistredInterfaces = interfaces
+                .Where(type => !excludedInterfaces.Contains(type.FullName))
+                .Where(@interface => resolver.GetService(@interface) == null)
+                .Select(@interface => @interface.FullName)
+                .ToArray();
 
-            Assert.That(ungeristredInterfaces, Is.Empty, $"{string.Join(", ", ungeristredInterfaces)} don't have registred implementation");
+            Assert.That(unregistredInterfaces, Is.Empty, $"{string.Join(", ", unregistredInterfaces)} don't have registred implementation");
         }
     }
 }
