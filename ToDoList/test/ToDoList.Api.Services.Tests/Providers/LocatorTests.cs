@@ -36,7 +36,7 @@ namespace ToDoList.Api.Services.Tests.Providers
             _urlHelperSubstitute.Route(RouteName, Arg.Any<object>()).Returns(actualLocation);
 
             // Act
-            var result = _locator.GetNewResourceLocation(guid);
+            var result = _locator.GetNewToDoLocation(guid);
 
             // Assert
             Assert.That(result, Is.EqualTo(actualLocation), $"The result location {result}, should contain {guid} in the middle of the URL");

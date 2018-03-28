@@ -98,7 +98,7 @@ namespace ToDoList.Api.Controllers
         private async Task<(ToDo newToDo, string location)> CreateToDoAsync(ToDoViewModel toDoItem)
         {
             var newToDoItem = await _modificationToDoService.CreateAsync(toDoItem);
-            string toDoLocationUrl = _locationService.GetNewResourceLocation(newToDoItem.Id);
+            string toDoLocationUrl = _locationService.GetNewToDoLocation(newToDoItem.Id);
 
             return (newToDoItem, toDoLocationUrl);
         }

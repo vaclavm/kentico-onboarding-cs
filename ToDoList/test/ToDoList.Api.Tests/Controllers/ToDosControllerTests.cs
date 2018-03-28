@@ -111,7 +111,7 @@ namespace ToDoList.Api.Tests.Controllers
             var postToDo = new ToDoViewModel { Text = expectedToDo.Text };
             
             _modificationToDoServiceSubstitute.CreateAsync(Arg.Any<IConvertibleObject<ToDo>>()).Returns(expectedToDo);
-            _locatorSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
+            _locatorSubstitute.GetNewToDoLocation(expectedToDo.Id).Returns(location);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.PostToDoAsync(postToDo));
@@ -213,7 +213,7 @@ namespace ToDoList.Api.Tests.Controllers
             var putToDo = new ToDoViewModel { Text = expectedToDo.Text };
 
             _modificationToDoServiceSubstitute.CreateAsync(Arg.Any<IConvertibleObject<ToDo>>()).Returns(expectedToDo);
-            _locatorSubstitute.GetNewResourceLocation(expectedToDo.Id).Returns(location);
+            _locatorSubstitute.GetNewToDoLocation(expectedToDo.Id).Returns(location);
 
             // Act
             var response = await _controller.ExecuteAction(controller => controller.PutToDoAsync(Guid.Empty, putToDo));

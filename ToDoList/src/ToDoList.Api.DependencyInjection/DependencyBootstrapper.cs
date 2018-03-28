@@ -17,13 +17,11 @@ namespace ToDoList.Api.DependencyInjection
             => _container = container;
 
         public IDependencyResolver CreateWebApiResolver(IWebApiRoutes webApiRoutes)
-        {
-            return Register<ToDoList.Repository.DependencyRegister>()
-                .Register<ToDoList.Services.DependencyRegister>()
-                .Register<ToDoList.Api.Services.DependencyRegister>()
-                .RegisterInstance(webApiRoutes)
-                .CreateResolver();
-        }
+            => Register<ToDoList.Repository.DependencyRegister>()
+            .Register<ToDoList.Services.DependencyRegister>()
+            .Register<ToDoList.Api.Services.DependencyRegister>()
+            .RegisterInstance(webApiRoutes)
+            .CreateResolver();
 
         private DependencyResolver CreateResolver()
             => new DependencyResolver(_container);

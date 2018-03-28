@@ -1,13 +1,13 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using ToDoList.Contracts.Providers;
 
 namespace ToDoList.Api.Services.Providers
 {
     internal class ConnectionConfiguration : IConnectionConfiguration
     {
-        private string _connectionString;
+        private readonly Lazy<string> _connectionString = new Lazy<string>(() => ConfigurationManager.ConnectionStrings["MongoConnectionString"].ConnectionString);
 
-        public string ConnectionString 
-            => _connectionString ?? (_connectionString = ConfigurationManager.ConnectionStrings["MongoConnectionString"].ConnectionString);
+        public string ConnectionString => _connectionString.Value;
     }
 }

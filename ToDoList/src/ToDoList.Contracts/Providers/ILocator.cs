@@ -4,6 +4,6 @@ namespace ToDoList.Contracts.Providers
 {
     public interface ILocator
     {
-        string GetNewResourceLocation(Guid id);
+        string GetNewToDoLocation(Guid id);
     }
 }

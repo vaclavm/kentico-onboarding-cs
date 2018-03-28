@@ -15,7 +15,7 @@ namespace ToDoList.Api.Services.Providers
             _webApiRoutes = webApiRoutes;
         }
 
-        public string GetNewResourceLocation(Guid id)
+        public string GetNewToDoLocation(Guid id)
             => _urlHelper.Route(_webApiRoutes.ToDoRouteForGet, new {id});
     }
 }

@@ -28,8 +28,8 @@ namespace ToDoList.Services.Services
             newToDo.Id = _identifierProvider.GenerateIdentifier();
             newToDo.Created = now;
             newToDo.LastModified = now;
-
             await _toDoRepository.AddToDoAsync(newToDo);
+
             return newToDo;
         }
 
