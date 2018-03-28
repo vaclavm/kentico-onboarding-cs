@@ -5,8 +5,6 @@ namespace ToDoList.Contracts.DependencyInjection
 {
     public interface IContainer : IDisposable
     {
-        IEnumerable<string> ExcludedTypes { get; set; }
-
         void RegisterType<T>(Func<T> injectionFunction);
 
         void RegisterType<TFrom, TTo>()

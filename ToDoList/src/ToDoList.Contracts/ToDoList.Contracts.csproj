@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="DependencyInjection\IContainer.cs" />
     <Compile Include="DependencyInjection\IDependencyRegister.cs" />
+    <Compile Include="Exceptions\DependencyResolutionException.cs" />
     <Compile Include="Models\ToDo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\IConnectionConfiguration.cs" />
@@ -82,5 +83,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

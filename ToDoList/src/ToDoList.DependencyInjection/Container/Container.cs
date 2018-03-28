@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
 using Unity.Exceptions;
 
 using ToDoList.Contracts.DependencyInjection;
+using ToDoList.Contracts.Exceptions;
 
 namespace ToDoList.DependencyInjection.Container
 {
@@ -19,8 +19,6 @@ namespace ToDoList.DependencyInjection.Container
 
         private Container(IUnityContainer unityContainer)
             => _unityContainer = unityContainer;
-
-        public IEnumerable<string> ExcludedTypes { get; set; }
 
         public void RegisterType<T>(Func<T> injectionFunction)
             => _unityContainer.RegisterType<T>(new InjectionFactory(_ => injectionFunction()));
@@ -42,10 +40,9 @@ namespace ToDoList.DependencyInjection.Container
             {
                 return _unityContainer.Resolve(serviceType);
             }
-            catch (ResolutionFailedException exception) 
-                when (IsWebOrNetException(exception.TypeRequested))
+            catch (ResolutionFailedException exception)
             {
-                return null;
+                throw new DependencyResolutionException(exception.Message, exception);
             }
         }
 
@@ -56,9 +53,8 @@ namespace ToDoList.DependencyInjection.Container
                 return _unityContainer.ResolveAll(serviceType);
             }
             catch (ResolutionFailedException exception)
-                when (IsWebOrNetException(exception.TypeRequested))
             {
-                return Enumerable.Empty<object>();
+                throw new DependencyResolutionException(exception.Message, exception);
             }
         }
 
@@ -75,8 +71,5 @@ namespace ToDoList.DependencyInjection.Container
             _unityContainer.Dispose();
             _disposed = true;
         }
-
-        private bool IsWebOrNetException(string exceptionType) 
-            => ExcludedTypes.Contains(exceptionType);
     }
 }

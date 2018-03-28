@@ -1,12 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Net.Http.Formatting;
-using System.Web.Http.Controllers;
-using System.Web.Http.Dependencies;
-using System.Web.Http.Dispatcher;
-using System.Web.Http.ExceptionHandling;
-using System.Web.Http.Hosting;
-using System.Web.Http.Metadata;
-using System.Web.Http.Validation;
+﻿using System.Web.Http.Dependencies;
+
 using ToDoList.Api.DependencyInjection.Resolver;
 using ToDoList.Contracts.DependencyInjection;
 using ToDoList.Contracts.Providers;
@@ -20,23 +13,8 @@ namespace ToDoList.Api.DependencyInjection
         
         public DependencyBootstrapper() : this(ContainerFactory.GetContainer()) { }
 
-        internal DependencyBootstrapper(IContainer container)
-        {
-            _container = container;
-
-            _container.ExcludedTypes = new List<string>
-            {
-                nameof(IHostBufferPolicySelector),
-                nameof(IHttpControllerSelector),
-                nameof(IHttpControllerActivator),
-                nameof(IHttpActionSelector),
-                nameof(IHttpActionInvoker),
-                nameof(IContentNegotiator),
-                nameof(IExceptionHandler),
-                nameof(IModelValidatorCache),
-                nameof(ModelMetadataProvider),
-            };
-        }
+        internal DependencyBootstrapper(IContainer container) 
+            => _container = container;
 
         public IDependencyResolver CreateWebApiResolver(IWebApiRoutes webApiRoutes)
         {
