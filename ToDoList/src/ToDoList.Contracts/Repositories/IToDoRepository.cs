@@ -12,7 +12,7 @@ namespace ToDoList.Contracts.Repositories
 
         Task<ToDo> GetToDoAsync(Guid id);
 
-        Task<ToDo> AddToDoAsync(ToDo toDoValue);
+        Task AddToDoAsync(ToDo toDoValue);
 
         Task ChangeToDoAsync(ToDo toDoItem);
 

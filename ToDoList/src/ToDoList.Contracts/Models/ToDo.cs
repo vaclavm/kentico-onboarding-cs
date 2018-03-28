@@ -8,7 +8,11 @@ namespace ToDoList.Contracts.Models
 
         public string Text { get; set; }
 
+        public DateTime Created { get; set; }
+
+        public DateTime LastModified { get; set; }
+
         public override string ToString()
-            => $"Id: {Id}; Text: {Text}";
+            => $"Id: {Id}; Text: {Text}; Created {Created}; LastModified {LastModified}";
     }
 }

@@ -1,14 +1,13 @@
-﻿using System.IO;
-using System.Net.Http;
-using System.Web;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 using NUnit.Framework;
 
 using ToDoList.Api.DependencyInjection;
-using ToDoList.Api.Services;
-using ToDoList.API.Helpers;
-using ToDoList.Contracts.Repositories;
-using ToDoList.Contracts.Services;
-using ToDoList.Repository;
+using ToDoList.Api.Providers;
+using ToDoList.API.DependencyInjection.Tests.Container;
+using ToDoList.Contracts.DependencyInjection;
 
 namespace ToDoList.API.DependencyInjection.Tests
 {
@@ -16,24 +15,27 @@ namespace ToDoList.API.DependencyInjection.Tests
     public class DependencyBootstrapperTests
     {
         [Test]
-        public void CreateWebApiResolver_AllInstancesAreRegistered()
+        public void CreateWebApiResolver_NotGenericInterfaces_AreRegistered()
         {
             // Arrange
             var routeHelper = new WebApiRoutes();
-            var mockContext = new HttpContext(new HttpRequest(string.Empty, "http://www.google.com", string.Empty), new HttpResponse(new StringWriter()));
-            mockContext.Items["MS_HttpRequestMessage"] = new HttpRequestMessage();
-            HttpContext.Current = mockContext;
-
+            var assembly = typeof(IDependencyRegister).Assembly;
+            var excludedInterfaces = new [] { typeof(IContainer).FullName, typeof(IDependencyRegister).FullName };
+            var dummyContainer = new DummyContainer();
+            
             // Act
-            var resolver = DependencyBootstrapper.CreateWebApiResolver(routeHelper);
-            var routeService = resolver.GetService(typeof(WebApiRoutes));
-            var toDoRepository = resolver.GetService(typeof(ToDoRepository));
-            var urlLocaltionService = resolver.GetService(typeof(UrlLocationService));
+            var bootstrapper = new DependencyBootstrapper(dummyContainer);
+            var resolver = bootstrapper.CreateWebApiResolver(routeHelper);
+            var interfaces = assembly.GetExportedTypes().Where(type => type.IsInterface && !type.IsGenericTypeDefinition);
 
             // Assert
-            Assert.That(routeService, Is.InstanceOf<IWebApiRoutes>());
-            Assert.That(toDoRepository, Is.InstanceOf<IToDoRepository>());
-            Assert.That(urlLocaltionService, Is.InstanceOf<IUrlLocationService>());
+            var unregistredInterfaces = interfaces
+                .Where(type => !excludedInterfaces.Contains(type.FullName))
+                .Where(@interface => resolver.GetService(@interface) == null)
+                .Select(@interface => @interface.FullName)
+                .ToArray();
+
+            Assert.That(unregistredInterfaces, Is.Empty, $"{string.Join(", ", unregistredInterfaces)} don't have registred implementation");
         }
     }
 }

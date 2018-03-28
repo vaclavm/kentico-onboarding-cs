@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
+using Unity.Exceptions;
 
 using ToDoList.Contracts.DependencyInjection;
-using Unity.Exceptions;
-using LifetimeManager = ToDoList.Contracts.DependencyInjection.LifetimeManager;
+using ToDoList.Contracts.Exceptions;
 
 namespace ToDoList.DependencyInjection.Container
 {
     internal class Container : IContainer
     {
+        private bool _disposed;
         private readonly IUnityContainer _unityContainer;
 
         public Container() : this(new UnityContainer()) { }
@@ -22,38 +23,26 @@ namespace ToDoList.DependencyInjection.Container
         public void RegisterType<T>(Func<T> injectionFunction)
             => _unityContainer.RegisterType<T>(new InjectionFactory(_ => injectionFunction()));
 
-        public void RegisterType<TFrom, TTo>(LifetimeManager managerType)
-            where TTo: TFrom
-        {
-            switch (managerType)
-            {
-                case LifetimeManager.Transient:
-                    _unityContainer.RegisterType<TFrom, TTo>(new TransientLifetimeManager());
-                    break;
-                case LifetimeManager.Hierarchical:
-                    _unityContainer.RegisterType<TFrom, TTo>(new HierarchicalLifetimeManager());
-                    break;
-                case LifetimeManager.Singleton:
-                    _unityContainer.RegisterType<TFrom, TTo>(new ContainerControlledLifetimeManager());
-                    break;
-                default:
-                    throw new ArgumentException($"Unknown life time manager");
-            }
-            
-        }
+        public void RegisterType<TFrom, TTo>()
+            where TTo: TFrom 
+            => _unityContainer.RegisterType<TFrom, TTo>(new ContainerControlledLifetimeManager());
 
+        public void RegisterTypeAsSingleton<TFrom, TTo>()
+            where TTo : TFrom 
+            => _unityContainer.RegisterType<TFrom, TTo>(new HierarchicalLifetimeManager());
+        
         public void RegisterInstance<T>(T instance)
             => _unityContainer.RegisterInstance(instance);
 
         public object ResolveType(Type serviceType)
         {
             try
-            { 
+            {
                 return _unityContainer.Resolve(serviceType);
             }
-            catch (ResolutionFailedException)
+            catch (ResolutionFailedException exception)
             {
-                return null;
+                throw new DependencyResolutionException(exception.Message, exception);
             }
         }
 
@@ -63,16 +52,24 @@ namespace ToDoList.DependencyInjection.Container
             {
                 return _unityContainer.ResolveAll(serviceType);
             }
-            catch (ResolutionFailedException)
+            catch (ResolutionFailedException exception)
             {
-                return new List<object>();
+                throw new DependencyResolutionException(exception.Message, exception);
             }
         }
 
         public IContainer CreateChildContainer() 
             => new Container(_unityContainer.CreateChildContainer());
-
+        
         public void Dispose()
-            => _unityContainer.Dispose();
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _unityContainer.Dispose();
+            _disposed = true;
+        }
     }
 }

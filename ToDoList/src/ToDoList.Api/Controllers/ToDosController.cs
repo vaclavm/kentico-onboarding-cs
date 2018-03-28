@@ -3,8 +3,10 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Web.Http;
-using ToDoList.API.Helpers;
+using ToDoList.Api.Providers;
+using ToDoList.Api.ViewModels;
 using ToDoList.Contracts.Models;
+using ToDoList.Contracts.Providers;
 using ToDoList.Contracts.Repositories;
 using ToDoList.Contracts.Services;
 
@@ -15,42 +17,90 @@ namespace ToDoList.Api.Controllers
     [Route("")]
     public class ToDosController : ApiController
     {
-        private readonly IToDoRepository _toDoRepository;
-        private readonly IUrlLocationService _locationService;
+        private readonly ILocator _locationService;
+        private readonly IModificationToDoService _modificationToDoService;
+        private readonly IRetrievalToDoService _retrievalToDoService;
+        private readonly IToDoRepository _repositoryService;
 
-        public ToDosController(IToDoRepository toDoRepository, IUrlLocationService locationService)
+        public ToDosController(ILocator locationService, IModificationToDoService modificationToDoService, IRetrievalToDoService retrievalToDoService, IToDoRepository repositoryService)
         {
-            _toDoRepository = toDoRepository;
+            _retrievalToDoService = retrievalToDoService;
+            _modificationToDoService = modificationToDoService;
             _locationService = locationService;
+            _repositoryService = repositoryService;
         }
         
         public async Task<IHttpActionResult> GetToDosAsync()
-            => Ok(await _toDoRepository.GetToDosAsync());
+            => Ok(await _repositoryService.GetToDosAsync());
 
         [Route("{id}", Name = WebApiRoutes.GetToDoRoute)]
         public async Task<IHttpActionResult> GetToDoAsync(Guid id)
-            => Ok(await _toDoRepository.GetToDoAsync(id));
-        
-        public async Task<IHttpActionResult> PostToDoAsync([FromBody]ToDo toDoItem)
         {
-            var createdToDo = await _toDoRepository.AddToDoAsync(toDoItem);
-            var toDoLocationUrl = _locationService.GetNewResourceLocation(createdToDo.Id);
+            if (!await _retrievalToDoService.IsInDatabaseAsync(id))
+            {
+                return NotFound();
+            }
 
-            return Created(toDoLocationUrl, createdToDo);
+            var retrievedToDo = await _retrievalToDoService.RetrieveOneAsync(id);
+            return Ok(retrievedToDo);
+        }
+
+        public async Task<IHttpActionResult> PostToDoAsync(ToDoViewModel toDoItem)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var newToDo = await CreateToDoAsync(toDoItem);
+            return Created(newToDo.Location, newToDo.NewToDo);
         }
         
         [Route("{id}")]
-        public async Task<IHttpActionResult> PutToDoAsync(Guid id, [FromBody]ToDo toDoItem)
+        public async Task<IHttpActionResult> PutToDoAsync(Guid id, ToDoViewModel toDoItem)
         {
-            await _toDoRepository.ChangeToDoAsync(toDoItem);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id == Guid.Empty)
+            {
+                var newToDo = await CreateToDoAsync(toDoItem);
+                return Created(newToDo.Location, newToDo.NewToDo);
+            }
+
+            if (!await _retrievalToDoService.IsInDatabaseAsync(id))
+            {
+                return NotFound();
+            }
+
+            var originalToDo = await _retrievalToDoService.RetrieveOneAsync(id);
+            await _modificationToDoService.UpdateAsync(originalToDo, toDoItem);
+
             return StatusCode(HttpStatusCode.NoContent);
         }
 
         [Route("{id}")]
         public async Task<IHttpActionResult> DeleteToDoAsync(Guid id)
         {
-            await _toDoRepository.DeleteToDoAsync(id);
+            if (!await _retrievalToDoService.IsInDatabaseAsync(id))
+            {
+                return NotFound();
+            }
+            
+            await _repositoryService.DeleteToDoAsync(id);
+            _retrievalToDoService.ClearCache(id);
+
             return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        private async Task<(ToDo NewToDo, string Location)> CreateToDoAsync(ToDoViewModel toDoItem)
+        {
+            var newToDoItem = await _modificationToDoService.CreateAsync(toDoItem);
+            string toDoLocationUrl = _locationService.GetNewToDoLocation(newToDoItem.Id);
+
+            return (newToDoItem, toDoLocationUrl);
         }
     }
 }

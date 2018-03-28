@@ -70,6 +70,10 @@
       <Project>{e3cf4ad1-6bca-41d6-8f84-f5ef56d20f75}</Project>
       <Name>ToDoList.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ToDoList.Services\ToDoList.Services.csproj">
+      <Project>{46f1bd4d-924a-472e-84b7-74bcf02e93d8}</Project>
+      <Name>ToDoList.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
